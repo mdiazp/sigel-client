@@ -1,0 +1,13 @@
+.example-container {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.example-container > * {
+  width: 50%;
+}
+
+.mat-icon {
+  cursor: pointer;
+}

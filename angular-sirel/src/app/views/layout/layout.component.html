@@ -1,0 +1,70 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)">
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        >
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span>Sirel</span>
+    </mat-toolbar>
+    <mat-nav-list>
+      <div></div>
+      <a mat-list-item [routerLink]="['admin']"
+        *ngIf="(admin_session | async)">
+        <mat-icon>supervisor_account</mat-icon>
+        <span>Administracion</span>
+      </a>
+      <a mat-list-item [routerLink]="['home']">
+        <mat-icon>home</mat-icon>
+        Home
+      </a>
+      <a mat-list-item [routerLink]="['reserve']">Reservar</a>
+      <a mat-list-item [routerLink]="['profile']"
+        *ngIf="(show_profile | async)">
+        <mat-icon>person</mat-icon>
+        <span>Mi Cuenta</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <button
+        type="button"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        (click)="drawer.toggle()"
+        *ngIf="!drawer.opened">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+      <span *ngIf="!drawer.opened">Sirel</span>
+      <span class="example-spacer"></span>
+
+      <a *ngIf="!(opened_session | async)" style="text-decoration: none; color: white;"
+                            [routerLink]="['login']">
+        <span>Login</span>
+      </a>
+      <a *ngIf="(opened_session | async)"
+                            style="text-decoration: none; color: white; cursor: pointer;"
+                            (click)="logout()">
+        <mat-icon>exit_to_app</mat-icon>
+        <!--span>Logout</span-->
+      </a>
+
+     </mat-toolbar>
+    <!-- Add Content Here -->
+    <ng-content>
+
+    </ng-content>
+
+  </mat-sidenav-content>
+</mat-sidenav-container>

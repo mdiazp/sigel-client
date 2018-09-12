@@ -1,0 +1,27 @@
+<form [formGroup]="loginform" class="example-container">
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input formControlName="username"
+            matInput
+            type="text"
+            placeholder="Enter your username"
+            required>
+    <!--<mat-error *ngIf="username.invalid">You must enter a value</mat-error>-->
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Password</mat-label>
+    <input formControlName="password"
+           matInput
+           placeholder="Enter your password"
+           [type]="hide ? 'password' : 'text'"
+           required
+           >
+    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+    <!--<mat-error *ngIf="password.invalid">You must enter a value</mat-error>-->
+  </mat-form-field>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="this.loginform.invalid">
+    <mat-icon>lock</mat-icon>
+    <span>Sign In</span>
+  </button>
+</form>
