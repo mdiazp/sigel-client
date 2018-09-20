@@ -18,12 +18,32 @@
       <span>Sirel</span>
     </mat-toolbar>
     <mat-nav-list>
-      <div></div>
       <a mat-list-item [routerLink]="['admin']"
-        *ngIf="(admin_session | async)">
+        *ngIf="(admin_session | async)"
+        (click)="admin_menu_toggle()">
         <mat-icon>supervisor_account</mat-icon>
         <span>Administracion</span>
       </a>
+      <div mat-list-item
+        *ngIf="opened_admin_menu && (admin_session | async)">
+        <mat-nav-list style=" padding-top: 0px;">
+          <a mat-list-item [routerLink]="['admin','users']"
+            *ngIf="(admin_session | async)">
+            <!--mat-icon>supervisor_account</mat-icon-->
+            <span>Users</span>
+          </a>
+          <a mat-list-item [routerLink]="['admin','areas']"
+            *ngIf="(admin_session | async)">
+            <!--mat-icon>setting</mat-icon-->
+            <span>Areas</span>
+          </a>
+          <a mat-list-item [routerLink]="['admin','locals']"
+            *ngIf="(admin_session | async)">
+            <!--mat-icon>setting</mat-icon-->
+            <span>Locals</span>
+          </a>
+        </mat-nav-list>
+      </div>
       <a mat-list-item [routerLink]="['home']">
         <mat-icon>home</mat-icon>
         Home
@@ -47,7 +67,7 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span *ngIf="!drawer.opened">Sirel</span>
-      <span class="example-spacer"></span>
+      <span class="flex-spacer"></span>
 
       <a *ngIf="!(opened_session | async)" style="text-decoration: none; color: white;"
                             [routerLink]="['login']">

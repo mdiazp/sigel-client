@@ -1,15 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptions, RequestOptionsArgs, Headers } from '@angular/http';
+import {
+  Http,
+  URLSearchParams,
+  Response,
+  RequestOptions,
+  RequestOptionsArgs,
+  Headers
+} from '@angular/http';
 import { BehaviorSubject, Observable, Operator } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Credentials } from '@app/models/credentials';
+import { User } from '@app/models/user';
+import { Area } from '@app/models/area';
+import { Local } from '@app/models/local';
+
 import { SessionService } from '@app/services/session.service';
+
 
 @Injectable()
 export class ApiService {
   bpath = 'http://localhost:8080/api';
   authHName = 'authHd';
+
+  private oo = 1000000000;
 
   constructor(private http: Http,
               private session: SessionService ) {}
@@ -37,52 +51,96 @@ export class ApiService {
     return this.http.get(`${this.bpath}/private/profile`, { headers: this.commonHeaders() });
   }
 
-  private setCommonHeaders(opt: RequestOptionsArgs) {
-    if (!opt.headers) {
-      opt.headers = new Headers();
-    }
-    if (this.session.isOpen()) {
-      opt.headers.append(this.authHName, this.session.getToken());
-    }
+  GetUsersList(search = '',
+               pageNumber = 0,
+               pageSize = 10): Observable<User[]> {
+      let usp: URLSearchParams;
+      usp = new URLSearchParams();
+      usp.append('search', search);
+      usp.append('limit', pageSize.toString());
+      usp.append('offset', (pageNumber * pageSize).toString());
+      usp.append('orderby', 'id');
+      usp.append('orderDirection', 'asc');
+
+      return this.http.get(`${this.bpath}/admin/users`, {
+          params: usp,
+          headers: this.commonHeaders(),
+      })
+      .pipe(
+        map(res => res.json())
+      );
   }
 
-  private get(url: string, opt?: RequestOptionsArgs): Observable<Response> {
-    if (!opt) {
-      opt = new RequestOptions();
-    }
-    this.setCommonHeaders(opt);
-    return this.http.get(`${this.bpath}${url}`, opt);
+  AdminGetAreasList(searchByName = '',
+                 pageNumber = 0,
+                 pageSize = this.oo,
+                 orderDirection = 'asc',
+                 orderBy = 'id'): Observable<Area[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('search', searchByName);
+    usp.append('offset', (pageNumber * pageSize).toString());
+    usp.append('limit', pageSize.toString());
+    usp.append('orderby', orderBy);
+    usp.append('orderDirection', orderDirection);
+
+    return this.http.get(`${this.bpath}/admin/areas`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
   }
 
-  private head(url: string, opt?: RequestOptionsArgs): Observable<Response> {
-    if (!opt) {
-      opt = new RequestOptions();
-    }
-    this.setCommonHeaders(opt);
-    return this.http.head(`${this.bpath}${url}`, opt);
+  AdminGetArea(area_id: string): Observable<Area> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', area_id);
+    return this.http.get(`${this.bpath}/admin/area`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
   }
 
-  private post(url: string, body: any, opt?: RequestOptionsArgs): Observable<Response> {
-    if (!opt) {
-      opt = new RequestOptions();
-    }
-    this.setCommonHeaders(opt);
-    return this.http.post(`${this.bpath}${url}`, body, opt);
+  AdminPostArea(area: Area): Observable<Area> {
+    return this.http.post(
+      `${this.bpath}/admin/area`,
+      area,
+      { headers: this.commonHeaders() }
+    )
+    .pipe(
+      map(
+        res => res.json()
+      )
+    );
   }
 
-  private put(url: string, body: any, opt?: RequestOptionsArgs): Observable<Response> {
-    if (!opt) {
-      opt = new RequestOptions();
-    }
-    this.setCommonHeaders(opt);
-    return this.http.put(`${this.bpath}${url}`, body, opt);
+  AdminLocalsList(searchByName = '',
+                  pageNumber = 0,
+                  pageSize = this.oo,
+                  orderDirection = 'asc',
+                  orderBy = 'id',
+                  areaId = ''): Observable<Area[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('search', searchByName);
+    usp.append('offset', (pageNumber * pageSize).toString());
+    usp.append('limit', pageSize.toString());
+    usp.append('orderby', orderBy);
+    usp.append('orderDirection', orderDirection);
+    usp.append('area_id', areaId);
+
+    return this.http.get(`${this.bpath}/admin/locals`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
   }
 
-  private delete(url: string, opt?: RequestOptionsArgs): Observable<Response> {
-    if (!opt) {
-      opt = new RequestOptions();
-    }
-    this.setCommonHeaders(opt);
-    return this.http.delete(`${this.bpath}${url}`, opt);
-  }
 }

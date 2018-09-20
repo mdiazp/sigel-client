@@ -1,15 +1,17 @@
 <div *ngIf="loading">
-  <mat-progress-bar color="warn"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
 </div>
-<div>
-  Username: {{this.profile.username}}
-</div>
-<div>
-  Name: {{this.profile.name}}
-</div>
-<div>
-  Email: {{this.profile.email}}
-</div>
-<div>
-  Send_notifications_to_email: {{this.profile.send_notifications_to_email}}
+<div *ngIf="!loading">
+  <div>
+    Username: {{this.profile.username}}
+  </div>
+  <div>
+    Name: {{this.profile.name}}
+  </div>
+  <div>
+    Email: {{this.profile.email}}
+  </div>
+  <div>
+    Send_notifications_to_email: {{this.profile.send_notifications_to_email}}
+  </div>
 </div>

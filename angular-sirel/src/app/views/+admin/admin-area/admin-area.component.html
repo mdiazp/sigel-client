@@ -1,0 +1,21 @@
+<div class="spinner-container" *ngIf="loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!(loading$ | async)">
+  <div>
+    Id: {{this.area.id}}
+  </div>
+  <div>
+    Name: {{this.area.name}}
+  </div>
+  <div>
+    Description: {{this.area.description}}
+  </div>
+  <div>
+    Location: {{this.area.location}}
+  </div>
+  <div>
+    Enabled: {{this.area.enable_to_reserve}}
+  </div>
+</div>

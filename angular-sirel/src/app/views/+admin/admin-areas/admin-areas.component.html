@@ -1,0 +1,43 @@
+<div class="spinner-container" *ngIf="loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div *ngIf="!(loading$ | async)">
+  <mat-form-field>
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by name">
+  </mat-form-field>
+
+  <mat-table #table [dataSource]="dataSource"
+    matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <a [routerLink]="['/','admin','area',element.id]"> {{element.id}} </a>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="enabled">
+      <mat-header-cell *matHeaderCellDef> Enabled </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.enable_to_reserve}} </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]">
+  </mat-paginator>
+</div>
+
+<div>
+  <button mat-raised-button color="primary"
+          (click)="openCreateAreaDialog()">
+    Crear Area
+  </button>
+</div>

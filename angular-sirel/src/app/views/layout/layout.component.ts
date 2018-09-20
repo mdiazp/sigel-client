@@ -17,6 +17,7 @@ export class LayoutComponent {
 
   opened_session: Observable<boolean>;
   admin_session: Observable<boolean>;
+  opened_admin_menu: boolean;
   superadmin_session: Observable<boolean>;
   show_profile: Observable<boolean>;
 
@@ -30,8 +31,13 @@ export class LayoutComponent {
               private router: Router) {
     this.opened_session = session.isOpen();
     this.admin_session = session.isAdmin();
+    this.opened_admin_menu = false;
     this.superadmin_session = session.isSuperadmin();
     this.show_profile = session.haveProfile();
+  }
+
+  admin_menu_toggle() {
+    this.opened_admin_menu = !this.opened_admin_menu;
   }
 
   logout() {
