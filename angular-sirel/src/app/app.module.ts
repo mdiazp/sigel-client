@@ -30,6 +30,7 @@ import { AdminAreasComponent } from '@app/views/+admin/admin-areas/admin-areas.c
 import { AdminAreaComponent } from '@app/views/+admin/admin-area/admin-area.component';
 import { AdminLocalsComponent } from '@app/views/+admin/admin-locals/admin-locals.component';
 import { CreateAreaDialogComponent } from './views/+admin/create-area-dialog/create-area-dialog.component';
+import { CreateLocalDialogComponent } from './views/+admin/create-local-dialog/create-local-dialog.component';
 
 const routes: Routes = [
   {
@@ -105,6 +106,7 @@ const routes: Routes = [
     Error404Component,
     AdminAreaComponent,
     CreateAreaDialogComponent,
+    CreateLocalDialogComponent,
   ],
   providers: [
     StorageService,

@@ -2,9 +2,9 @@
   <mat-spinner></mat-spinner>
 </div>
 
-<div *ngIf="!(loading$ | async)">
+<!--div *ngIf="!(loading$ | async)"-->
   <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter by name">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
   </mat-form-field>
 
   <mat-table #table [dataSource]="dataSource"
@@ -33,7 +33,7 @@
 
   <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]">
   </mat-paginator>
-</div>
+<!--/div-->
 
 <div>
   <button mat-raised-button color="primary"

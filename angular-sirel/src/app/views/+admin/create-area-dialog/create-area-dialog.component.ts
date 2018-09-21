@@ -33,7 +33,7 @@ export class CreateAreaDialogComponent implements OnInit {
   description: FormControl;
   location: FormControl;
 
-  @ViewChild(MatSlideToggle) enabled;
+  @ViewChild(MatSlideToggle) enabled: MatSlideToggle;
 
   constructor(public dialogRef: MatDialogRef<CreateAreaDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -44,17 +44,12 @@ export class CreateAreaDialogComponent implements OnInit {
     this.initForm();
   }
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
   initForm(): void {
     this.initFormControls();
     this.createAreaForm = new FormGroup({
       name: this.name,
       description: this.description,
       location: this.location,
-      enabled: this.enabled,
     });
   }
 
@@ -62,7 +57,6 @@ export class CreateAreaDialogComponent implements OnInit {
     this.name = new FormControl('', Validators.required);
     this.description = new FormControl('', Validators.required);
     this.location = new FormControl('', Validators.required);
-    this.enabled = new FormControl('');
   }
 
   onSubmit(): void {
@@ -72,12 +66,13 @@ export class CreateAreaDialogComponent implements OnInit {
         this.name.value,
         this.description.value,
         this.location.value,
-        true
+        this.enabled.checked,
       )
     )
     .subscribe(
       (area) => {
         console.log(area);
+        this.dialogRef.close();
       },
       (err) => this.errh.HandleError(err)
     );
@@ -85,5 +80,4 @@ export class CreateAreaDialogComponent implements OnInit {
 }
 
 export class DialogData {
-  name: string;
 }

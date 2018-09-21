@@ -75,11 +75,13 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
+    this.paginator.pageIndex = 0;
+    this.paginator.page.emit();
   }
 
   openCreateAreaDialog() {
     const dialogRef = this.dialog.open(CreateAreaDialogComponent, {
-      data: {name: 'Kino'},
+      data: {},
       width: '500px',
     });
 

@@ -119,7 +119,7 @@ export class ApiService {
     );
   }
 
-  AdminLocalsList(searchByName = '',
+  AdminGetLocalsList(searchByName = '',
                   pageNumber = 0,
                   pageSize = this.oo,
                   orderDirection = 'asc',
@@ -143,4 +143,16 @@ export class ApiService {
     );
   }
 
+  AdminPostLocal(local: Local): Observable<Local> {
+    return this.http.post(
+      `${this.bpath}/admin/local`,
+      local,
+      { headers: this.commonHeaders() }
+    )
+    .pipe(
+      map(
+        res => res.json()
+      )
+    );
+  }
 }
