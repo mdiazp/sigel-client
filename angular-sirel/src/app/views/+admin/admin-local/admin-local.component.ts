@@ -10,17 +10,17 @@ import {
   ErrorHandlerService
 } from '@app/services/error-handler.service';
 
-import { Area } from '@app/models/area';
+import { Local } from '@app/models/local';
 
 @Component({
-  selector: 'app-admin-area',
-  templateUrl: './admin-area.component.html',
-  styleUrls: ['./admin-area.component.css']
+  selector: 'app-admin-local',
+  templateUrl: './admin-local.component.html',
+  styleUrls: ['./admin-local.component.css']
 })
-export class AdminAreaComponent implements OnInit {
+export class AdminLocalComponent implements OnInit {
 
-  area_id: string;
-  area = new Area(0, '', '', '', false);
+  local_id: string;
+  local = new Local(0, 0, '', '', '', false);
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
@@ -29,7 +29,7 @@ export class AdminAreaComponent implements OnInit {
               private errh: ErrorHandlerService) {
     this.route.params.subscribe(
       params => {
-        this.area_id = params.id;
+        this.local_id = params.id;
       }
     );
 
@@ -39,9 +39,9 @@ export class AdminAreaComponent implements OnInit {
   ngOnInit() {
     this.loadingSubject.next(true);
 
-    this.api.AdminGetArea(this.area_id).subscribe(
-      (area) => {
-        this.area = area;
+    this.api.AdminGetLocal(this.local_id).subscribe(
+      (local) => {
+        this.local = local;
         this.loadingSubject.next(false);
       },
       (err) => {

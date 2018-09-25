@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {
   MatSlideToggle,
@@ -8,6 +8,7 @@ import {
 
 import { ErrorHandlerService } from '@app/services/error-handler.service';
 import { ApiService } from '@app/services/api.service';
+import { Local } from '@app/models/local';
 
 @Component({
   selector: 'app-create-local-dialog',
@@ -25,10 +26,11 @@ export class CreateLocalDialogComponent implements OnInit {
 
   constructor(private api: ApiService,
               private errh: ErrorHandlerService,
-              public dialogRef: MatDialogRef<CreateLocalDialogComponent>) { }
+              public dialogRef: MatDialogRef<CreateLocalDialogComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: DialogLocalData) { }
 
   ngOnInit() {
-
+    this.initForm();
   }
 
   initForm() {
@@ -50,14 +52,14 @@ export class CreateLocalDialogComponent implements OnInit {
 
   onSubmit() {
     this.api.AdminPostLocal(
-      {
-        id: 0,
-        name: this.name.value,
-        description: this.description.value,
-        location: this.location.value,
-        enable_to_reserve: this.enabled.checked,
-        area_id: this.area_id.value
-      }
+      new Local(
+        0,
+        Number(this.area_id.value),
+        this.name.value,
+        this.description.value,
+        this.location.value,
+        this.enabled.checked,
+      )
     )
     .subscribe(
       (data) => {
@@ -68,3 +70,5 @@ export class CreateLocalDialogComponent implements OnInit {
     );
   }
 }
+
+export class DialogLocalData {}

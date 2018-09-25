@@ -17,16 +17,18 @@ import {
   BehaviorSubject
 } from 'rxjs';
 
-
-
 import {
   CreateAreaDialogComponent
 } from '@app/views/+admin/create-area-dialog/create-area-dialog.component';
 
+import {
+  EditAreaDialogComponent
+} from '@app/views/+admin/edit-area-dialog/edit-area-dialog.component';
+
 import { ApiService } from '@app/services/api.service';
 import { ErrorHandlerService } from '@app/services/error-handler.service';
 
-
+import { Area } from '@app/models/area';
 
 @Component({
   selector: 'app-admin-areas',
@@ -38,7 +40,7 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
-  displayedColumns = ['id', 'name', 'enabled'];
+  displayedColumns = ['id', 'name', 'enabled', 'operations'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -89,5 +91,29 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
       console.log('The dialog was closed');
       console.log(result);
     });
+  }
+
+  openEditAreaDialog(area: Area) {
+    const dialogRef = this.dialog.open(EditAreaDialogComponent, {
+      data: area,
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+    });
+  }
+
+  onDeleteClick(id: number) {
+    this.api.AdminDeleteArea(id)
+    .subscribe(
+      (data) => {
+        alert('The area with id ' + id + ' was deleted.');
+      },
+      (err) => {
+        this.errh.HandleError(err);
+      }
+    );
   }
 }

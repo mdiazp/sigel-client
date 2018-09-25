@@ -23,6 +23,9 @@ export class ErrorHandlerService {
       case 0:
         this.snackBar.open(`(500) Server Internal Error`, 'X', {duration: time});
         break;
+      case 400:
+        this.snackBar.open(`(400) Bad Request`, 'X', {duration: time});
+        break;
       case 401:
         this.session.Close();
         this.router.navigate(['/login']);

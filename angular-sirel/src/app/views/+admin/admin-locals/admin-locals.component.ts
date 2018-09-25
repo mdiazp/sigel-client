@@ -25,6 +25,12 @@ import {
   CreateLocalDialogComponent
 } from '@app/views/+admin/create-local-dialog/create-local-dialog.component';
 
+import {
+  EditLocalDialogComponent
+} from '@app/views/+admin/edit-local-dialog/edit-local-dialog.component';
+
+import { Local } from '@app/models/local';
+
 @Component({
   selector: 'app-admin-locals',
   templateUrl: './admin-locals.component.html',
@@ -35,7 +41,7 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
-  displayedColumns = ['id', 'name', 'enabled'];
+  displayedColumns = ['id', 'name', 'area_id', 'enabled', 'operations'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -76,6 +82,7 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
 
   openCreateLocalDialog() {
     const dialogRef = this.dialog.open(CreateLocalDialogComponent, {
+      data: {},
       width: '500px',
     });
 
@@ -83,5 +90,29 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
       console.log('The dialog was closed');
       console.log(result);
     });
+  }
+
+  openEditLocalDialog(local: Local) {
+    const dialogRef = this.dialog.open(EditLocalDialogComponent, {
+      data: local,
+      width: '500px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      console.log(result);
+    });
+  }
+
+  onDeleteClick(id: number) {
+    this.api.AdminDeleteLocal(id)
+    .subscribe(
+      (data) => {
+        alert('The local with id ' + id + ' was deleted.');
+      },
+      (err) => {
+        this.errh.HandleError(err);
+      }
+    );
   }
 }

@@ -22,9 +22,31 @@
       <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="area_id">
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <a [routerLink]="['/','admin','area',element.area_id]">
+          {{element.area_id}}
+        </a>
+      </mat-cell>
+    </ng-container>
+
     <ng-container matColumnDef="enabled">
       <mat-header-cell *matHeaderCellDef> Enabled </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.enable_to_reserve}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="operations">
+      <mat-header-cell *matHeaderCellDef> Operations </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+          <button mat-icon-button color="primary" (click)="openEditLocalDialog(element)">
+            <mat-icon aria-label="Edit">edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn"
+                      (click)="onDeleteClick(element.id)">
+            <mat-icon aria-label="delete">delete</mat-icon>
+          </button>
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -38,6 +60,6 @@
 <div>
   <button mat-raised-button color="primary"
           (click)="openCreateLocalDialog()">
-    Crear Area
+    Crear Local
   </button>
 </div>

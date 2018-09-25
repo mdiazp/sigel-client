@@ -119,12 +119,44 @@ export class ApiService {
     );
   }
 
+  AdminPatchArea(area: Area): Observable<Area> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', area.id.toString());
+    return this.http.patch(
+      `${this.bpath}/admin/area`,
+      area,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    )
+    .pipe(
+      map(
+        res => res.json()
+      )
+    );
+  }
+
+  AdminDeleteArea(id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', id.toString());
+    return this.http.delete(
+      `${this.bpath}/admin/area`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    );
+  }
+
   AdminGetLocalsList(searchByName = '',
                   pageNumber = 0,
                   pageSize = this.oo,
                   orderDirection = 'asc',
                   orderBy = 'id',
-                  areaId = ''): Observable<Area[]> {
+                  areaId = ''): Observable<Local[]> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
     usp.append('search', searchByName);
@@ -143,6 +175,19 @@ export class ApiService {
     );
   }
 
+  AdminGetLocal(local_id: string): Observable<Local> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', local_id);
+    return this.http.get(`${this.bpath}/admin/local`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
   AdminPostLocal(local: Local): Observable<Local> {
     return this.http.post(
       `${this.bpath}/admin/local`,
@@ -153,6 +198,38 @@ export class ApiService {
       map(
         res => res.json()
       )
+    );
+  }
+
+  AdminPatchLocal(local: Local): Observable<Area> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', local.id.toString());
+    return this.http.patch(
+      `${this.bpath}/admin/local`,
+      local,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    )
+    .pipe(
+      map(
+        res => res.json()
+      )
+    );
+  }
+
+  AdminDeleteLocal(id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', id.toString());
+    return this.http.delete(
+      `${this.bpath}/admin/local`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
     );
   }
 }

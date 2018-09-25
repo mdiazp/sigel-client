@@ -31,6 +31,9 @@ import { AdminAreaComponent } from '@app/views/+admin/admin-area/admin-area.comp
 import { AdminLocalsComponent } from '@app/views/+admin/admin-locals/admin-locals.component';
 import { CreateAreaDialogComponent } from './views/+admin/create-area-dialog/create-area-dialog.component';
 import { CreateLocalDialogComponent } from './views/+admin/create-local-dialog/create-local-dialog.component';
+import { EditAreaDialogComponent } from './views/+admin/edit-area-dialog/edit-area-dialog.component';
+import { EditLocalDialogComponent } from './views/+admin/edit-local-dialog/edit-local-dialog.component';
+import { AdminLocalComponent } from './views/+admin/admin-local/admin-local.component';
 
 const routes: Routes = [
   {
@@ -77,6 +80,11 @@ const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
+    path: 'admin/local/:id',
+    component: AdminLocalComponent,
+    canActivate: [AdminGuard]
+  },
+  {
     path: '**',
     component: Error404Component
   }
@@ -107,6 +115,9 @@ const routes: Routes = [
     AdminAreaComponent,
     CreateAreaDialogComponent,
     CreateLocalDialogComponent,
+    EditAreaDialogComponent,
+    EditLocalDialogComponent,
+    AdminLocalComponent,
   ],
   providers: [
     StorageService,
@@ -122,6 +133,9 @@ const routes: Routes = [
   bootstrap: [AppComponent],
   entryComponents: [
     CreateAreaDialogComponent,
+    CreateLocalDialogComponent,
+    EditAreaDialogComponent,
+    EditLocalDialogComponent,
   ],
 })
 export class AppModule { }

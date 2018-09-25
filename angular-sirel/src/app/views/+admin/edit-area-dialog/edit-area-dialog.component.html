@@ -1,23 +1,13 @@
-<h2 mat-dialog-title>Create Local</h2>
+<h2 mat-dialog-title>Edit Area {{data.id}}</h2>
 <mat-dialog-content>
 
-    <form [formGroup]="createLocalForm" class="example-container">
-        <mat-form-field>
-            <mat-label>AreaId</mat-label>
-            <input formControlName="area_id"
-                    matInput
-                    type="text"
-                    placeholder="Enter the area id"
-                    required>
-            <!--<mat-error *ngIf="username.invalid">You must enter a value</mat-error>-->
-        </mat-form-field> <br/>
-
+    <form [formGroup]="editAreaForm" class="example-container">
         <mat-form-field>
           <mat-label>Name</mat-label>
           <input formControlName="name"
                   matInput
                   type="text"
-                  placeholder="Enter the local name"
+                  placeholder="Enter the area name"
                   required>
           <!--<mat-error *ngIf="username.invalid">You must enter a value</mat-error>-->
         </mat-form-field> <br/>
@@ -43,7 +33,8 @@
         </mat-form-field> <br/>
 
             <mat-slide-toggle
-                color="primary">
+                color="primary"
+                [checked]="data.enable_to_reserve">
               Enabled
             </mat-slide-toggle>
 
@@ -56,5 +47,5 @@
   <button mat-raised-button
           color="primary"
           (click)="onSubmit()"
-          [disabled]="this.createLocalForm.invalid">Submit</button>
+          [disabled]="this.editAreaForm.invalid">Submit</button>
 </mat-dialog-actions>
