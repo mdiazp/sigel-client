@@ -23,7 +23,7 @@
     </ng-container>
 
     <ng-container matColumnDef="area_id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef mat-sort-header> Area Id </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <a [routerLink]="['/','admin','area',element.area_id]">
           {{element.area_id}}

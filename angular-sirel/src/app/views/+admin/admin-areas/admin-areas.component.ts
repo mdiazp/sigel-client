@@ -54,18 +54,7 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.loadingSubject.next(true);
-
-    this.api.AdminGetAreasList().subscribe(
-      data => {
-        this.dataSource.data = data;
-        this.loadingSubject.next(false);
-      },
-      err => {
-        this.errh.HandleError(err);
-        this.loadingSubject.next(false);
-      }
-    );
+    this.loadTable();
   }
 
   ngAfterViewInit() {
@@ -90,6 +79,7 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       console.log(result);
+      this.loadTable();
     });
   }
 
@@ -102,6 +92,7 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       console.log(result);
+      this.loadTable();
     });
   }
 
@@ -110,9 +101,25 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
     .subscribe(
       (data) => {
         alert('The area with id ' + id + ' was deleted.');
+        this.loadTable();
       },
       (err) => {
         this.errh.HandleError(err);
+      }
+    );
+  }
+
+  loadTable() {
+    this.loadingSubject.next(true);
+
+    this.api.AdminGetAreasList().subscribe(
+      data => {
+        this.dataSource.data = data;
+        this.loadingSubject.next(false);
+      },
+      err => {
+        this.errh.HandleError(err);
+        this.loadingSubject.next(false);
       }
     );
   }
