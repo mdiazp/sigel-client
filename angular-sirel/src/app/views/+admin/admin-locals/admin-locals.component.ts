@@ -17,19 +17,12 @@ import {
   BehaviorSubject
 } from 'rxjs';
 
-
-import { ApiService } from '@app/services/api.service';
-import { ErrorHandlerService } from '@app/services/error-handler.service';
-
 import {
-  CreateLocalDialogComponent
-} from '@app/views/+admin/create-local-dialog/create-local-dialog.component';
+  LocalDialogComponent
+} from '@app/views/+admin/local-dialog/local-dialog.component';
 
-import {
-  EditLocalDialogComponent
-} from '@app/views/+admin/edit-local-dialog/edit-local-dialog.component';
-
-import { Local } from '@app/models/local';
+import { ApiService, ErrorHandlerService } from '@app/services/core';
+import { Local, Area } from '@app/models/core';
 
 @Component({
   selector: 'app-admin-locals',
@@ -41,8 +34,10 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
-  displayedColumns = ['id', 'name', 'area_id', 'enabled', 'operations'];
+  displayedColumns = ['id', 'name', 'area', 'enabled', 'operations'];
   dataSource = new MatTableDataSource();
+
+  areas = new Map<number, string>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -55,7 +50,7 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this.loadTable();
+    this.loadAreas();
   }
 
   ngAfterViewInit(): void {
@@ -70,28 +65,32 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
   }
 
   openCreateLocalDialog() {
-    const dialogRef = this.dialog.open(CreateLocalDialogComponent, {
-      data: {},
-      width: '500px',
+    const dialogRef = this.dialog.open(LocalDialogComponent, {
+      data: {
+        local: new Local(0, 0, '', '', '', '111111111111', '0111112', 8, 0, 17, 0, true),
+        edit: false,
+      },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      console.log(result);
-      this.loadTable();
+      this.loadAreas();
     });
   }
 
   openEditLocalDialog(local: Local) {
-    const dialogRef = this.dialog.open(EditLocalDialogComponent, {
-      data: local,
+    const dialogRef = this.dialog.open(LocalDialogComponent, {
+      data: {
+        local: local,
+        edit: true,
+      },
       width: '500px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       console.log(result);
-      this.loadTable();
+      this.loadAreas();
     });
   }
 
@@ -100,7 +99,7 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
     .subscribe(
       (data) => {
         alert('The local with id ' + id + ' was deleted.');
-        this.loadTable();
+        this.loadAreas();
       },
       (err) => {
         this.errh.HandleError(err);
@@ -108,8 +107,23 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
     );
   }
 
-  loadTable() {
+  loadAreas(): void {
     this.loadingSubject.next(true);
+    this.api.AdminGetAreasList().subscribe(
+      (areas) => {
+        for ( const area of areas ) {
+          this.areas.set(area.id, area.name);
+        }
+        this.loadLocals();
+      },
+      (err) => {
+        this.errh.HandleError(err);
+        this.loadingSubject.next(false);
+      }
+    );
+  }
+
+  loadLocals(): void {
     this.api.AdminGetLocalsList().subscribe(
       data => {
         this.dataSource.data = data;

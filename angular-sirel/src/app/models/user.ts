@@ -7,3 +7,8 @@ export class User {
                 public rol: string,
                 public enable: boolean) {}
 }
+
+export class UserPublicInfo {
+    constructor(public id: number,
+                public username: string) {}
+}

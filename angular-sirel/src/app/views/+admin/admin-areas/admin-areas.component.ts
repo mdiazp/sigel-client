@@ -18,12 +18,8 @@ import {
 } from 'rxjs';
 
 import {
-  CreateAreaDialogComponent
-} from '@app/views/+admin/create-area-dialog/create-area-dialog.component';
-
-import {
-  EditAreaDialogComponent
-} from '@app/views/+admin/edit-area-dialog/edit-area-dialog.component';
+  AreaDialogComponent
+} from '@app/views/+admin/area-dialog/area-dialog.component';
 
 import { ApiService } from '@app/services/api.service';
 import { ErrorHandlerService } from '@app/services/error-handler.service';
@@ -71,9 +67,12 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
   }
 
   openCreateAreaDialog() {
-    const dialogRef = this.dialog.open(CreateAreaDialogComponent, {
-      data: {},
-      width: '500px',
+    const dialogRef = this.dialog.open(AreaDialogComponent, {
+      data: {
+        area: new Area(0, '', '', '', true),
+        edit: false,
+      },
+      maxWidth: '700px',
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -84,9 +83,12 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
   }
 
   openEditAreaDialog(area: Area) {
-    const dialogRef = this.dialog.open(EditAreaDialogComponent, {
-      data: area,
-      width: '500px',
+    const dialogRef = this.dialog.open(AreaDialogComponent, {
+      data: {
+        area: area,
+        edit: true,
+      },
+      maxWidth: '700px',
     });
 
     dialogRef.afterClosed().subscribe(result => {

@@ -4,7 +4,7 @@
 
 <!--div *ngIf="!(loading$ | async)"-->
   <mat-form-field>
-    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
   </mat-form-field>
 
   <mat-table #table [dataSource]="dataSource"
@@ -18,26 +18,26 @@
     </ng-container>
 
     <ng-container matColumnDef="name">
-      <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="area_id">
-      <mat-header-cell *matHeaderCellDef mat-sort-header> Area Id </mat-header-cell>
+    <ng-container matColumnDef="area">
+      <mat-header-cell *matHeaderCellDef> Area </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <a [routerLink]="['/','admin','area',element.area_id]">
-          {{element.area_id}}
+          {{areas.get(element.area_id)}}
         </a>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="enabled">
-      <mat-header-cell *matHeaderCellDef> Enabled </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Disponible </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.enable_to_reserve}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="operations">
-      <mat-header-cell *matHeaderCellDef> Operations </mat-header-cell>
+      <mat-header-cell *matHeaderCellDef> Ops. </mat-header-cell>
       <mat-cell *matCellDef="let element">
           <button mat-icon-button color="primary" (click)="openEditLocalDialog(element)">
             <mat-icon aria-label="Edit">edit</mat-icon>

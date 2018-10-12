@@ -1,19 +1,19 @@
 <form [formGroup]="loginform" class="example-container">
   <mat-form-field>
-    <mat-label>Username</mat-label>
+    <mat-label>Usuario</mat-label>
     <input formControlName="username"
             matInput
             type="text"
-            placeholder="Enter your username"
+            placeholder="Usuario"
             required>
     <!--<mat-error *ngIf="username.invalid">You must enter a value</mat-error>-->
   </mat-form-field>
 
   <mat-form-field>
-    <mat-label>Password</mat-label>
+    <mat-label>Contrasena</mat-label>
     <input formControlName="password"
            matInput
-           placeholder="Enter your password"
+           placeholder="Contrasena"
            [type]="hide ? 'password' : 'text'"
            required
            >

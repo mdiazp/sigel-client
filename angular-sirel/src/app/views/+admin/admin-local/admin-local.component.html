@@ -1,24 +1,61 @@
 <div class="spinner-container" *ngIf="loading$ | async">
-    <mat-spinner></mat-spinner>
-  </div>
+  <mat-spinner></mat-spinner>
+</div>
 
-  <div *ngIf="!(loading$ | async)">
+<div *ngIf="!(loading$ | async)">
+  <div>
+    <h4>Id: </h4>{{local.id}}
+  </div>
+  <div>
+    <h4>Area: </h4>{{area.name}}
+  </div>
+  <div>
+    <h4>Nombre: </h4>{{local.name}}
+  </div>
+  <div>
+    <h4>Descripcion: </h4>{{local.description}}
+  </div>
+  <div>
+    <h4>Direccion: </h4>{{local.location}}
+  </div>
+  <div>
+    <h4>Disponible: </h4>{{local.enable_to_reserve}}
+  </div>
+  <mat-list>
+    <h4 mat-header>Meses Laborables</h4>
+    <mat-list-item *ngFor="let wm of working_months">
+      {{wm.monthName}}
+      <div *ngIf="wm.working">
+        -> Laborable
+      </div>
+    </mat-list-item>
+  </mat-list>
+  <br/>
+  <mat-list>
+    <h4 mat-header>Dias de la semana Laborables</h4>
+    <mat-list-item *ngFor="let wd of working_week_days">
+      {{wd.weekDayName}}
+      <div *ngIf="wd.working">
+        -> Laborable
+        <div style="display: inline;"
+             *ngIf="wd.needConfirmation">
+          (Confirmar un dia antes)
+        </div>
+      </div>
+      <br/>
+    </mat-list-item>
+  </mat-list>
+  <br/>
+  <div style="display: inline;">
+    <h4>Horario Laborable en el Dia: </h4>
     <div>
-      Id: {{local.id}}
-    </div>
-    <div>
-      Area Id: {{local.area_id}}
-    </div>
-    <div>
-      Name: {{local.name}}
-    </div>
-    <div>
-      Description: {{local.description}}
-    </div>
-    <div>
-      Location: {{local.location}}
-    </div>
-    <div>
-      Enabled: {{local.enable_to_reserve}}
+      {{local.working_begin_time_hours}}:{{local.working_begin_time_minutes}} - 
+      {{local.working_end_time_hours}}:{{local.working_end_time_minutes}}
     </div>
   </div>
+  <br/>
+  <br/>
+
+  <app-admins-table [data_id]="local.id" [forArea]="false" *ngIf="!(loading$ | async)">
+  </app-admins-table>
+</div>

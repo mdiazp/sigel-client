@@ -18,6 +18,10 @@
       <span>Sirel</span>
     </mat-toolbar>
     <mat-nav-list>
+      <a mat-list-item [routerLink]="['home']">
+        <mat-icon>home</mat-icon>
+        Inicio
+      </a>
       <a mat-list-item [routerLink]="['admin']"
         *ngIf="(admin_session | async)"
         (click)="admin_menu_toggle()">
@@ -30,7 +34,7 @@
           <a mat-list-item [routerLink]="['admin','users']"
             *ngIf="(admin_session | async)">
             <!--mat-icon>supervisor_account</mat-icon-->
-            <span>Users</span>
+            <span>Usuarios</span>
           </a>
           <a mat-list-item [routerLink]="['admin','areas']"
             *ngIf="(admin_session | async)">
@@ -40,15 +44,16 @@
           <a mat-list-item [routerLink]="['admin','locals']"
             *ngIf="(admin_session | async)">
             <!--mat-icon>setting</mat-icon-->
-            <span>Locals</span>
+            <span>Locales</span>
+          </a>
+          <a mat-list-item [routerLink]="['admin','reservations']"
+            *ngIf="(admin_session | async)">
+            <!--mat-icon>setting</mat-icon-->
+            <span>Reservaciones</span>
           </a>
         </mat-nav-list>
       </div>
-      <a mat-list-item [routerLink]="['home']">
-        <mat-icon>home</mat-icon>
-        Home
-      </a>
-      <a mat-list-item [routerLink]="['reserve']">Reservar</a>
+      <a mat-list-item [routerLink]="['reservations']">Reservaciones</a>
       <a mat-list-item [routerLink]="['profile']"
         *ngIf="(show_profile | async)">
         <mat-icon>person</mat-icon>
@@ -71,7 +76,7 @@
 
       <a *ngIf="!(opened_session | async)" style="text-decoration: none; color: white;"
                             [routerLink]="['login']">
-        <span>Login</span>
+        <span>Iniciar Sesion</span>
       </a>
       <a *ngIf="(opened_session | async)"
                             style="text-decoration: none; color: white; cursor: pointer;"

@@ -7,15 +7,18 @@
     Id: {{this.area.id}}
   </div>
   <div>
-    Name: {{this.area.name}}
+    Nombre: {{this.area.name}}
   </div>
   <div>
-    Description: {{this.area.description}}
+    Descripcion: {{this.area.description}}
   </div>
   <div>
-    Location: {{this.area.location}}
+    Direccion: {{this.area.location}}
   </div>
   <div>
-    Enabled: {{this.area.enable_to_reserve}}
+    Disponible: {{this.area.enable_to_reserve}}
   </div>
 </div>
+
+<app-admins-table [data_id]="area.id" [forArea]="true" *ngIf="!(loading$ | async)">
+</app-admins-table>

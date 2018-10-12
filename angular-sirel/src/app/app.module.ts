@@ -9,13 +9,25 @@ import {
   MAT_DIALOG_DEFAULT_OPTIONS,
 } from '@angular/material';
 
-import { SessionService } from '@app/services/session.service';
-import { StorageService } from '@app/services/storage.service';
-import { ApiService } from '@app/services/api.service';
-import { ErrorHandlerService } from '@app/services/error-handler.service';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+  MAT_NATIVE_DATE_FORMATS,
+  NativeDateAdapter,
+} from '@angular/material/core';
 
-import { AuthGuard } from '@app/guards/auth.guard';
-import { AdminGuard } from '@app/guards/admin.guard';
+import {
+  SessionService,
+  StorageService,
+  ApiService,
+  ErrorHandlerService
+} from '@app/services/core';
+
+import {
+  AuthGuard,
+  AdminGuard,
+} from '@app/guards/core';
 
 import { AppMaterialModule } from '@app/app-material';
 import { AppComponent } from '@app/app.component';
@@ -29,11 +41,12 @@ import { AdminUsersComponent } from '@app/views/+admin/admin-users/admin-users.c
 import { AdminAreasComponent } from '@app/views/+admin/admin-areas/admin-areas.component';
 import { AdminAreaComponent } from '@app/views/+admin/admin-area/admin-area.component';
 import { AdminLocalsComponent } from '@app/views/+admin/admin-locals/admin-locals.component';
-import { CreateAreaDialogComponent } from './views/+admin/create-area-dialog/create-area-dialog.component';
-import { CreateLocalDialogComponent } from './views/+admin/create-local-dialog/create-local-dialog.component';
-import { EditAreaDialogComponent } from './views/+admin/edit-area-dialog/edit-area-dialog.component';
-import { EditLocalDialogComponent } from './views/+admin/edit-local-dialog/edit-local-dialog.component';
-import { AdminLocalComponent } from './views/+admin/admin-local/admin-local.component';
+import { AreaDialogComponent } from '@app/views/+admin/area-dialog/area-dialog.component';
+import { LocalDialogComponent } from '@app/views/+admin/local-dialog/local-dialog.component';
+import { AdminLocalComponent } from '@app/views/+admin/admin-local/admin-local.component';
+import { ReservationsComponent } from '@app/views/+reservations/reservations/reservations.component';
+import { AdminReservationsComponent } from './views/+admin/admin-reservations/admin-reservations.component';
+import { AdminsTableComponent } from './views/+admin/admins-table/admins-table.component';
 
 const routes: Routes = [
   {
@@ -48,6 +61,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'reservations',
+    component: ReservationsComponent
   },
   {
     path: 'profile',
@@ -85,6 +102,11 @@ const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
+    path: 'admin/reservations',
+    component: AdminReservationsComponent,
+    canActivate: [AdminGuard]
+  },
+  {
     path: '**',
     component: Error404Component
   }
@@ -113,11 +135,12 @@ const routes: Routes = [
     ProfileComponent,
     Error404Component,
     AdminAreaComponent,
-    CreateAreaDialogComponent,
-    CreateLocalDialogComponent,
-    EditAreaDialogComponent,
-    EditLocalDialogComponent,
+    AreaDialogComponent,
+    LocalDialogComponent,
     AdminLocalComponent,
+    ReservationsComponent,
+    AdminReservationsComponent,
+    AdminsTableComponent,
   ],
   providers: [
     StorageService,
@@ -129,13 +152,15 @@ const routes: Routes = [
     AdminGuard,
 
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+
+    {provide: MAT_DATE_LOCALE, useValue: 'es-SP'},
+    // {provide: DateAdapter, useClass: NativeDateAdapter, deps: [MAT_DATE_LOCALE]},
+    // {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS},
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    CreateAreaDialogComponent,
-    CreateLocalDialogComponent,
-    EditAreaDialogComponent,
-    EditLocalDialogComponent,
+    AreaDialogComponent,
+    LocalDialogComponent,
   ],
 })
 export class AppModule { }

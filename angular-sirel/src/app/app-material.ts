@@ -20,6 +20,11 @@ import {
   MatSnackBarModule,
   MatDialogModule,
   MatSlideToggleModule,
+  MatAutocompleteModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatTabsModule,
+  MatCheckboxModule,
 } from '@angular/material';
 
 @NgModule({
@@ -43,6 +48,11 @@ import {
     MatSnackBarModule,
     MatDialogModule,
     MatSlideToggleModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTabsModule,
+    MatCheckboxModule,
   ],
   exports: [
     MatProgressSpinnerModule,
@@ -64,6 +74,11 @@ import {
     MatSnackBarModule,
     MatDialogModule,
     MatSlideToggleModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatTabsModule,
+    MatCheckboxModule,
   ]
 })
 export class AppMaterialModule {}

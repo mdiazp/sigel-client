@@ -10,10 +10,13 @@ import {
 import { BehaviorSubject, Observable, Operator } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Credentials } from '@app/models/credentials';
-import { User } from '@app/models/user';
-import { Area } from '@app/models/area';
-import { Local } from '@app/models/local';
+import {
+  Credentials,
+  User,
+  Area,
+  Local,
+  UserPublicInfo
+} from '@app/models/core';
 
 import { SessionService } from '@app/services/session.service';
 
@@ -41,6 +44,72 @@ export class ApiService {
 
   Login(cred: Credentials): Observable<Response> {
     return this.http.post(`${this.bpath}/public/login`, cred, { headers: this.commonHeaders() });
+  }
+
+  PublicGetUsernamesList(prefixFilter = '',
+                          pageNumber = 0,
+                          pageSize = 10,
+                         ): Observable<UserPublicInfo[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('prefixFilter', prefixFilter);
+    usp.append('offset', (pageNumber * pageSize).toString());
+    usp.append('limit', pageSize.toString());
+
+    return this.http.get(`${this.bpath}/public/users/usernames`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
+  PublicGetAreasList(searchByName = '',
+                 pageNumber = 0,
+                 pageSize = this.oo,
+                 orderDirection = 'asc',
+                 orderBy = 'id'): Observable<Area[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('search', searchByName);
+    usp.append('offset', (pageNumber * pageSize).toString());
+    usp.append('limit', pageSize.toString());
+    usp.append('orderby', orderBy);
+    usp.append('orderDirection', orderDirection);
+
+    return this.http.get(`${this.bpath}/public/areas`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
+  PublicGetLocalsList(
+                  searchByName = '',
+                  pageNumber = 0,
+                  pageSize = this.oo,
+                  orderDirection = 'asc',
+                  orderBy = 'id',
+                  areaId = ''): Observable<Local[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('search', searchByName);
+    usp.append('offset', (pageNumber * pageSize).toString());
+    usp.append('limit', pageSize.toString());
+    usp.append('orderby', orderBy);
+    usp.append('orderDirection', orderDirection);
+    usp.append('area_id', areaId);
+
+    return this.http.get(`${this.bpath}/public/locals`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
   }
 
   Logout(): Observable<Response> {
@@ -151,6 +220,51 @@ export class ApiService {
     );
   }
 
+  AdminPutAreaAdmin(area_id: number, user_id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('area_id', area_id.toString());
+    usp.append('user_id', user_id.toString());
+    return this.http.put(
+      `${this.bpath}/admin/area/admins`,
+      '',
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    );
+  }
+
+  AdminDeleteAreaAdmin(area_id: number, user_id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('area_id', area_id.toString());
+    usp.append('user_id', user_id.toString());
+    return this.http.delete(
+      `${this.bpath}/admin/area/admins`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    );
+  }
+
+  AdminGetAreaAdmins(area_id: number): Observable<UserPublicInfo[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', area_id.toString());
+    return this.http.get(
+      `${this.bpath}/admin/area/admins`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    )
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
   AdminGetLocalsList(searchByName = '',
                   pageNumber = 0,
                   pageSize = this.oo,
@@ -201,7 +315,7 @@ export class ApiService {
     );
   }
 
-  AdminPatchLocal(local: Local): Observable<Area> {
+  AdminPatchLocal(local: Local): Observable<Local> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
     usp.append('id', local.id.toString());
@@ -230,6 +344,51 @@ export class ApiService {
         params: usp,
         headers: this.commonHeaders()
       }
+    );
+  }
+
+  AdminPutLocalAdmin(local_id: number, user_id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('local_id', local_id.toString());
+    usp.append('user_id', user_id.toString());
+    return this.http.put(
+      `${this.bpath}/admin/local/admins`,
+      '',
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    );
+  }
+
+  AdminDeleteLocalAdmin(local_id: number, user_id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('local_id', local_id.toString());
+    usp.append('user_id', user_id.toString());
+    return this.http.delete(
+      `${this.bpath}/admin/local/admins`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    );
+  }
+
+  AdminGetLocalAdmins(local_id: number): Observable<UserPublicInfo[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('id', local_id.toString());
+    return this.http.get(
+      `${this.bpath}/admin/local/admins`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    )
+    .pipe(
+      map(res => res.json())
     );
   }
 }
