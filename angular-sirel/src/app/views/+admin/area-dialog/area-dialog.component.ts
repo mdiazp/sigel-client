@@ -35,8 +35,6 @@ export class AreaDialogComponent implements OnInit {
   description: FormControl;
   location: FormControl;
 
-  @ViewChild(MatSlideToggle) enabled: MatSlideToggle;
-
   constructor(public dialogRef: MatDialogRef<AreaDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: { area: Area, edit: boolean },
               private api: ApiService,
@@ -69,7 +67,6 @@ export class AreaDialogComponent implements OnInit {
       this.name.value,
       this.description.value,
       this.location.value,
-      this.enabled.checked,
     );
 
     let obs: Observable<Area>;

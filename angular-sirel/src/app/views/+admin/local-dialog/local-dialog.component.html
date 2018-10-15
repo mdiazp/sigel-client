@@ -4,7 +4,7 @@
   <form [formGroup]="localForm" class="example-container">
     <mat-form-field>
         <mat-select placeholder="Area"
-                    formControlName="area">
+                    formControlName="area" required>
           <mat-option *ngFor="let area of opts" [value]="area.id">
               {{area.name}}
           </mat-option>

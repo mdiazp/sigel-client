@@ -165,7 +165,7 @@ export class ApiService {
   AdminGetArea(area_id: string): Observable<Area> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', area_id);
+    usp.append('area_id', area_id);
     return this.http.get(`${this.bpath}/admin/area`, {
       params: usp,
       headers: this.commonHeaders(),
@@ -191,7 +191,7 @@ export class ApiService {
   AdminPatchArea(area: Area): Observable<Area> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', area.id.toString());
+    usp.append('area_id', area.id.toString());
     return this.http.patch(
       `${this.bpath}/admin/area`,
       area,
@@ -210,7 +210,7 @@ export class ApiService {
   AdminDeleteArea(id: number) {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', id.toString());
+    usp.append('area_id', id.toString());
     return this.http.delete(
       `${this.bpath}/admin/area`,
       {
@@ -252,7 +252,7 @@ export class ApiService {
   AdminGetAreaAdmins(area_id: number): Observable<UserPublicInfo[]> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', area_id.toString());
+    usp.append('area_id', area_id.toString());
     return this.http.get(
       `${this.bpath}/admin/area/admins`,
       {
@@ -292,7 +292,7 @@ export class ApiService {
   AdminGetLocal(local_id: string): Observable<Local> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', local_id);
+    usp.append('local_id', local_id);
     return this.http.get(`${this.bpath}/admin/local`, {
       params: usp,
       headers: this.commonHeaders(),
@@ -318,7 +318,7 @@ export class ApiService {
   AdminPatchLocal(local: Local): Observable<Local> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', local.id.toString());
+    usp.append('local_id', local.id.toString());
     return this.http.patch(
       `${this.bpath}/admin/local`,
       local,
@@ -337,7 +337,7 @@ export class ApiService {
   AdminDeleteLocal(id: number) {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', id.toString());
+    usp.append('local_id', id.toString());
     return this.http.delete(
       `${this.bpath}/admin/local`,
       {
@@ -379,7 +379,7 @@ export class ApiService {
   AdminGetLocalAdmins(local_id: number): Observable<UserPublicInfo[]> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('id', local_id.toString());
+    usp.append('local_id', local_id.toString());
     return this.http.get(
       `${this.bpath}/admin/local/admins`,
       {

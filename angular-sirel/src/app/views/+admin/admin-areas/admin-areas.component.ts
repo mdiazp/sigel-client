@@ -36,7 +36,7 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
-  displayedColumns = ['id', 'name', 'enabled', 'operations'];
+  displayedColumns = ['id', 'name', 'operations'];
   dataSource = new MatTableDataSource();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -69,7 +69,7 @@ export class AdminAreasComponent implements OnInit, AfterViewInit {
   openCreateAreaDialog() {
     const dialogRef = this.dialog.open(AreaDialogComponent, {
       data: {
-        area: new Area(0, '', '', '', true),
+        area: new Area(0, '', '', ''),
         edit: false,
       },
       maxWidth: '700px',

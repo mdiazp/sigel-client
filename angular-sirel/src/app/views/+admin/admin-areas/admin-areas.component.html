@@ -22,11 +22,6 @@
       <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
     </ng-container>
 
-    <ng-container matColumnDef="enabled">
-      <mat-header-cell *matHeaderCellDef> Disponible </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.enable_to_reserve}} </mat-cell>
-    </ng-container>
-
     <ng-container matColumnDef="operations">
         <mat-header-cell *matHeaderCellDef> Ops. </mat-header-cell>
         <mat-cell *matCellDef="let element">

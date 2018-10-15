@@ -15,9 +15,6 @@
   <div>
     Direccion: {{this.area.location}}
   </div>
-  <div>
-    Disponible: {{this.area.enable_to_reserve}}
-  </div>
 </div>
 
 <app-admins-table [data_id]="area.id" [forArea]="true" *ngIf="!(loading$ | async)">

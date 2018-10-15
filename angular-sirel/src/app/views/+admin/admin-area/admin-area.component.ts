@@ -20,7 +20,7 @@ import { Area } from '@app/models/area';
 export class AdminAreaComponent implements OnInit {
 
   area_id: string;
-  area = new Area(0, '', '', '', false);
+  area = new Area(0, '', '', '');
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
