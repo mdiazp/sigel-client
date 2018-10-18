@@ -191,7 +191,7 @@ export class ApiService {
   AdminPatchArea(area: Area): Observable<Area> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('area_id', area.id.toString());
+    usp.append('area_id', area.ID.toString());
     return this.http.patch(
       `${this.bpath}/admin/area`,
       area,
@@ -318,7 +318,7 @@ export class ApiService {
   AdminPatchLocal(local: Local): Observable<Local> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('local_id', local.id.toString());
+    usp.append('local_id', local.ID.toString());
     return this.http.patch(
       `${this.bpath}/admin/local`,
       local,

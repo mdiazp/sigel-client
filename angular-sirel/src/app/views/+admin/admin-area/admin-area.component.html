@@ -4,18 +4,18 @@
 
 <div *ngIf="!(loading$ | async)">
   <div>
-    Id: {{this.area.id}}
+    Id: {{this.area.ID}}
   </div>
   <div>
-    Nombre: {{this.area.name}}
+    Nombre: {{this.area.Name}}
   </div>
   <div>
-    Descripcion: {{this.area.description}}
+    Descripcion: {{this.area.Description}}
   </div>
   <div>
-    Direccion: {{this.area.location}}
+    Direccion: {{this.area.Location}}
   </div>
 </div>
 
-<app-admins-table [data_id]="area.id" [forArea]="true" *ngIf="!(loading$ | async)">
+<app-admins-table [data_id]="area.ID" [forArea]="true" *ngIf="!(loading$ | async)">
 </app-admins-table>

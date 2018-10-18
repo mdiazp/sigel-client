@@ -4,17 +4,17 @@ import {
 } from '@app/models/core';
 
 export class Local {
-  constructor(public id: number,
-              public area_id: number,
-              public name: string,
-              public description: string,
-              public location: string,
-              public working_months: string,
-              public working_week_days: string,
-              public working_begin_time_hours: number,
-              public working_begin_time_minutes: number,
-              public working_end_time_hours: number,
-              public working_end_time_minutes: number,
-              public enable_to_reserve: boolean,
-              public admins?: User[]) {}
+  constructor(public ID: number,
+              public AreaID: number,
+              public Name: string,
+              public Description: string,
+              public Location: string,
+              public WorkingMonths: string,
+              public WorkingWeekDays: string,
+              public WorkingBeginTimeHours: number,
+              public WorkingBeginTimeMinutes: number,
+              public WorkingEndTimeHours: number,
+              public WorkingEndTimeMinutes: number,
+              public EnableToReserve: boolean,
+              public Admins?: User[]) {}
 }

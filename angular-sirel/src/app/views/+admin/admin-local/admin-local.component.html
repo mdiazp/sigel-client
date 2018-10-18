@@ -4,22 +4,22 @@
 
 <div *ngIf="!(loading$ | async)">
   <div>
-    <h4>Id: </h4>{{local.id}}
+    <h4>Id: </h4>{{local.ID}}
   </div>
   <div>
-    <h4>Area: </h4>{{area.name}}
+    <h4>Area: </h4>{{area.Name}}
   </div>
   <div>
-    <h4>Nombre: </h4>{{local.name}}
+    <h4>Nombre: </h4>{{local.Name}}
   </div>
   <div>
-    <h4>Descripcion: </h4>{{local.description}}
+    <h4>Descripcion: </h4>{{local.Description}}
   </div>
   <div>
-    <h4>Direccion: </h4>{{local.location}}
+    <h4>Direccion: </h4>{{local.Location}}
   </div>
   <div>
-    <h4>Disponible: </h4>{{local.enable_to_reserve}}
+    <h4>Disponible: </h4>{{local.EnableToReserve}}
   </div>
   <mat-list>
     <h4 mat-header>Meses Laborables</h4>
@@ -49,13 +49,13 @@
   <div style="display: inline;">
     <h4>Horario Laborable en el Dia: </h4>
     <div>
-      {{local.working_begin_time_hours}}:{{local.working_begin_time_minutes}} - 
-      {{local.working_end_time_hours}}:{{local.working_end_time_minutes}}
+      {{local.WorkingBeginTimeHours}}:{{local.WorkingBeginTimeMinutes}} - 
+      {{local.WorkingEndTimeHours}}:{{local.WorkingEndTimeMinutes}}
     </div>
   </div>
   <br/>
   <br/>
 
-  <app-admins-table [data_id]="local.id" [forArea]="false" *ngIf="!(loading$ | async)">
+  <app-admins-table [data_id]="local.ID" [forArea]="false" *ngIf="!(loading$ | async)">
   </app-admins-table>
 </div>

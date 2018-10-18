@@ -63,8 +63,8 @@ export class AdminLocalComponent implements OnInit {
     this.api.AdminGetLocal(this.local_id).subscribe(
       (local) => {
         this.local = local;
-        this.working_months = this.working_time_util.GetWorkingMonths( this.local.working_months );
-        this.working_week_days = this.working_time_util.GetWorkingWeekDays( this.local.working_week_days );
+        this.working_months = this.working_time_util.GetWorkingMonths( this.local.WorkingMonths );
+        this.working_week_days = this.working_time_util.GetWorkingWeekDays( this.local.WorkingWeekDays );
         this.loadArea();
       },
       (err) => {
@@ -74,7 +74,7 @@ export class AdminLocalComponent implements OnInit {
   }
 
   loadArea() {
-    this.api.AdminGetArea(this.local.area_id.toString()).subscribe(
+    this.api.AdminGetArea(this.local.AreaID.toString()).subscribe(
       (area) => {
         this.area = area;
         this.loadingSubject.next(false);

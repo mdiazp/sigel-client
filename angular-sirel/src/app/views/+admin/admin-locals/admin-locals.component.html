@@ -13,27 +13,27 @@
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <a [routerLink]="['/','admin','local',element.id]"> {{element.id}} </a>
+        <a [routerLink]="['/','admin','local',element.ID]"> {{element.ID}} </a>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="area">
       <mat-header-cell *matHeaderCellDef> Area </mat-header-cell>
       <mat-cell *matCellDef="let element">
-        <a [routerLink]="['/','admin','area',element.area_id]">
-          {{areas.get(element.area_id)}}
+        <a [routerLink]="['/','admin','area',element.AreaID]">
+          {{areas.get(element.AreaID)}}
         </a>
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="enabled">
       <mat-header-cell *matHeaderCellDef> Disponible </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.enable_to_reserve}} </mat-cell>
+      <mat-cell *matCellDef="let element"> {{element.EnableToReserve}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="operations">

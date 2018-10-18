@@ -56,14 +56,14 @@ export class AreaDialogComponent implements OnInit {
   }
 
   initFormControls(): void {
-    this.name = new FormControl(this.data.area.name, Validators.required);
-    this.description = new FormControl(this.data.area.description, Validators.required);
-    this.location = new FormControl(this.data.area.location, Validators.required);
+    this.name = new FormControl(this.data.area.Name, Validators.required);
+    this.description = new FormControl(this.data.area.Description, Validators.required);
+    this.location = new FormControl(this.data.area.Location, Validators.required);
   }
 
   onSubmit(): void {
     const area = new Area(
-      this.data.area.id,
+      this.data.area.ID,
       this.name.value,
       this.description.value,
       this.location.value,

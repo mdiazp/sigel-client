@@ -65,8 +65,8 @@ export class LocalDialogComponent implements OnInit {
 
     this.loadingAreas = this.loadingAreasSubject.asObservable();
 
-    this.wds = this.workingTimeUtil.GetWorkingWeekDays( this.data.local.working_week_days );
-    this.wms = this.workingTimeUtil.GetWorkingMonths( this.data.local.working_months );
+    this.wds = this.workingTimeUtil.GetWorkingWeekDays( this.data.local.WorkingWeekDays );
+    this.wms = this.workingTimeUtil.GetWorkingMonths( this.data.local.WorkingMonths );
   }
 
   ngOnInit() {
@@ -89,31 +89,31 @@ export class LocalDialogComponent implements OnInit {
   }
 
   initFormControls() {
-    this.area = new FormControl(this.data.local.area_id, Validators.required);
-    this.name = new FormControl(this.data.local.name, Validators.required);
-    this.description = new FormControl(this.data.local.description, Validators.required);
-    this.location = new FormControl(this.data.local.location, Validators.required);
+    this.area = new FormControl(this.data.local.AreaID, Validators.required);
+    this.name = new FormControl(this.data.local.Name, Validators.required);
+    this.description = new FormControl(this.data.local.Description, Validators.required);
+    this.location = new FormControl(this.data.local.Location, Validators.required);
     this.workingBeginTimeHours = new FormControl(
-      this.data.local.working_begin_time_hours,
+      this.data.local.WorkingBeginTimeHours,
       [Validators.required, Validators.min(0), Validators.max(23)]
     );
     this.workingBeginTimeMinutes = new FormControl(
-      this.data.local.working_begin_time_minutes,
+      this.data.local.WorkingBeginTimeMinutes,
       [Validators.required, Validators.min(0), Validators.max(59)]
     );
     this.workingEndTimeHours = new FormControl(
-      this.data.local.working_end_time_hours,
+      this.data.local.WorkingEndTimeHours,
       [Validators.required, Validators.min(0), Validators.max(23)]
     );
     this.workingEndTimeMinutes = new FormControl(
-      this.data.local.working_end_time_minutes,
+      this.data.local.WorkingEndTimeMinutes,
       [Validators.required, Validators.min(0), Validators.max(59)]
     );
   }
 
   onSubmit() {
     const local = new Local(
-      this.data.local.id,
+      this.data.local.ID,
       Number(this.area.value),
       this.name.value,
       this.description.value,

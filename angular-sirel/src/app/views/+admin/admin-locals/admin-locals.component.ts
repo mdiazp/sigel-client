@@ -112,7 +112,7 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
     this.api.PublicGetAreasList().subscribe(
       (areas) => {
         for ( const area of areas ) {
-          this.areas.set(area.id, area.name);
+          this.areas.set(area.ID, area.Name);
         }
         this.loadLocals();
       },

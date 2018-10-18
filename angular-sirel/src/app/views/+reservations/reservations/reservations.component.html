@@ -3,8 +3,8 @@
     <mat-select placeholder="Seleccione un local"
                 formControlName="selectLocalControl">
       <mat-optgroup *ngFor="let opt of opts" [label]="opt.area">
-        <mat-option *ngFor="let local of opt.locals" [value]="local.id">
-          {{local.name}}
+        <mat-option *ngFor="let local of opt.locals" [value]="local.ID">
+          {{local.Name}}
         </mat-option>
       </mat-optgroup>
     </mat-select>

@@ -73,7 +73,7 @@ export class ReservationsComponent implements OnInit, AfterViewInit {
         this.fillOptions();
         if ( this.locals.length > 0 ) {
           this.selectLocalControl.setValue(
-            this.locals[0].id
+            this.locals[0].ID
           );
         }
       },
@@ -87,11 +87,11 @@ export class ReservationsComponent implements OnInit, AfterViewInit {
     let m: Map<number, string>;
     m = new Map<number, string>();
     for ( const area of this.areas ) {
-      m.set(area.id, area.name);
-      this.options.set( area.name, new Array<Local>() );
+      m.set(area.ID, area.Name);
+      this.options.set( area.Name, new Array<Local>() );
     }
     for ( const local of this.locals ) {
-      const area = m.get(local.area_id);
+      const area = m.get(local.AreaID);
       this.options.get(area).push(local);
     }
 

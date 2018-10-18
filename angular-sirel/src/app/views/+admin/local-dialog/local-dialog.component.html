@@ -5,8 +5,8 @@
     <mat-form-field>
         <mat-select placeholder="Area"
                     formControlName="area" required>
-          <mat-option *ngFor="let area of opts" [value]="area.id">
-              {{area.name}}
+          <mat-option *ngFor="let area of opts" [value]="area.ID">
+              {{area.Name}}
           </mat-option>
         </mat-select>
     </mat-form-field> <br/>
@@ -114,7 +114,7 @@
 
     <mat-slide-toggle
         color="primary"
-        [checked]="data.local.enable_to_reserve">
+        [checked]="data.local.EnableToReserve">
         Disponible
     </mat-slide-toggle>
   </form>

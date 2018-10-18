@@ -41,6 +41,7 @@ export class AdminAreaComponent implements OnInit {
 
     this.api.AdminGetArea(this.area_id).subscribe(
       (area) => {
+        console.log(area);
         this.area = area;
         this.loadingSubject.next(false);
       },
