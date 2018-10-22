@@ -56,6 +56,8 @@
   <br/>
   <br/>
 
-  <app-admins-table [data_id]="local.ID" [forArea]="false" *ngIf="!(loading$ | async)">
+  <app-admins-table 
+    [data_id]="local.ID" [forArea]="false" 
+    *ngIf="!(loading$ | async) && (superadmin_session | async)">
   </app-admins-table>
 </div>

@@ -56,7 +56,7 @@ export class ApiService {
     usp.append('offset', (pageNumber * pageSize).toString());
     usp.append('limit', pageSize.toString());
 
-    return this.http.get(`${this.bpath}/public/users/usernames`, {
+    return this.http.get(`${this.bpath}/public/users/publicinfo`, {
       params: usp,
       headers: this.commonHeaders(),
     })

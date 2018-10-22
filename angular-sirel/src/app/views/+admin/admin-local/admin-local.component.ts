@@ -12,6 +12,7 @@ import {
 import {
   ApiService,
   ErrorHandlerService,
+  SessionService,
 } from '@app/services/core';
 
 import {
@@ -41,9 +42,12 @@ export class AdminLocalComponent implements OnInit {
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
+  superadmin_session: Observable<boolean>;
+
   constructor(private route: ActivatedRoute,
               private api: ApiService,
-              private errh: ErrorHandlerService) {
+              private errh: ErrorHandlerService,
+              private session: SessionService) {
     this.route.params.subscribe(
       params => {
         this.local_id = params.id;
@@ -51,6 +55,7 @@ export class AdminLocalComponent implements OnInit {
     );
 
     this.loading$ = this.loadingSubject.asObservable();
+    this.superadmin_session = this.session.isSuperadmin();
   }
 
   ngOnInit() {
