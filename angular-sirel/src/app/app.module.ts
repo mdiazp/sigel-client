@@ -47,6 +47,10 @@ import { AdminLocalComponent } from '@app/views/+admin/admin-local/admin-local.c
 import { ReservationsComponent } from '@app/views/+reservations/reservations/reservations.component';
 import { AdminReservationsComponent } from './views/+admin/admin-reservations/admin-reservations.component';
 import { AdminsTableComponent } from './views/+admin/admins-table/admins-table.component';
+import { LocalProfileComponent } from './views/LocalCommon/local-profile/local-profile.component';
+import { LocalFormComponent } from './views/LocalCommon/local-form/local-form.component';
+import { LocalAdminsComponent } from './views/LocalCommon/local-admins/local-admins.component';
+import { AdminLocalOneComponent } from './views/+admin/Local/admin-local-one/admin-local-one.component';
 
 const routes: Routes = [
   {
@@ -107,9 +111,14 @@ const routes: Routes = [
     canActivate: [AdminGuard]
   },
   {
+    path: 'test/admin/local/:id',
+    component: AdminLocalOneComponent,
+    canActivate: [AdminGuard]
+  },
+  {
     path: '**',
     component: Error404Component
-  }
+  },
 ];
 
 @NgModule({
@@ -141,6 +150,10 @@ const routes: Routes = [
     ReservationsComponent,
     AdminReservationsComponent,
     AdminsTableComponent,
+    LocalProfileComponent,
+    LocalFormComponent,
+    LocalAdminsComponent,
+    AdminLocalOneComponent,
   ],
   providers: [
     StorageService,

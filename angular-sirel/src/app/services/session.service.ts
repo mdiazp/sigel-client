@@ -14,6 +14,7 @@ export class SessionService {
   private is_open = new BehaviorSubject(false);
   private is_admin = new BehaviorSubject(false);
   private is_superadmin = new BehaviorSubject(false);
+  private is_user_sirel = new BehaviorSubject(false);
   private have_profile = new BehaviorSubject(false);
 
   constructor(private storage: StorageService) {
@@ -35,7 +36,8 @@ export class SessionService {
     this.is_open.next(true);
     this.is_admin.next(this.session.rol === 'Admin' || this.session.rol === 'Superadmin');
     this.is_superadmin.next(this.session.rol === 'Superadmin');
-    this.have_profile.next(this.session.rol === 'User' || this.session.rol === 'Admin');
+    this.is_user_sirel.next(this.session.rol === 'Superadmin');
+    this.have_profile.next(this.session.username !== 'SIREL');
   }
 
   Close() {
@@ -44,6 +46,7 @@ export class SessionService {
     this.is_open.next(false);
     this.is_admin.next(false);
     this.is_superadmin.next(false);
+    this.is_user_sirel.next(false);
     this.have_profile.next(false);
   }
 
@@ -57,6 +60,10 @@ export class SessionService {
 
   isSuperadmin(): Observable<boolean> {
     return this.is_superadmin.asObservable();
+  }
+
+  isUserSIREL(): Observable<boolean> {
+    return this.is_user_sirel.asObservable();
   }
 
   haveProfile(): Observable<boolean> {

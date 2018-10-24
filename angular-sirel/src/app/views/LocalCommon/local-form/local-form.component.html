@@ -1,0 +1,123 @@
+<form [formGroup]="localForm" class="example-container">
+  <mat-form-field>
+      <mat-select placeholder="Area"
+                  formControlName="area" 
+                  required
+                  [disabled]="edit">
+        <mat-option *ngFor="let area of opts" [value]="area.ID">
+            {{area.Name}}
+        </mat-option>
+      </mat-select>
+  </mat-form-field> <br/>
+
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input formControlName="name"
+            matInput
+            type="text"
+            required>
+  </mat-form-field> <br/>
+
+
+  <mat-form-field>
+      <mat-label>Descripcion</mat-label>
+      <textarea formControlName="description"
+              matInput
+              type="text"
+              required>
+      </textarea>
+  </mat-form-field> <br/>
+
+  <mat-form-field>
+      <mat-label>Direccion</mat-label>
+      <input formControlName="location"
+              matInput
+              type="text"
+              required>
+  </mat-form-field> <br/>
+
+  <br/>
+  <label>Configuracion de Meses Laborables</label> <br/>
+  <br/>
+  <mat-tab-group>
+    <mat-tab *ngFor="let wm of wms"
+              [label]="wm.monthName">
+      <ng-template matTabContent>
+        <mat-checkbox [checked]="wm.working" (change)="ChangeWorkingMonthStatus(wm, $event)">
+          Laborable
+        </mat-checkbox>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  <br/>
+  <br/>
+
+  <label>Configuracion de Dias de la Semana Laborables</label> <br/>
+  <br/>
+  <mat-tab-group>
+    <mat-tab *ngFor="let wd of wds"
+              [label]="wd.weekDayName">
+      <ng-template matTabContent>
+        <mat-checkbox [checked]="wd.working" (change)="ChangeWorkingWeekDayStatus(wd, $event)">
+          Laborable
+        </mat-checkbox>
+        <br/>
+        <br/>
+        <br/>
+        <mat-select [value]="(wd.needConfirmation ? 'true' : 'false')"
+                    (selectionChange)="ChangeNeedConfirmation(wd, $event)"
+                      *ngIf="wd.working">
+            <mat-option value="false">No necesita confirmacion</mat-option>
+            <mat-option value="true">Confirmar un dia antes</mat-option>
+        </mat-select>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+
+  <br/>
+  <br/>
+  <br/>
+  
+  <label><b>Configuracion del Horario Laboral</b></label> <br/>
+  <br/>
+  <div>
+    <label>Inicio:</label><br/>
+    <mat-form-field>
+      <mat-label>Hora</mat-label>
+      <input matInput type="number" required formControlName="wbth">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Minutos</mat-label>
+      <input matInput type="number" required formControlName="wbtm">
+    </mat-form-field>
+  </div>
+  <br/>
+  <div>
+    <label>Fin: </label><br/>
+    <mat-form-field>
+      <mat-label>Hora</mat-label>
+      <input matInput type="number" required formControlName="weth">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Minutos</mat-label>
+      <input matInput type="number" required formControlName="wetm">
+    </mat-form-field>
+  </div>
+  <br/>
+  <br/>
+  <br/>
+
+  <mat-slide-toggle
+      color="primary"
+      [checked]="local.EnableToReserve">
+      Disponible
+  </mat-slide-toggle>
+
+  <br/>
+  <br/>
+  <button mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          [disabled]="localForm.invalid">Enviar</button>
+</form>

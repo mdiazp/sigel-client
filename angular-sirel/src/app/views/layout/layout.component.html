@@ -32,12 +32,12 @@
         *ngIf="opened_admin_menu && (admin_session | async)">
         <mat-nav-list style=" padding-top: 0px;">
           <a mat-list-item [routerLink]="['admin','users']"
-            *ngIf="(admin_session | async)">
+            *ngIf="(superadmin_session | async)">
             <!--mat-icon>supervisor_account</mat-icon-->
             <span>Usuarios</span>
           </a>
           <a mat-list-item [routerLink]="['admin','areas']"
-            *ngIf="(admin_session | async)">
+            *ngIf="(superadmin_session | async)">
             <!--mat-icon>setting</mat-icon-->
             <span>Areas</span>
           </a>
