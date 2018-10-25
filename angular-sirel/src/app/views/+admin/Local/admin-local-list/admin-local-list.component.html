@@ -1,0 +1,59 @@
+<div class="spinner-container" *ngIf="loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar">
+    </mat-form-field>
+  
+    <mat-table #table [dataSource]="dataSource"
+      matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+  
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <a [routerLink]="['/','admin','local',element.ID]"> {{element.ID}} </a>
+        </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.Name}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="area">
+        <mat-header-cell *matHeaderCellDef> Area </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+          <a [routerLink]="['/','admin','area',element.AreaID]">
+            {{areas.get(element.AreaID)}}
+          </a>
+        </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="enabled">
+        <mat-header-cell *matHeaderCellDef> Disponible </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.EnableToReserve}} </mat-cell>
+      </ng-container>
+  
+      <ng-container matColumnDef="operations">
+        <mat-header-cell *matHeaderCellDef> Ops. </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn"
+                        (click)="onDeleteClick(element.ID)">
+              <mat-icon aria-label="delete">delete</mat-icon>
+            </button>
+        </mat-cell>
+      </ng-container>
+  
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+  
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]">
+    </mat-paginator> 
+  <div>
+    <button mat-raised-button color="primary"
+            (click)="openCreateLocalDialog()">
+      Crear Local
+    </button>
+  </div>
+  

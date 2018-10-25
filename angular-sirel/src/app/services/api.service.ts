@@ -319,6 +319,7 @@ export class ApiService {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
     usp.append('local_id', local.ID.toString());
+
     return this.http.patch(
       `${this.bpath}/admin/local`,
       local,

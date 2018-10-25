@@ -4,25 +4,25 @@
 
 <div>
   <div>
-    <h4>Id: </h4>{{local.ID}}
+    <b>Id: </b>{{local.ID}}
   </div>
   <div>
-    <h4>Area: </h4>{{area.Name}}
+    <b>Area: </b>{{area.Name}}
   </div>
   <div>
-    <h4>Nombre: </h4>{{local.Name}}
+    <b>Nombre: </b>{{local.Name}}
   </div>
   <div>
-    <h4>Descripcion: </h4>{{local.Description}}
+    <b>Descripcion: </b>{{local.Description}}
   </div>
   <div>
-    <h4>Direccion: </h4>{{local.Location}}
+    <b>Direccion: </b>{{local.Location}}
   </div>
   <div>
-    <h4>Disponible: </h4>{{local.EnableToReserve}}
+    <b>Disponible: </b>{{local.EnableToReserve}}
   </div>
   <mat-list>
-    <h4 mat-header>Meses Laborables</h4>
+    <b mat-header>Meses Laborables</b>
     <mat-list-item *ngFor="let wm of working_months">
       {{wm.monthName}}
       <div *ngIf="wm.working">
@@ -32,7 +32,7 @@
   </mat-list>
   <br/>
   <mat-list>
-    <h4 mat-header>Dias de la semana Laborables</h4>
+    <b mat-header>Dias de la semana Laborables</b>
     <mat-list-item *ngFor="let wd of working_week_days">
       {{wd.weekDayName}}
       <div *ngIf="wd.working">

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { MatSlideToggle, MatCheckboxChange, MatSelectChange } from '@angular/material';
@@ -26,6 +26,7 @@ export class LocalFormComponent implements OnInit {
   @Input() local: Local;
   @Input() localArea: Area;
   @Input() edit: boolean;
+  @Output() editLocalChange = new EventEmitter<Local>();
 
   title: string;
 
@@ -76,25 +77,32 @@ export class LocalFormComponent implements OnInit {
   }
 
   initFormControls() {
-    this.area = new FormControl(this.local.AreaID, Validators.required);
-    this.name = new FormControl(this.local.Name, Validators.required);
-    this.description = new FormControl(this.local.Description, Validators.required);
-    this.location = new FormControl(this.local.Location, Validators.required);
+    this.area = new FormControl(
+      {
+        value: this.local.AreaID,
+        disabled: this.edit,
+      },
+      this.local.AreaIDValidators
+    );
+    this.name = new FormControl(this.local.Name, this.local.NameValidators);
+    this.description = new FormControl(this.local.Description,
+      this.local.DescriptionValidators);
+    this.location = new FormControl(this.local.Location, this.local.LocationValidators);
     this.workingBeginTimeHours = new FormControl(
       this.local.WorkingBeginTimeHours,
-      [Validators.required, Validators.min(0), Validators.max(23)]
+      this.local.WorkingBeginTimeHoursValidators,
     );
     this.workingBeginTimeMinutes = new FormControl(
       this.local.WorkingBeginTimeMinutes,
-      [Validators.required, Validators.min(0), Validators.max(59)]
+      this.local.WorkingBeginTimeMinutesValidators,
     );
     this.workingEndTimeHours = new FormControl(
       this.local.WorkingEndTimeHours,
-      [Validators.required, Validators.min(0), Validators.max(23)]
+      this.local.WorkingEndTimeHoursValidators,
     );
     this.workingEndTimeMinutes = new FormControl(
       this.local.WorkingEndTimeMinutes,
-      [Validators.required, Validators.min(0), Validators.max(59)]
+      this.local.WorkingEndTimeMinutesValidators
     );
   }
 
@@ -118,7 +126,7 @@ export class LocalFormComponent implements OnInit {
 
     obs.subscribe(
       (data) => {
-        console.log(data);
+        this.editLocalChange.emit(data);
       },
       (err) => this.errh.HandleError(err)
     );

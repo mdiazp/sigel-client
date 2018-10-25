@@ -17,20 +17,18 @@ import {
   BehaviorSubject
 } from 'rxjs';
 
-import {
-  LocalDialogComponent
-} from '@app/views/+admin/local-dialog/local-dialog.component';
-
 import { ApiService, ErrorHandlerService } from '@app/services/core';
 import { Local, Area } from '@app/models/core';
+import {
+  LocalNewDialogComponent
+} from '@app/views/+admin/Local/local-new-dialog/local-new-dialog.component';
 
 @Component({
-  selector: 'app-admin-locals',
-  templateUrl: './admin-locals.component.html',
-  styleUrls: ['./admin-locals.component.css']
+  selector: 'app-admin-local-list',
+  templateUrl: './admin-local-list.component.html',
+  styleUrls: ['./admin-local-list.component.css']
 })
-export class AdminLocalsComponent implements OnInit, AfterViewInit {
-
+export class AdminLocalListComponent implements OnInit, AfterViewInit {
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
@@ -65,32 +63,15 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
   }
 
   openCreateLocalDialog() {
-    const dialogRef = this.dialog.open(LocalDialogComponent, {
+    const dialogRef = this.dialog.open(LocalNewDialogComponent, {
       data: {
-        local: new Local(0, 0, '', '', '', '111111111111', '0111112', 8, 0, 17, 0, true),
-        edit: false,
+        local: new Local(0, 0, '', '-', '-', '111111111111', '1111120', 8, 0, 17, 0, false),
       },
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
-      this.loadAreas();
-    });
-  }
-
-  openEditLocalDialog(local: Local) {
-    const dialogRef = this.dialog.open(LocalDialogComponent, {
-      data: {
-        local: local,
-        edit: true,
-      },
-      width: '500px',
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      console.log(result);
-      this.loadAreas();
+      this.loadData();
     });
   }
 
@@ -99,12 +80,16 @@ export class AdminLocalsComponent implements OnInit, AfterViewInit {
     .subscribe(
       (data) => {
         alert('The local with id ' + id + ' was deleted.');
-        this.loadAreas();
+        this.loadData();
       },
       (err) => {
         this.errh.HandleError(err);
       }
     );
+  }
+
+  loadData(): void {
+    this.loadAreas();
   }
 
   loadAreas(): void {

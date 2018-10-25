@@ -9,17 +9,15 @@ import {
 } from '@app/services/core';
 
 import {
-  Local,
   Area,
 } from '@app/models/core';
 
 @Component({
-  selector: 'app-admin-local-one',
-  templateUrl: './admin-local-one.component.html',
-  styleUrls: ['./admin-local-one.component.css']
+  selector: 'app-admin-area-one',
+  templateUrl: './admin-area-one.component.html',
+  styleUrls: ['./admin-area-one.component.css']
 })
-export class AdminLocalOneComponent implements OnInit {
-  local: Local;
+export class AdminAreaOneComponent implements OnInit {
   area: Area;
 
   loadingSubject = new BehaviorSubject<boolean>(false);
@@ -32,7 +30,7 @@ export class AdminLocalOneComponent implements OnInit {
               private session: SessionService) {
     this.route.params.subscribe(
       params => {
-        this.loadLocal(params.id);
+        this.loadArea(params.id);
       }
     );
     this.loading$ = this.loadingSubject.asObservable();
@@ -41,22 +39,10 @@ export class AdminLocalOneComponent implements OnInit {
 
   ngOnInit() {}
 
-  loadLocal(local_id: number) {
+  loadArea(area_id: number) {
     this.loadingSubject.next(true);
 
-    this.api.AdminGetLocal(local_id.toString()).subscribe(
-      (local) => {
-        this.local = local;
-        this.loadArea();
-      },
-      (err) => {
-        this.errh.HandleError(err);
-      }
-    );
-  }
-
-  loadArea() {
-    this.api.AdminGetArea(this.local.AreaID.toString()).subscribe(
+    this.api.AdminGetArea(area_id.toString()).subscribe(
       (area) => {
         this.area = area;
         this.loadingSubject.next(false);

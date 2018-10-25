@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{title}} Area</h2>
+<mat-dialog-content>
+
+  <form [formGroup]="newAreaForm" class="example-container">
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input formControlName="areaName"
+              matInput
+              type="text"
+              required>
+    </mat-form-field> <br/>
+  </form>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="false">Cancelar</button>
+  <button mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          [disabled]="newAreaForm.invalid">Enviar</button>
+</mat-dialog-actions>
+

@@ -2,8 +2,7 @@
   <mat-form-field>
       <mat-select placeholder="Area"
                   formControlName="area" 
-                  required
-                  [disabled]="edit">
+                  required>
         <mat-option *ngFor="let area of opts" [value]="area.ID">
             {{area.Name}}
         </mat-option>

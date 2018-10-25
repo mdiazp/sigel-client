@@ -40,10 +40,7 @@ import { AdminComponent } from '@app/views/+admin/admin/admin.component';
 import { AdminUsersComponent } from '@app/views/+admin/admin-users/admin-users.component';
 import { AdminAreasComponent } from '@app/views/+admin/admin-areas/admin-areas.component';
 import { AdminAreaComponent } from '@app/views/+admin/admin-area/admin-area.component';
-import { AdminLocalsComponent } from '@app/views/+admin/admin-locals/admin-locals.component';
 import { AreaDialogComponent } from '@app/views/+admin/area-dialog/area-dialog.component';
-import { LocalDialogComponent } from '@app/views/+admin/local-dialog/local-dialog.component';
-import { AdminLocalComponent } from '@app/views/+admin/admin-local/admin-local.component';
 import { ReservationsComponent } from '@app/views/+reservations/reservations/reservations.component';
 import { AdminReservationsComponent } from './views/+admin/admin-reservations/admin-reservations.component';
 import { AdminsTableComponent } from './views/+admin/admins-table/admins-table.component';
@@ -51,6 +48,13 @@ import { LocalProfileComponent } from './views/LocalCommon/local-profile/local-p
 import { LocalFormComponent } from './views/LocalCommon/local-form/local-form.component';
 import { LocalAdminsComponent } from './views/LocalCommon/local-admins/local-admins.component';
 import { AdminLocalOneComponent } from './views/+admin/Local/admin-local-one/admin-local-one.component';
+import { AdminLocalListComponent } from './views/+admin/Local/admin-local-list/admin-local-list.component';
+import { LocalNewDialogComponent } from './views/+admin/Local/local-new-dialog/local-new-dialog.component';
+import { AdminAreaListComponent } from './views/+admin/Area/admin-area-list/admin-area-list.component';
+import { AreaNewDialogComponent } from './views/+admin/Area/area-new-dialog/area-new-dialog.component';
+import { AdminAreaOneComponent } from './views/+admin/Area/admin-area-one/admin-area-one.component';
+import { AreaProfileComponent } from './views/AreaCommon/area-profile/area-profile.component';
+import { AreaFormComponent } from './views/AreaCommon/area-form/area-form.component';
 
 const routes: Routes = [
   {
@@ -87,22 +91,22 @@ const routes: Routes = [
   },
   {
     path: 'admin/areas',
-    component: AdminAreasComponent,
+    component: AdminAreaListComponent,
     canActivate: [AdminGuard]
   },
   {
     path: 'admin/area/:id',
-    component: AdminAreaComponent,
+    component: AdminAreaOneComponent,
     canActivate: [AdminGuard]
   },
   {
     path: 'admin/locals',
-    component: AdminLocalsComponent,
+    component: AdminLocalListComponent,
     canActivate: [AdminGuard]
   },
   {
     path: 'admin/local/:id',
-    component: AdminLocalComponent,
+    component: AdminLocalOneComponent,
     canActivate: [AdminGuard]
   },
   {
@@ -139,14 +143,11 @@ const routes: Routes = [
     AdminComponent,
     AdminUsersComponent,
     AdminAreasComponent,
-    AdminLocalsComponent,
     LoginComponent,
     ProfileComponent,
     Error404Component,
     AdminAreaComponent,
     AreaDialogComponent,
-    LocalDialogComponent,
-    AdminLocalComponent,
     ReservationsComponent,
     AdminReservationsComponent,
     AdminsTableComponent,
@@ -154,6 +155,13 @@ const routes: Routes = [
     LocalFormComponent,
     LocalAdminsComponent,
     AdminLocalOneComponent,
+    AdminLocalListComponent,
+    LocalNewDialogComponent,
+    AdminAreaListComponent,
+    AreaNewDialogComponent,
+    AdminAreaOneComponent,
+    AreaProfileComponent,
+    AreaFormComponent,
   ],
   providers: [
     StorageService,
@@ -173,7 +181,8 @@ const routes: Routes = [
   bootstrap: [AppComponent],
   entryComponents: [
     AreaDialogComponent,
-    LocalDialogComponent,
+    LocalNewDialogComponent,
+    AreaNewDialogComponent,
   ],
 })
 export class AppModule { }

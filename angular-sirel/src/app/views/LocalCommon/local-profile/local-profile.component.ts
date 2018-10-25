@@ -1,16 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import {
-  BehaviorSubject,
-  Observable,
-} from 'rxjs';
-
-import {
-  SessionService,
-  ApiService,
-  ErrorHandlerService,
-} from '@app/services/core';
-import {
   Local,
   Area,
   WorkingTimeUtil,
@@ -28,11 +18,18 @@ export class LocalProfileComponent implements OnInit {
   @Input() local: Local;
   @Input() area: Area;
 
+  local_id: string;
+  working_time_util = new WorkingTimeUtil();
+  working_months: WorkingMonth[];
+  working_week_days: WorkingWeekDay[];
+
+
   constructor() {}
 
   ngOnInit() {
-    console.log('local = ' + this.local);
-    console.log('area = ' + this.area);
-    console.log('local.ID = ' + this.local.ID);
+    this.working_months = this.working_time_util.
+    GetWorkingMonths( this.local.WorkingMonths );
+    this.working_week_days = this.working_time_util.
+    GetWorkingWeekDays( this.local.WorkingWeekDays );
   }
 }
