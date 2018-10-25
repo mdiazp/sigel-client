@@ -37,13 +37,7 @@ import { Error404Component } from '@app/views/+errors/error404/error404.componen
 import { LayoutComponent } from '@app/views/layout/layout.component';
 import { HomeComponent } from '@app/views/+home/home/home.component';
 import { AdminComponent } from '@app/views/+admin/admin/admin.component';
-import { AdminUsersComponent } from '@app/views/+admin/admin-users/admin-users.component';
-import { AdminAreasComponent } from '@app/views/+admin/admin-areas/admin-areas.component';
-import { AdminAreaComponent } from '@app/views/+admin/admin-area/admin-area.component';
-import { AreaDialogComponent } from '@app/views/+admin/area-dialog/area-dialog.component';
 import { ReservationsComponent } from '@app/views/+reservations/reservations/reservations.component';
-import { AdminReservationsComponent } from './views/+admin/admin-reservations/admin-reservations.component';
-import { AdminsTableComponent } from './views/+admin/admins-table/admins-table.component';
 import { LocalProfileComponent } from './views/LocalCommon/local-profile/local-profile.component';
 import { LocalFormComponent } from './views/LocalCommon/local-form/local-form.component';
 import { LocalAdminsComponent } from './views/LocalCommon/local-admins/local-admins.component';
@@ -55,6 +49,8 @@ import { AreaNewDialogComponent } from './views/+admin/Area/area-new-dialog/area
 import { AdminAreaOneComponent } from './views/+admin/Area/admin-area-one/admin-area-one.component';
 import { AreaProfileComponent } from './views/AreaCommon/area-profile/area-profile.component';
 import { AreaFormComponent } from './views/AreaCommon/area-form/area-form.component';
+import { AdminReservationListComponent } from './views/+admin/Reservation/admin-reservation-list/admin-reservation-list.component';
+import { AdminUserListComponent } from './views/+admin/User/admin-user-list/admin-user-list.component';
 
 const routes: Routes = [
   {
@@ -86,7 +82,7 @@ const routes: Routes = [
   },
   {
     path: 'admin/users',
-    component: AdminUsersComponent,
+    component: AdminUserListComponent,
     canActivate: [AdminGuard]
   },
   {
@@ -111,7 +107,7 @@ const routes: Routes = [
   },
   {
     path: 'admin/reservations',
-    component: AdminReservationsComponent,
+    component: AdminReservationListComponent,
     canActivate: [AdminGuard]
   },
   {
@@ -141,16 +137,10 @@ const routes: Routes = [
     LayoutComponent,
     HomeComponent,
     AdminComponent,
-    AdminUsersComponent,
-    AdminAreasComponent,
     LoginComponent,
     ProfileComponent,
     Error404Component,
-    AdminAreaComponent,
-    AreaDialogComponent,
     ReservationsComponent,
-    AdminReservationsComponent,
-    AdminsTableComponent,
     LocalProfileComponent,
     LocalFormComponent,
     LocalAdminsComponent,
@@ -162,6 +152,8 @@ const routes: Routes = [
     AdminAreaOneComponent,
     AreaProfileComponent,
     AreaFormComponent,
+    AdminUserListComponent,
+    AdminReservationListComponent,
   ],
   providers: [
     StorageService,
@@ -180,7 +172,6 @@ const routes: Routes = [
   ],
   bootstrap: [AppComponent],
   entryComponents: [
-    AreaDialogComponent,
     LocalNewDialogComponent,
     AreaNewDialogComponent,
   ],
