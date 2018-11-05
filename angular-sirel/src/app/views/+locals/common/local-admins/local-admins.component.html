@@ -1,0 +1,63 @@
+<div>
+    <h4>Administradores:</h4>
+    <mat-table #table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="username">
+        <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <a [routerLink]="['/','admin','user',user.ID]"> {{user.Username}} </a>
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          {{user.Name}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="operations">
+        <mat-header-cell *matHeaderCellDef> Ops. </mat-header-cell>
+        <mat-cell *matCellDef="let element">
+            <button mat-icon-button color="warn"
+                        (click)="onDeleteAdminClick(element.ID)">
+              <mat-icon aria-label="delete">delete</mat-icon>
+            </button>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <div>
+      <form [formGroup]="addAdminForm">
+        <mat-form-field>
+          <input  type="text" 
+                  placeholder="Usuario" 
+                  aria-label="Number" 
+                  matInput 
+                  [formControl]="autoUsername"
+                  [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete"
+                            [displayWith]="displayAdminUsername"
+                            (optionSelected)="onSelectAdminToAdd($event)">
+            <mat-option *ngFor="let option of filteredUsers" 
+                        [value]="option">
+              {{option.Username}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+
+      <button mat-raised-button color="primary"
+              (click)="clickOnAddAdmin()"
+              [disabled]="!validAdminSelection()">
+        Adicionar Administrador
+      </button>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+  </div>

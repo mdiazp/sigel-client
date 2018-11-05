@@ -15,11 +15,14 @@ import { ErrorHandlerService } from '@app/services/error-handler.service';
 })
 export class LayoutComponent {
 
+  opened_admin_menu: boolean;
+  /*
   opened_session: Observable<boolean>;
   admin_session: Observable<boolean>;
-  opened_admin_menu: boolean;
   superadmin_session: Observable<boolean>;
   show_profile: Observable<boolean>;
+  session_mode: Observable<string>;
+  */
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
   .pipe(map(result => result.matches));
@@ -29,11 +32,14 @@ export class LayoutComponent {
               private session: SessionService,
               private errh: ErrorHandlerService,
               private router: Router) {
+    this.opened_admin_menu = false;
+    /*
     this.opened_session = session.isOpen();
     this.admin_session = session.isAdmin();
-    this.opened_admin_menu = false;
     this.superadmin_session = session.isSuperadmin();
     this.show_profile = session.haveProfile();
+    this.session_mode = session.getMode();
+    */
   }
 
   admin_menu_toggle() {

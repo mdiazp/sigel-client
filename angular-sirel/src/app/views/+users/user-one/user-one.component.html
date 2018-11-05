@@ -1,0 +1,42 @@
+<div *ngIf="loading$ | async">
+  <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
+</div>
+<mat-tab-group>
+  <mat-tab label="Perfil">
+    <app-user-profile [profile]="user"></app-user-profile>
+  </mat-tab>
+  <mat-tab label="Editar">
+    <form [formGroup]="userForm" class="example-container">
+
+      <mat-form-field>
+        <mat-select placeholder="Rol"
+                    formControlName="rol">
+          <mat-option [value]="'User'">User</mat-option>
+          <mat-option [value]="'Admin'">Admin</mat-option>
+          <mat-option *ngIf="session.session.username === 'SIREL'"
+                      [value]="'Superadmin'">Superadmin
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br/>
+      <br/>
+
+      <mat-form-field>
+        <mat-select placeholder="Habilitado"
+                    formControlName="enable">
+          <mat-option [value]="true">Si</mat-option>
+          <mat-option [value]="false">No</mat-option>
+        </mat-select>
+      </mat-form-field>
+      
+      <br/>
+      <br/>
+
+      <button mat-raised-button
+        color="primary"
+        (click)="EditUser()"
+        [disabled]="userForm.invalid">Enviar</button>
+    </form>
+  </mat-tab>
+</mat-tab-group>

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
@@ -9,6 +10,7 @@ import { JwtToken } from '@app/models/jwt-token';
 export class SessionService {
 
   private ssname = 'session-info';
+  private smname = 'session-mode';
 
   public session: Session = null;
   private is_open = new BehaviorSubject(false);
@@ -16,14 +18,36 @@ export class SessionService {
   private is_superadmin = new BehaviorSubject(false);
   private is_user_sirel = new BehaviorSubject(false);
   private have_profile = new BehaviorSubject(false);
+  private session_mode = new BehaviorSubject('public');
 
-  constructor(private storage: StorageService) {
+  constructor(private router: Router,
+              private storage: StorageService) {
+    this.storage.setItem(this.smname, 'public');
+
     const sess = this.storage.getItem(this.ssname);
     if (sess) {
       this.Open(sess);
     } else {
       this.Close();
     }
+  }
+
+  changeMode(): void {
+    if ( this.session === null ) {
+      this.session_mode.next('public');
+    } else {
+      this.session_mode.next(this.session_mode.value === 'public' ? 'admin' : 'public');
+    }
+    this.storage.setItem(this.smname, this.session_mode.value);
+    this.router.navigate(['/home']);
+  }
+
+  getMode(): Observable<string> {
+    return this.session_mode.asObservable();
+  }
+
+  getModeValue(): string {
+    return this.session_mode.value;
   }
 
   Open(session: Session) {
@@ -48,6 +72,8 @@ export class SessionService {
     this.is_superadmin.next(false);
     this.is_user_sirel.next(false);
     this.have_profile.next(false);
+
+    this.changeMode();
   }
 
   isOpen(): Observable<boolean> {

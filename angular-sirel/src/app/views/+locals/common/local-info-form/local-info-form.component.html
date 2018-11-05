@@ -1,0 +1,44 @@
+<form [formGroup]="localInfoForm" class="example-container">
+  <mat-form-field>
+      <mat-select placeholder="Area"
+                  formControlName="area" 
+                  required>
+        <mat-option *ngFor="let area of areas" [value]="area.ID">
+            {{area.Name}}
+        </mat-option>
+      </mat-select>
+  </mat-form-field> <br/>
+
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input formControlName="name"
+            matInput
+            type="text"
+            required>
+  </mat-form-field> <br/>
+
+
+  <mat-form-field>
+      <mat-label>Descripcion</mat-label>
+      <textarea formControlName="description"
+              matInput
+              type="text"
+              required>
+      </textarea>
+  </mat-form-field> <br/>
+
+  <mat-form-field>
+      <mat-label>Direccion</mat-label>
+      <input formControlName="location"
+              matInput
+              type="text"
+              required>
+  </mat-form-field> <br/>
+
+  <br/>
+  <br/>
+  <button mat-raised-button
+          color="primary"
+          (click)="onSubmit()"
+          [disabled]="localInfoForm.invalid">Enviar</button>
+</form>

@@ -1,0 +1,81 @@
+<app-reservations-filter 
+    [mode]="mode"
+    (FilterChanges)="onFilter($event)">
+</app-reservations-filter>
+
+<mat-table #table [dataSource]="dataSource"
+  matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+  <!--ng-container matColumnDef="id">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <a [routerLink]="['/','admin','reservation',element.ID]"> {{element.ID}} </a>
+    </mat-cell>
+  </ng-container-->
+
+  <ng-container matColumnDef="name">
+    <mat-header-cell *matHeaderCellDef> Actividad </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <a [routerLink]="['/','admin','reservation',element.ID]"> {{element.ActivityName}} </a>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="local">
+    <mat-header-cell *matHeaderCellDef> Local </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <a [routerLink]="['/','local',element.LocalID]">
+        {{localNames[element.LocalID]}}
+      </a>
+    </mat-cell>
+  </ng-container>
+
+  <!--ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      {{element.BeginTime.slice(0, 10)}}
+    </mat-cell>
+  </ng-container-->
+  
+  <ng-container matColumnDef="date">
+    <mat-header-cell *matHeaderCellDef> Inicio - Fin </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>
+        {{element.BeginTime.slice(0, 10)}}
+        <div>
+          {{element.BeginTime.slice(11, 16)}} - {{element.EndTime.slice(11, 16)}}
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+      <div>
+        {{element.Pending ? 'Pendiente' : 'Aceptada'}}
+        <div *ngIf="!element.Confirmed">
+          {{'(sin confirmar)'}}
+        </div>
+      </div>
+    </mat-cell>
+  </ng-container>
+
+  <ng-container matColumnDef="operations">
+    <mat-header-cell *matHeaderCellDef> Ops. </mat-header-cell>
+    <mat-cell *matCellDef="let element">
+        <button mat-icon-button color="primary"
+                (click)="onAcceptClick(element)"
+                *ngIf="element.Pending">
+          <mat-icon aria-label="edit">edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn"
+                    (click)="onRefuseClick(element)">
+          <mat-icon aria-label="delete">delete</mat-icon>
+        </button>
+    </mat-cell>
+  </ng-container>
+
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+</mat-table>
+  

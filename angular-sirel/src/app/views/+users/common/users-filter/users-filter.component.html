@@ -1,0 +1,49 @@
+<form [formGroup]="filterForm">
+  <mat-form-field>
+    <mat-label>Username</mat-label>
+    <input formControlName="username"
+           matInput
+           type="text">
+  </mat-form-field>
+
+  <br/>
+  
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input formControlName="name"
+           matInput
+           type="text">
+  </mat-form-field>
+
+  <br/>
+
+  <mat-form-field>
+    <mat-label>Correo</mat-label>
+    <input formControlName="email"
+           matInput
+           type="mail">
+  </mat-form-field>
+  
+  <br/>
+  
+  <mat-form-field>
+    <mat-select formControlName="rol"
+                placeholder="Rol">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="User">User</mat-option>
+      <mat-option value="Admin">Admin</mat-option>
+      <mat-option value="Superadmin">Superadmin</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br/>
+
+  <mat-form-field>
+    <mat-select formControlName="enable"
+                placeholder="Habilitado">
+      <mat-option value="">Todos</mat-option>
+      <mat-option value="true">Si</mat-option>
+      <mat-option value="false">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+</form>

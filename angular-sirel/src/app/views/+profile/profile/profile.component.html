@@ -1,17 +1,40 @@
-<div *ngIf="loading">
+<div *ngIf="loading$ | async">
   <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
 </div>
-<div *ngIf="!loading">
-  <div>
-    Usuario: {{this.profile.username}}
-  </div>
-  <div>
-    Nombre: {{this.profile.name}}
-  </div>
-  <div>
-    Correo: {{this.profile.email}}
-  </div>
-  <div>
-    Enviar notificaciones a email: {{this.profile.send_notifications_to_email}}
-  </div>
-</div>
+<mat-tab-group>
+  <mat-tab label="Perfil">
+    <app-user-profile [profile]="profile"></app-user-profile>
+  </mat-tab>
+  <mat-tab label="Editar">
+    <form [formGroup]="profileForm" class="example-container">
+      <mat-form-field>
+        <input matInput
+               placeholder="Correo"
+               formControlName="email">
+      </mat-form-field>
+      
+      <br/>
+      <br/>
+
+      <mat-form-field>
+        <mat-select placeholder="Enviar notificaciones a su correo"
+                    formControlName="send">
+          <mat-option [value]="true">
+            Si
+          </mat-option>
+          <mat-option [value]="false">
+            No
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <br/>
+      <br/>
+
+      <button mat-raised-button
+        color="primary"
+        (click)="EditProfile()"
+        [disabled]="profileForm.invalid">Enviar</button>
+    </form>
+  </mat-tab>
+</mat-tab-group>

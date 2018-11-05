@@ -1,0 +1,58 @@
+<!--div class="spinner-container" *ngIf="loading$ | async">
+  <mat-spinner></mat-spinner>
+</div-->
+
+<div>
+  <div>
+    <b>Id: </b>{{local.ID}}
+  </div>
+  <div>
+    <b>Area: </b>{{localArea.Name}}
+  </div>
+  <div>
+    <b>Nombre: </b>{{local.Name}}
+  </div>
+  <div>
+    <b>Descripcion: </b>{{local.Description}}
+  </div>
+  <div>
+    <b>Direccion: </b>{{local.Location}}
+  </div>
+  <div>
+    <b>Disponible: </b>{{local.EnableToReserve}}
+  </div>
+  <mat-list>
+    <b mat-header>Meses Laborables</b>
+    <mat-list-item *ngFor="let wm of working_months">
+      {{wm.monthName}}
+      <div *ngIf="wm.working">
+        -> Laborable
+      </div>
+    </mat-list-item>
+  </mat-list>
+  <br/>
+  <mat-list>
+    <b mat-header>Dias de la semana Laborables</b>
+    <mat-list-item *ngFor="let wd of working_week_days">
+      {{wd.weekDayName}}
+      <div *ngIf="wd.working">
+        -> Laborable
+        <div style="display: inline;"
+             *ngIf="wd.needConfirmation">
+          (Confirmar un dia antes)
+        </div>
+      </div>
+      <br/>
+    </mat-list-item>
+  </mat-list>
+  <br/>
+  <div style="display: inline;">
+    <h4>Horario Laborable en el Dia: </h4>
+    <div>
+      {{local.WorkingBeginTimeHours}}:{{local.WorkingBeginTimeMinutes}} - 
+      {{local.WorkingEndTimeHours}}:{{local.WorkingEndTimeMinutes}}
+    </div>
+  </div>
+  <br/>
+  <br/>
+</div>

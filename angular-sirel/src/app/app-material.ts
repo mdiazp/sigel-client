@@ -25,6 +25,7 @@ import {
   MatNativeDateModule,
   MatTabsModule,
   MatCheckboxModule,
+  MatExpansionModule,
 } from '@angular/material';
 
 @NgModule({
@@ -53,6 +54,7 @@ import {
     MatNativeDateModule,
     MatTabsModule,
     MatCheckboxModule,
+    MatExpansionModule,
   ],
   exports: [
     MatProgressSpinnerModule,
@@ -79,6 +81,7 @@ import {
     MatNativeDateModule,
     MatTabsModule,
     MatCheckboxModule,
+    MatExpansionModule,
   ]
 })
 export class AppMaterialModule {}

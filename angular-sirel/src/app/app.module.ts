@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpModule } from '@angular/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
@@ -27,6 +28,7 @@ import {
 import {
   AuthGuard,
   AdminGuard,
+  SuperadminGuard,
 } from '@app/guards/core';
 
 import { AppMaterialModule } from '@app/app-material';
@@ -36,21 +38,28 @@ import { ProfileComponent } from '@app/views/+profile/profile/profile.component'
 import { Error404Component } from '@app/views/+errors/error404/error404.component';
 import { LayoutComponent } from '@app/views/layout/layout.component';
 import { HomeComponent } from '@app/views/+home/home/home.component';
-import { AdminComponent } from '@app/views/+admin/admin/admin.component';
-import { ReservationsComponent } from '@app/views/+reservations/reservations/reservations.component';
-import { LocalProfileComponent } from './views/LocalCommon/local-profile/local-profile.component';
-import { LocalFormComponent } from './views/LocalCommon/local-form/local-form.component';
-import { LocalAdminsComponent } from './views/LocalCommon/local-admins/local-admins.component';
-import { AdminLocalOneComponent } from './views/+admin/Local/admin-local-one/admin-local-one.component';
-import { AdminLocalListComponent } from './views/+admin/Local/admin-local-list/admin-local-list.component';
-import { LocalNewDialogComponent } from './views/+admin/Local/local-new-dialog/local-new-dialog.component';
-import { AdminAreaListComponent } from './views/+admin/Area/admin-area-list/admin-area-list.component';
-import { AreaNewDialogComponent } from './views/+admin/Area/area-new-dialog/area-new-dialog.component';
-import { AdminAreaOneComponent } from './views/+admin/Area/admin-area-one/admin-area-one.component';
-import { AreaProfileComponent } from './views/AreaCommon/area-profile/area-profile.component';
-import { AreaFormComponent } from './views/AreaCommon/area-form/area-form.component';
-import { AdminReservationListComponent } from './views/+admin/Reservation/admin-reservation-list/admin-reservation-list.component';
-import { AdminUserListComponent } from './views/+admin/User/admin-user-list/admin-user-list.component';
+import { LocalAdminsComponent } from './views/+locals/common/local-admins/local-admins.component';
+import { AreaOneComponent } from './views/+areas/area-one/area-one.component';
+import { AreaAllComponent } from './views/+areas/area-all/area-all.component';
+import { AreaProfileComponent } from './views/+areas/common/area-profile/area-profile.component';
+import { AreaFormComponent } from './views/+areas/common/area-form/area-form.component';
+import { AreasTableComponent } from './views/+areas/common/areas-table/areas-table.component';
+import { LocalAllComponent } from './views/+locals/local-all/local-all.component';
+import { LocalOneComponent } from './views/+locals/local-one/local-one.component';
+import { LocalsTableComponent } from './views/+locals/common/locals-table/locals-table.component';
+import { LocalInfoFormComponent } from './views/+locals/common/local-info-form/local-info-form.component';
+import { LocalProfileComponent } from './views/+locals/common/local-profile/local-profile.component';
+import { LocalLaboralTimeFormComponent } from './views/+locals/common/local-laboral-time-form/local-laboral-time-form.component';
+import { LocalsFilterFormComponent } from './views/+locals/common/locals-filter-form/locals-filter-form.component';
+import { ReservationAllComponent } from './views/+reservations/reservation-all/reservation-all.component';
+import { ReservationOneComponent } from './views/+reservations/reservation-one/reservation-one.component';
+import { ReservationsFilterComponent } from './views/+reservations/common/reservations-filter/reservations-filter.component';
+import { ReservationsTableComponent } from './views/+reservations/common/reservations-table/reservations-table.component';
+import { UserOneComponent } from './views/+users/user-one/user-one.component';
+import { UserAllComponent } from './views/+users/user-all/user-all.component';
+import { UserProfileComponent } from './views/+users/common/user-profile/user-profile.component';
+import { UsersFilterComponent } from './views/+users/common/users-filter/users-filter.component';
+import { UsersTableComponent } from './views/+users/common/users-table/users-table.component';
 
 const routes: Routes = [
   {
@@ -67,53 +76,45 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'reservations',
-    component: ReservationsComponent
-  },
-  {
     path: 'profile',
     component: ProfileComponent,
     canActivate: [AuthGuard]
   },
   {
-    path: 'admin',
-    component: AdminComponent,
-    canActivate: [AdminGuard]
+    path: 'users',
+    component: UserAllComponent,
+    canActivate: [SuperadminGuard],
+    canLoad: [SuperadminGuard]
   },
   {
-    path: 'admin/users',
-    component: AdminUserListComponent,
-    canActivate: [AdminGuard]
+    path: 'user/:id',
+    component: UserOneComponent,
+    canActivate: [SuperadminGuard],
+    canLoad: [SuperadminGuard]
   },
   {
-    path: 'admin/areas',
-    component: AdminAreaListComponent,
-    canActivate: [AdminGuard]
+    path: 'areas',
+    component: AreaAllComponent
   },
   {
-    path: 'admin/area/:id',
-    component: AdminAreaOneComponent,
-    canActivate: [AdminGuard]
+    path: 'area/:id',
+    component: AreaOneComponent
   },
   {
-    path: 'admin/locals',
-    component: AdminLocalListComponent,
-    canActivate: [AdminGuard]
+    path: 'locals',
+    component: LocalAllComponent
   },
   {
-    path: 'admin/local/:id',
-    component: AdminLocalOneComponent,
-    canActivate: [AdminGuard]
+    path: 'local/:id',
+    component: LocalOneComponent
   },
   {
-    path: 'admin/reservations',
-    component: AdminReservationListComponent,
-    canActivate: [AdminGuard]
+    path: 'reservations',
+    component: ReservationAllComponent
   },
   {
-    path: 'test/admin/local/:id',
-    component: AdminLocalOneComponent,
-    canActivate: [AdminGuard]
+    path: 'reservations/:id',
+    component: ReservationOneComponent
   },
   {
     path: '**',
@@ -136,26 +137,34 @@ const routes: Routes = [
     AppComponent,
     LayoutComponent,
     HomeComponent,
-    AdminComponent,
     LoginComponent,
-    ProfileComponent,
     Error404Component,
-    ReservationsComponent,
-    LocalProfileComponent,
-    LocalFormComponent,
+    LocalInfoFormComponent,
     LocalAdminsComponent,
-    AdminLocalOneComponent,
-    AdminLocalListComponent,
-    LocalNewDialogComponent,
-    AdminAreaListComponent,
-    AreaNewDialogComponent,
-    AdminAreaOneComponent,
+    LocalAllComponent,
+    LocalOneComponent,
+    LocalsTableComponent,
+    LocalProfileComponent,
+    LocalLaboralTimeFormComponent,
+    LocalsFilterFormComponent,
     AreaProfileComponent,
     AreaFormComponent,
-    AdminUserListComponent,
-    AdminReservationListComponent,
+    AreaOneComponent,
+    AreaAllComponent,
+    AreasTableComponent,
+    ReservationsFilterComponent,
+    ReservationsTableComponent,
+    ReservationAllComponent,
+    ReservationOneComponent,
+    ProfileComponent,
+    UserOneComponent,
+    UserAllComponent,
+    UserProfileComponent,
+    UsersFilterComponent,
+    UsersTableComponent,
   ],
   providers: [
+    DatePipe,
     StorageService,
     SessionService,
     ApiService,
@@ -163,6 +172,7 @@ const routes: Routes = [
 
     AuthGuard,
     AdminGuard,
+    SuperadminGuard,
 
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
 
@@ -171,9 +181,5 @@ const routes: Routes = [
     // {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS},
   ],
   bootstrap: [AppComponent],
-  entryComponents: [
-    LocalNewDialogComponent,
-    AreaNewDialogComponent,
-  ],
 })
 export class AppModule { }

@@ -1,0 +1,25 @@
+<app-areas-table>
+</app-areas-table>
+
+<br/>
+<br/>
+
+<mat-accordion 
+  *ngIf="!((session.getMode() | async)==='public' || !(session.isSuperadmin() | async))">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>add</mat-icon>Crear Area
+      </mat-panel-title>
+      <!--mat-panel-description>
+        
+      </mat-panel-description-->
+    </mat-expansion-panel-header>
+
+    <app-area-form
+        [title]="'Crear Area'"
+        (Submit)="CreateArea($event)">
+    </app-area-form>
+    
+  </mat-expansion-panel>
+</mat-accordion>

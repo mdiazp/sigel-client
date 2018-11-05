@@ -22,42 +22,32 @@
         <mat-icon>home</mat-icon>
         Inicio
       </a>
-      <a mat-list-item [routerLink]="['admin']"
-        *ngIf="(admin_session | async)"
-        (click)="admin_menu_toggle()">
-        <mat-icon>supervisor_account</mat-icon>
-        <span>Administracion</span>
+      <a  *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
+          mat-list-item [routerLink]="['users']">
+        <mat-icon>arrow</mat-icon>
+        Usuarios
       </a>
-      <div mat-list-item
-        *ngIf="opened_admin_menu && (admin_session | async)">
-        <mat-nav-list style=" padding-top: 0px;">
-          <a mat-list-item [routerLink]="['admin','users']"
-            *ngIf="(superadmin_session | async)">
-            <!--mat-icon>supervisor_account</mat-icon-->
-            <span>Usuarios</span>
-          </a>
-          <a mat-list-item [routerLink]="['admin','areas']"
-            *ngIf="(superadmin_session | async)">
-            <!--mat-icon>setting</mat-icon-->
-            <span>Areas</span>
-          </a>
-          <a mat-list-item [routerLink]="['admin','locals']"
-            *ngIf="(admin_session | async)">
-            <!--mat-icon>setting</mat-icon-->
-            <span>Locales</span>
-          </a>
-          <a mat-list-item [routerLink]="['admin','reservations']"
-            *ngIf="(admin_session | async)">
-            <!--mat-icon>setting</mat-icon-->
-            <span>Reservaciones</span>
-          </a>
-        </mat-nav-list>
-      </div>
-      <a mat-list-item [routerLink]="['reservations']">Reservaciones</a>
+      <a mat-list-item [routerLink]="['areas']">
+        <mat-icon>arrow</mat-icon>
+        Areas
+      </a>
+      <a mat-list-item [routerLink]="['locals']">
+        <mat-icon>arrow</mat-icon>
+        Locales
+      </a>
+      <a mat-list-item [routerLink]="['reservations']">
+        <mat-icon>arrow</mat-icon>
+        Reservaciones
+      </a>
       <a mat-list-item [routerLink]="['profile']"
-        *ngIf="(show_profile | async)">
+        *ngIf="(session.haveProfile() | async)">
         <mat-icon>person</mat-icon>
         <span>Mi Cuenta</span>
+      </a>
+      <a mat-list-item
+        *ngIf="(session.isAdmin() | async)"
+        (click)="session.changeMode()">
+        Cambiar a modo {{(session.getMode() | async) === 'public' ? 'admin' : 'public'}}
       </a>
     </mat-nav-list>
   </mat-sidenav>
@@ -74,11 +64,11 @@
       <span *ngIf="!drawer.opened">Sirel</span>
       <span class="flex-spacer"></span>
 
-      <a *ngIf="!(opened_session | async)" style="text-decoration: none; color: white;"
+      <a *ngIf="!(session.isOpen() | async)" style="text-decoration: none; color: white;"
                             [routerLink]="['login']">
         <span>Iniciar Sesion</span>
       </a>
-      <a *ngIf="(opened_session | async)"
+      <a *ngIf="(session.isOpen() | async)"
                             style="text-decoration: none; color: white; cursor: pointer;"
                             (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>

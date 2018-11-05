@@ -1,0 +1,45 @@
+<form [formGroup]="filterForm" class="example-container">
+  <mat-form-field>
+    <mat-select placeholder="Seleccione un local"
+                formControlName="selectLocalControl">
+      <mat-option [value]="0">
+        Todos
+      </mat-option>
+      <mat-optgroup *ngFor="let opt of opts" [label]="opt.area">
+        <mat-option *ngFor="let local of opt.locals" [value]="local.ID">
+          {{local.Name}}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+
+  <br/>
+
+  <mat-form-field>
+    <input matInput [matDatepicker]="picker" placeholder="Seleccione una fecha"
+                    formControlName="selectDate">
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker disabled="false"></mat-datepicker>
+  </mat-form-field>
+
+  <br/>
+
+  <mat-form-field>
+    <input  type="text" 
+            placeholder="Usuario" 
+            aria-label="Number" 
+            matInput 
+            formControlName="autoUsername"
+            [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete"
+                      [displayWith]="displayUsername"
+                      (optionSelected)="onSelectUserToFilter($event)">
+      <mat-option *ngFor="let option of filteredUsers" 
+                  [value]="option">
+        {{option.Username}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <br/>
+</form>

@@ -1,11 +1,13 @@
 export { NgModule } from '@angular/core';
 export { CommonModule } from '@angular/common';
-export { Area } from '@app/models/area';
-export { Local } from '@app/models/local';
-export { Profile } from '@app/models/profile';
+export { Area, AreaFilter } from '@app/models/area';
+export { Local, LocalFilter } from '@app/models/local';
+export { Reservation, ReservationFilter } from '@app/models/reservation';
 export { Session } from '@app/models/session';
 export {
-    User,
+    User, EditUser,
+    UserFilter,
+    UserProfile, EditUserProfile,
     UserPublicInfo,
 } from '@app/models/user';
 export { Credentials } from '@app/models/credentials';
@@ -15,3 +17,5 @@ export {
     WorkingWeekDay,
     WorkingMonth
 } from '@app/models/local_working_time_util';
+export { AuxAL } from '@app/models/aux_a_l';
+export { PagAndOrderFilter } from '@app/models/pag-and-order-filter';

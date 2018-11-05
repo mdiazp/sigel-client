@@ -1,7 +1,5 @@
-import { Validators, ValidatorFn } from '@angular/forms';
-import {
-  User
-} from '@app/models/core';
+import { URLSearchParams } from '@angular/http';
+import { PagAndOrderFilter } from '@app/models/core';
 
 export class Local {
   constructor(public ID: number,
@@ -16,68 +14,29 @@ export class Local {
               public WorkingEndTimeHours: number,
               public WorkingEndTimeMinutes: number,
               public EnableToReserve: boolean) {}
+}
 
-  public IDValidators: ValidatorFn[] = [Validators.required];
-  public AreaIDValidators: ValidatorFn[] =  [Validators.required];
-  public NameValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.minLength(1),
-    Validators.maxLength(100),
-  ];
-  public DescriptionValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.maxLength(1024),
-  ];
-  public LocationValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.maxLength(1024),
-  ];
-  public WorkingMonthsValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.minLength(12),
-    Validators.maxLength(12),
-  ];
-  public WorkingWeekDaysValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.minLength(7),
-    Validators.maxLength(7),
-  ];
-  public WorkingBeginTimeHoursValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.min(0),
-    Validators.max(23),
-  ];
-  public WorkingBeginTimeMinutesValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.min(0),
-    Validators.max(59),
-  ];
-  public WorkingEndTimeHoursValidators: ValidatorFn[] = [
-    Validators.required,
-    Validators.min(0),
-    Validators.max(23),
-  ];
-  public WorkingEndTimeMinutesValidators:  ValidatorFn[] = [
-    Validators.required,
-    Validators.min(0),
-    Validators.max(59),
-  ];
+export class LocalFilter {
+    constructor(public AreaID: number,
+                public Search: string,
+                public EnableToReserve: boolean,
+                public pagAndOrderFilter: PagAndOrderFilter) {}
 
-  public EnableValidators: ValidatorFn[] = [Validators.required];
-
-  public toString(): string {
-    return `
-ID = ` + this.ID.toString() + `
-AreaID = ` + this.AreaID.toString() + `
-Name = ` + this.Name + `
-Description = ` + this.Description + `
-Location = ` + this.Location + `
-WorkingMonths = ` + this.WorkingMonths + `
-WorkingWeekDays = ` + this.WorkingWeekDays + `
-WorkingBeginTimeHours` + this.WorkingBeginTimeHours.toString() + `
-WorkingBeginTimeMinutes` + this.WorkingBeginTimeMinutes.toString() + `
-WorkingEndTimeHours` + this.WorkingEndTimeHours.toString() + `
-WorkingEndTimeMinutes` + this.WorkingEndTimeMinutes.toString() + `
-EnableToReserve` + this.EnableToReserve;
-  }
+    public GetURLSearchParams(): URLSearchParams {
+        let usp: URLSearchParams;
+        usp = new URLSearchParams();
+        if ( this.AreaID !== null && this.AreaID !== 0 ) {
+          usp.append('area_id', this.AreaID.toString());
+        }
+        if ( this.Search !== null && this.Search !== 'null' && this.Search !== '' ) {
+          usp.append('search', this.Search);
+        }
+        if ( this.EnableToReserve !== null ) {
+          usp.append('enable_to_reserve', this.EnableToReserve.toString());
+        }
+        if ( this.pagAndOrderFilter !== null ) {
+          usp.appendAll( this.pagAndOrderFilter.GetUrlSearchParams() );
+        }
+        return usp;
+    }
 }

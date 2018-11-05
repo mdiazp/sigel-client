@@ -1,0 +1,108 @@
+
+<div *ngIf="!(loading$ | async)">
+  <!-- Public Admin -->
+  <app-local-profile 
+          [local]="local"
+          [localArea]="localArea"
+          *ngIf="((session.getMode() | async)==='public')">
+  </app-local-profile>
+
+  <!-- Superadmin View -->
+  <mat-tab-group
+          *ngIf="((session.getMode() | async)==='admin')">
+    <mat-tab label="Perfil"> 
+      <app-local-profile [local]="local" [localArea]="localArea">
+      </app-local-profile>
+    </mat-tab>
+
+    <mat-tab label="Configuracion"> 
+
+      <!-- LocalInfo -->
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Editar Informacion
+            </mat-panel-title>
+            <!--mat-panel-description>
+            </mat-panel-description-->
+          </mat-expansion-panel-header>
+
+          <app-local-info-form
+                [localInfo]="local"
+                [localArea]="localArea"
+                [disabledAreaSelect]="true"
+                (Submit)="EditarLocal()">
+          </app-local-info-form>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+      
+      <br/>
+      <br/>
+
+      <!-- Local's Laboral Time -->
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Horario Laboral
+            </mat-panel-title>
+            <!--mat-panel-description></mat-panel-description-->
+          </mat-expansion-panel-header>
+
+          <app-local-laboral-time-form 
+                [local]="local"
+                (Submit)="EditarLocal()">
+          </app-local-laboral-time-form>
+          
+        </mat-expansion-panel>
+      </mat-accordion>
+ 
+      <br/>
+      <br/>
+
+      <!-- Advanced -->
+      <mat-accordion *ngIf="(session.isSuperadmin() | async)">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Avanzada
+              </mat-panel-title>
+              <!--mat-panel-description></mat-panel-description-->
+            </mat-expansion-panel-header>
+  
+            <div>
+              Habilitado
+              <span class="flex-spacer"></span>
+              <mat-slide-toggle
+                  color="primary"
+                  [checked]="local.EnableToReserve"
+                  (change)="EditarLocal()">
+              </mat-slide-toggle>
+            </div>
+
+            <div>
+              Eliminar
+              <span class="flex-spacer"></span>
+              <button mat-icon-button color="warn"
+                      (click)="DeleteLocal()">
+                <mat-icon aria-label="delete">delete</mat-icon>
+              </button>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+    </mat-tab>
+
+    <mat-tab label="Acceso"
+        *ngIf="((session.getMode() | async) === 'admin' && (session.isSuperadmin() | async))"> 
+      
+      <app-local-admins
+          [local_id]="local.ID">
+      </app-local-admins>
+
+    </mat-tab>
+
+  </mat-tab-group>
+</div>
+  
