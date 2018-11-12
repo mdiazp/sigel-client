@@ -15,13 +15,13 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
 
   filterData: UsersFilter = new UsersFilter('', '', '', '', null);
   dataSource = new MatTableDataSource<User>();
-  displayedColumns = ['id', 'username', 'rol', 'enable'];
+  displayedColumns = ['username', 'rol', 'enable'];
 
   loadingSubject = new BehaviorSubject<boolean>(false);
   loading$: Observable<boolean>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatSort) sort: MatSort;
 
   constructor(private api: ApiService,
               private errh: ErrorHandlerService) {
@@ -33,7 +33,7 @@ export class UsersTableComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+    // this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 

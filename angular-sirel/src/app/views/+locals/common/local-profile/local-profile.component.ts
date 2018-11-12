@@ -26,14 +26,15 @@ export class LocalProfileComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.reset();
+    this.reset(this.local);
   }
 
-  reset() {
+  reset(local: Local) {
+    console.log('reset');
     this.working_months =
-    this.working_time_util.GetWorkingMonths( this.local.WorkingMonths );
+    this.working_time_util.GetWorkingMonths( local.WorkingMonths );
 
     this.working_week_days =
-    this.working_time_util.GetWorkingWeekDays( this.local.WorkingWeekDays );
+    this.working_time_util.GetWorkingWeekDays( local.WorkingWeekDays );
   }
 }

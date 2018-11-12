@@ -60,7 +60,7 @@ export class SessionService {
     this.is_open.next(true);
     this.is_admin.next(this.session.rol === 'Admin' || this.session.rol === 'Superadmin');
     this.is_superadmin.next(this.session.rol === 'Superadmin');
-    this.is_user_sirel.next(this.session.rol === 'Superadmin');
+    this.is_user_sirel.next(this.session.rol === 'SIREL');
     this.have_profile.next(this.session.username !== 'SIREL');
   }
 
@@ -101,6 +101,13 @@ export class SessionService {
       return this.session.username;
     }
     return '';
+  }
+
+  getUserID(): number {
+    if ( this.session && this.session !== null ) {
+      return this.session.userID;
+    }
+    return 0;
   }
 
   getToken(): string {

@@ -1,10 +1,4 @@
-<app-reservations-filter 
-    [mode]="mode"
-    (FilterChanges)="onFilter($event)">
-</app-reservations-filter>
-
-<mat-table #table [dataSource]="dataSource"
-  matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+<mat-table #table [dataSource]="dataSource">
 
   <!--ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -16,7 +10,7 @@
   <ng-container matColumnDef="name">
     <mat-header-cell *matHeaderCellDef> Actividad </mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <a [routerLink]="['/','admin','reservation',element.ID]"> {{element.ActivityName}} </a>
+      <a [routerLink]="['/','reservation',element.ID]"> {{element.ActivityName}} </a>
     </mat-cell>
   </ng-container>
 
@@ -55,6 +49,11 @@
         {{element.Pending ? 'Pendiente' : 'Aceptada'}}
         <div *ngIf="!element.Confirmed">
           {{'(sin confirmar)'}}
+          <button mat-icon-button color="primary"
+                  (click)="ConfirmClick.emit(element)"
+                  *ngIf="canConfirm(element)">
+            <mat-icon aria-label="edit">edit</mat-icon>
+          </button>
         </div>
       </div>
     </mat-cell>
@@ -64,18 +63,20 @@
     <mat-header-cell *matHeaderCellDef> Ops. </mat-header-cell>
     <mat-cell *matCellDef="let element">
         <button mat-icon-button color="primary"
-                (click)="onAcceptClick(element)"
+                (click)="AcceptClick.emit(element)"
                 *ngIf="element.Pending">
           <mat-icon aria-label="edit">edit</mat-icon>
         </button>
         <button mat-icon-button color="warn"
-                    (click)="onRefuseClick(element)">
+                    (click)="RefuseClick.emit(element)">
           <mat-icon aria-label="delete">delete</mat-icon>
         </button>
     </mat-cell>
   </ng-container>
 
-  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  <mat-header-row *matHeaderRowDef="GetDisplayedColumns()"></mat-header-row>
+  <mat-row *matRowDef="let row; columns: GetDisplayedColumns();"></mat-row>
 </mat-table>
   
+<mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 25, 50]">
+</mat-paginator>

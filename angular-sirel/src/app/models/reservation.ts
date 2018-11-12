@@ -13,9 +13,11 @@ export class Reservation {
                 public LocalID: number,
                 public ActivityName: string,
                 public ActivityDescription: string,
+                public BeginTime: string,
+                public EndTime: string,
                 public Confirmed: boolean,
                 public Pending: boolean) {}
-
+    /*
     public IDValidators: ValidatorFn[] = [Validators.required];
     public UserIDValidators: ValidatorFn[] = [Validators.required];
     public LocalIDValidators: ValidatorFn[] = [Validators.required];
@@ -23,8 +25,16 @@ export class Reservation {
     public ActivityDescriptionValidators: ValidatorFn[] = [Validators.required];
     public ConfirmedValidators: ValidatorFn[] = [Validators.required];
     public PendingValidators: ValidatorFn[] = [Validators.required];
+    */
 }
 
+export class ReservationToCreate {
+    constructor(public LocalID: number,
+                public ActivityName: string,
+                public ActivityDescription: string,
+                public BeginTime: string,
+                public EndTime: string) {}
+}
 
 export class ReservationFilter {
     constructor(public UserID: number,

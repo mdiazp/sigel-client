@@ -11,11 +11,13 @@ import { BehaviorSubject, Observable, Operator } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
+  Util,
+  Session,
   Credentials,
   User, UserFilter, EditUser, UserPublicInfo, UserProfile, EditUserProfile,
   Area, AreaFilter,
   Local, LocalFilter,
-  Reservation, ReservationFilter,
+  Reservation, ReservationFilter, ReservationToCreate,
 } from '@app/models/core';
 
 import { SessionService } from '@app/services/session.service';
@@ -27,6 +29,8 @@ export class ApiService {
   protected authHName = 'authHd';
 
   protected oo = 1000000000;
+
+  util = new Util();
 
   constructor(protected http: Http,
               protected session: SessionService ) {}
@@ -42,8 +46,50 @@ export class ApiService {
     return new Headers(headersConfig);
   }
 
-  Login(cred: Credentials): Observable<Response> {
-    return this.http.post(`${this.bpath}/public/login`, cred, { headers: this.commonHeaders() });
+  toDate(s: string): Date {
+    // console.log('kkokokokokokokokokokokoko');
+    // console.log( this.util.StrtoDate(s) );
+    // 2018-11-07T11:53:22
+    console.log('xxxxxxxxx -----> ', s);
+    let x: Date; x = new Date(Date.parse(s.slice(0, 19) + 'Z'));
+    console.log('xxxxx   -----> ', x);
+    return x;
+  }
+
+  GetServerTime(): Observable<Date> {
+    return this.http.get(`${this.bpath}/public/servertime`, { headers: this.commonHeaders() })
+      .pipe(
+        map(res => this.util.StrtoDate(res.json()))
+      );
+  }
+
+  Login(cred: Credentials): Observable<Session> {
+    return this.http.post(
+      `${this.bpath}/public/login`, cred, { headers: this.commonHeaders() }
+    ).pipe(
+      map(res => res.json())
+    );
+  }
+
+  Logout(): Observable<Response> {
+    return this.http.delete(
+      `${this.bpath}/private/logout`, { headers: this.commonHeaders() }
+    );
+  }
+
+  GetUserPublicInfo(userID: number): Observable<UserPublicInfo> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('user_id', userID.toString());
+    return this.http.get(
+      `${this.bpath}/public/user/publicinfo`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    ).pipe(
+      map(res => res.json())
+    );
   }
 
   GetUserPublicInfoList(username = '',
@@ -65,57 +111,6 @@ export class ApiService {
     .pipe(
       map(res => res.json())
     );
-  }
-
-  PublicGetAreasList(searchByName = '',
-                 pageNumber = 0,
-                 pageSize = this.oo,
-                 orderDirection = 'asc',
-                 orderBy = 'id'): Observable<Area[]> {
-    let usp: URLSearchParams;
-    usp = new URLSearchParams();
-    usp.append('search', searchByName);
-    usp.append('offset', (pageNumber * pageSize).toString());
-    usp.append('limit', pageSize.toString());
-    usp.append('orderby', orderBy);
-    usp.append('orderDirection', orderDirection);
-
-    return this.http.get(`${this.bpath}/public/areas`, {
-      params: usp,
-      headers: this.commonHeaders(),
-    })
-    .pipe(
-      map(res => res.json())
-    );
-  }
-
-  PublicGetLocalsList(
-                  searchByName = '',
-                  pageNumber = 0,
-                  pageSize = this.oo,
-                  orderDirection = 'asc',
-                  orderBy = 'id',
-                  areaId = ''): Observable<Local[]> {
-    let usp: URLSearchParams;
-    usp = new URLSearchParams();
-    usp.append('search', searchByName);
-    usp.append('offset', (pageNumber * pageSize).toString());
-    usp.append('limit', pageSize.toString());
-    usp.append('orderby', orderBy);
-    usp.append('orderDirection', orderDirection);
-    usp.append('area_id', areaId);
-
-    return this.http.get(`${this.bpath}/public/locals`, {
-      params: usp,
-      headers: this.commonHeaders(),
-    })
-    .pipe(
-      map(res => res.json())
-    );
-  }
-
-  Logout(): Observable<Response> {
-    return this.http.delete(`${this.bpath}/private/logout`, { headers: this.commonHeaders() });
   }
 
   GetProfile(): Observable<UserProfile> {
@@ -403,6 +398,16 @@ export class ApiService {
     );
   }
 
+  PostReservation(reservation: ReservationToCreate): Observable<Reservation> {
+    return this.http.post(
+      `${this.bpath}/private/reservation`,
+      reservation,
+      { headers: this.commonHeaders() }
+    ).pipe(
+      map(res => res.json())
+    );
+  }
+
   AcceptReservation(id: number) {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
@@ -427,6 +432,35 @@ export class ApiService {
         params: usp,
         headers: this.commonHeaders()
       }
+    );
+  }
+
+  ConfirmReservation(id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('reservationID', id.toString());
+    return this.http.patch(
+      `${this.bpath}/private/reservation`,
+      null,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    );
+  }
+
+  GetNotifications(userID: number, profile: boolean): Observable<Notification[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('user_id', userID.toString());
+    return this.http.get(
+      `${this.bpath}/${(profile ? 'private/profile' : 'admin')}/notifications`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    ).pipe(
+      map(res => res.json())
     );
   }
 }

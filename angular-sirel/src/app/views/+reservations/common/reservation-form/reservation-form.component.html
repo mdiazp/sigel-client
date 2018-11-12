@@ -1,0 +1,58 @@
+<form [formGroup]="reservationForm" *ngIf="!(loading$ | async)">
+  Local: {{local.Name}}
+  <br/>
+  Fecha: {{filter.GetFilterData().Date.slice(0,10)}}
+  <br/>
+  Horario Laboral: {{getHorarioLaboral()}}
+  <br/>
+  <br/>
+  <mat-form-field>
+    <mat-label>Nombre de la actividad</mat-label>
+    <input formControlName="activityName"
+            matInput
+            type="text"
+            required>
+  </mat-form-field> <br/>
+
+  <mat-form-field>
+      <mat-label>Descripcion</mat-label>
+      <textarea formControlName="activityDescription"
+              matInput
+              type="text"
+              required>
+      </textarea>
+  </mat-form-field> <br/>
+
+  <div>
+    <label>Inicio:</label><br/>
+    <mat-form-field>
+      <mat-label>Hora</mat-label>
+      <input matInput type="number" required formControlName="bth">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Minutos</mat-label>
+      <input matInput type="number" required formControlName="btm">
+    </mat-form-field>
+  </div>
+  <br/>
+  <div>
+    <label>Fin: </label><br/>
+    <mat-form-field>
+        <mat-label>Hora</mat-label>
+        <input matInput type="number" required formControlName="eth">
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Minutos</mat-label>
+        <input matInput type="number" required formControlName="etm">
+    </mat-form-field>
+  </div>
+  <br/>
+  <div *ngIf="error !== null">
+    <h6 style="color: red;">Error: {{error}}</h6>
+  </div>
+  <br/>
+  <button mat-raised-button
+          color="primary"
+          (click)="submit()"
+          [disabled]="reservationForm.invalid">Enviar</button>
+</form>

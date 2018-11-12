@@ -6,8 +6,9 @@ import {
   MatAutocompleteSelectedEvent,
 } from '@angular/material';
 
-import { ApiService, ErrorHandlerService } from '@app/services/core';
+import { ApiService, ErrorHandlerService, SessionService } from '@app/services/core';
 import {
+  Util,
   Area, Local, AuxAL,
   AreaFilter, LocalFilter, UserPublicInfo,
 } from '@app/models/core';
@@ -19,8 +20,8 @@ import {
 })
 export class ReservationsFilterComponent implements OnInit {
 
-  @Input() mode: string;
   @Output() FilterChanges = new EventEmitter<ReservationsFilterData>();
+  util = new Util();
 
   Ready: Observable<boolean>;
   ReadySubject = new BehaviorSubject<boolean>(false);
@@ -40,8 +41,12 @@ export class ReservationsFilterComponent implements OnInit {
   filteredUsers: UserPublicInfo[];
   autoUsernameSelection = new UserPublicInfo(0, '');
 
+  // ServerTime
+  servertime: Date;
+
   constructor(private api: ApiService,
               private errh: ErrorHandlerService,
+              private session: SessionService,
               private datePipe: DatePipe) {
     this.Ready = this.ReadySubject.asObservable();
   }
@@ -54,7 +59,12 @@ export class ReservationsFilterComponent implements OnInit {
   initFilterForm(): void {
     this.selectLocalControl = new FormControl();
     this.selectLocalControl.valueChanges.subscribe((_) => this.filterChanges());
-    this.selectDate = new FormControl();
+    this.selectDate = new FormControl(
+      {
+        value: '',
+        disabled: this.session.getModeValue() === 'public',
+      }
+    );
     this.selectDate.valueChanges.subscribe((_) => this.filterChanges());
     this.autoUsername = new FormControl();
     this.autoUsername.valueChanges
@@ -77,28 +87,49 @@ export class ReservationsFilterComponent implements OnInit {
     });
   }
 
-  filterChanges(): void {
+  GetFilterData(): ReservationsFilterData {
     let date = this.selectDate.value;
-    if ( date !== null ) {
-      date = this.datePipe.transform(new Date(date), 'yyyy-MM-dd');
+    if ( date && date !== null && date !== '' ) {
+      date = this.util.DatetoStr(date).slice(0, 10);
+    } else {
+      date = null;
     }
-    this.FilterChanges.emit({
-      LocalID: this.gtv(Number(this.selectLocalControl.value)),
-      Date: date,
-      UserID: this.gtv(this.autoUsernameSelection.ID),
-    });
+    return new ReservationsFilterData(
+      this.gtv(Number(this.selectLocalControl.value)),
+      date,
+      this.gtv(this.autoUsernameSelection.ID),
+    );
+  }
+
+  filterChanges(): void {
+    this.FilterChanges.emit(this.GetFilterData());
   }
 
   loadData(): void {
-    this.api.GetAreas(new AreaFilter(null, null), this.mode).subscribe(
-      (areas) => {
-        this.areas = areas;
-        this.api.GetLocals(new LocalFilter(null, null, null, null), this.mode)
-        .subscribe(
-          (locals) => {
-            this.locals = locals;
-            this.fillOptions();
-            this.ReadySubject.next(true);
+    this.api.GetServerTime().subscribe(
+      (servertime) => {
+        // console.log('ST = ' + servertime.toString());
+        if (this.session.getModeValue() === 'public') {
+          this.selectDate.setValue(servertime);
+          this.servertime = servertime;
+        }
+        this.api.GetAreas(new AreaFilter(null, null), this.session.getModeValue()).subscribe(
+          (areas) => {
+            this.areas = areas;
+            this.api.GetLocals(new LocalFilter(null, null, null, null), this.session.getModeValue())
+            .subscribe(
+              (locals) => {
+                this.locals = locals;
+                this.fillOptions();
+                if (this.session.getModeValue() === 'public' && locals.length > 0) {
+                  this.selectLocalControl.setValue( locals[0].ID );
+                }
+                this.ReadySubject.next(true);
+              },
+              (err) => {
+                this.errh.HandleError(err);
+              }
+            );
           },
           (err) => {
             this.errh.HandleError(err);

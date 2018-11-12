@@ -21,7 +21,7 @@ export class PagAndOrderFilter {
             usp.append('orderby', this.orderby);
         }
         if ( this.ordDesc != null ) {
-            usp.append('ordDesc', this.ordDesc.toString());
+            usp.append('desc', this.ordDesc.toString());
         }
         return usp;
     }

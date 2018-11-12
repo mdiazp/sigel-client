@@ -38,3 +38,22 @@
     </form>
   </mat-tab>
 </mat-tab-group>
+
+<br/><br/>
+<mat-accordion *ngIf="!(loading$ | async)">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Notificaciones
+      </mat-panel-title>
+      <!--mat-panel-description>
+      </mat-panel-description-->
+    </mat-expansion-panel-header>
+
+    <app-user-notifications-table
+      [profile]="true"
+      [userID]="profile.ID">
+    </app-user-notifications-table>
+
+  </mat-expansion-panel>
+</mat-accordion>

@@ -23,12 +23,12 @@ import { AreaFilter } from '@app/models/core';
 })
 export class AreasTableComponent implements OnInit, AfterViewInit {
 
-  displayedColumns = ['id', 'name'];
+  displayedColumns = ['name'];
   dataSource = new MatTableDataSource();
   search = '';
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatSort) sort: MatSort;
 
   loading$: Observable<boolean>;
   loadingSubject = new BehaviorSubject<boolean>(false);
@@ -45,7 +45,7 @@ export class AreasTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // this.dataSource.sort = this.sort;
   }
 
   FilterByName(value: string): void {

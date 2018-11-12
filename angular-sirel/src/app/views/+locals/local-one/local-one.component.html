@@ -11,7 +11,9 @@
   <mat-tab-group
           *ngIf="((session.getMode() | async)==='admin')">
     <mat-tab label="Perfil"> 
-      <app-local-profile [local]="local" [localArea]="localArea">
+      <app-local-profile 
+          [local]="local" 
+          [localArea]="localArea">
       </app-local-profile>
     </mat-tab>
 

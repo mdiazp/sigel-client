@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 
 import {
-  MAT_DIALOG_DEFAULT_OPTIONS,
+  MAT_DIALOG_DEFAULT_OPTIONS, MatPaginatorIntl,
 } from '@angular/material';
 
 import {
@@ -51,15 +51,19 @@ import { LocalInfoFormComponent } from './views/+locals/common/local-info-form/l
 import { LocalProfileComponent } from './views/+locals/common/local-profile/local-profile.component';
 import { LocalLaboralTimeFormComponent } from './views/+locals/common/local-laboral-time-form/local-laboral-time-form.component';
 import { LocalsFilterFormComponent } from './views/+locals/common/locals-filter-form/locals-filter-form.component';
-import { ReservationAllComponent } from './views/+reservations/reservation-all/reservation-all.component';
-import { ReservationOneComponent } from './views/+reservations/reservation-one/reservation-one.component';
-import { ReservationsFilterComponent } from './views/+reservations/common/reservations-filter/reservations-filter.component';
-import { ReservationsTableComponent } from './views/+reservations/common/reservations-table/reservations-table.component';
 import { UserOneComponent } from './views/+users/user-one/user-one.component';
 import { UserAllComponent } from './views/+users/user-all/user-all.component';
 import { UserProfileComponent } from './views/+users/common/user-profile/user-profile.component';
 import { UsersFilterComponent } from './views/+users/common/users-filter/users-filter.component';
 import { UsersTableComponent } from './views/+users/common/users-table/users-table.component';
+import { ReservationAllComponent } from './views/+reservations/reservation-all/reservation-all.component';
+import { ReservationOneComponent } from './views/+reservations/reservation-one/reservation-one.component';
+import { ReservationsFilterComponent } from './views/+reservations/common/reservations-filter/reservations-filter.component';
+import { ReservationsTableComponent } from './views/+reservations/common/reservations-table/reservations-table.component';
+import { ReservationFormComponent } from './views/+reservations/common/reservation-form/reservation-form.component';
+import { ReservationProfileComponent } from './views/+reservations/common/reservation-profile/reservation-profile.component';
+import { UserNotificationsTableComponent } from './views/+users/common/user-notifications-table/user-notifications-table.component';
+import { CustomMatPaginatorIntl } from '@app/views/common/CustomMatPaginatorIntl';
 
 const routes: Routes = [
   {
@@ -113,7 +117,7 @@ const routes: Routes = [
     component: ReservationAllComponent
   },
   {
-    path: 'reservations/:id',
+    path: 'reservation/:id',
     component: ReservationOneComponent
   },
   {
@@ -162,6 +166,9 @@ const routes: Routes = [
     UserProfileComponent,
     UsersFilterComponent,
     UsersTableComponent,
+    ReservationFormComponent,
+    ReservationProfileComponent,
+    UserNotificationsTableComponent,
   ],
   providers: [
     DatePipe,
@@ -177,6 +184,7 @@ const routes: Routes = [
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
 
     {provide: MAT_DATE_LOCALE, useValue: 'es-SP'},
+    {provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl},
     // {provide: DateAdapter, useClass: NativeDateAdapter, deps: [MAT_DATE_LOCALE]},
     // {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS},
   ],

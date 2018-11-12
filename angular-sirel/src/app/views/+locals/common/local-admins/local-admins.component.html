@@ -5,7 +5,7 @@
       <ng-container matColumnDef="username">
         <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
         <mat-cell *matCellDef="let user">
-          <a [routerLink]="['/','admin','user',user.ID]"> {{user.Username}} </a>
+          <a [routerLink]="['/','user',user.ID]"> {{user.Username}} </a>
         </mat-cell>
       </ng-container>
 

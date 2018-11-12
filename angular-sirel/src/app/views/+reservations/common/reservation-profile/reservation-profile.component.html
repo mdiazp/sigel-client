@@ -1,0 +1,44 @@
+<!--div class="spinner-container" *ngIf="loading$ | async">
+  <mat-spinner></mat-spinner>
+</div-->
+
+<div>
+  <!--div>
+    <b>Id: </b>{{reservation.ID}}
+  </div-->
+  <div>
+    <b>Local: </b>
+    <a [routerLink]="['/','local',local.ID]"
+          *ngIf="((session.getMode() | async) === 'admin')"> {{local.Name}} 
+    </a>
+    <span *ngIf="!((session.getMode() | async) === 'admin')">{{local.Name}}</span>
+  </div>
+  <div>
+    <b>Usuario: </b>
+    <a [routerLink]="['/','user',user.ID]"
+        *ngIf="((session.getMode() | async) === 'admin' && 
+                (session.isSuperadmin() | async))"> {{user.Username}} </a>
+    <span *ngIf="!((session.getMode() | async) === 'admin' && 
+                   (session.isSuperadmin() | async))">{{user.Username}}</span>
+  </div>
+  <div>
+    <b>Fecha: </b>
+      {{reservation.BeginTime.slice(0, 10)}}
+  </div>
+  <div>
+    <b>Horario: </b>
+      {{reservation.BeginTime.slice(11, 16)}} - {{reservation.EndTime.slice(11, 16)}}
+  </div>
+  <div>
+    <b>Actividad: </b>{{reservation.ActivityName}}
+  </div>
+  <div>
+    <b>Descripcion: </b>{{reservation.ActivityDescription}}
+  </div>
+  <div>
+    <b>Estado: </b>{{reservation.Pending ? 'Pendiente' : 'Aceptada'}}
+  </div>
+  <div>
+    <b> Confirmada: </b> {{reservation.Confirmed ? 'Si' : 'No'}}
+  </div>
+</div>

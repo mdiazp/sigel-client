@@ -4,15 +4,14 @@
 </app-locals-filter-form>
 
 <div *ngIf="!(loading$ | async)">
-  <mat-table #table [dataSource]="dataSource"
-    matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+  <mat-table #table [dataSource]="dataSource">
 
-    <ng-container matColumnDef="id">
+    <!--ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <a [routerLink]="['/','local',element.ID]"> {{element.ID}} </a>
       </mat-cell>
-    </ng-container>
+    </ng-container-->
 
     <ng-container matColumnDef="name">
       <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>

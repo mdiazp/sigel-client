@@ -28,7 +28,7 @@ export class LocalsTableComponent implements OnInit, AfterViewInit {
   areaNames = new Map<number, string>();
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatSort) sort: MatSort;
 
   loadingAreas$: Observable<boolean>;
   loadingAreasSubject = new BehaviorSubject<boolean>(false);
@@ -53,7 +53,7 @@ export class LocalsTableComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    // this.dataSource.sort = this.sort;
   }
 
   FilterLocals(filter: LocalsFilter) {
@@ -84,9 +84,9 @@ export class LocalsTableComponent implements OnInit, AfterViewInit {
 
   GetDisplayedColumns(): string[] {
     if ( this.session.getModeValue() === 'admin' ) {
-      return ['id', 'name', 'area', 'enabled'];
+      return ['name', 'area', 'enabled'];
     } else {
-      return ['id', 'name', 'area'];
+      return ['name', 'area'];
     }
   }
 

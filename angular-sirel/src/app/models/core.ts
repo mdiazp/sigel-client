@@ -1,8 +1,10 @@
 export { NgModule } from '@angular/core';
 export { CommonModule } from '@angular/common';
+export { Util } from '@app/models/util';
 export { Area, AreaFilter } from '@app/models/area';
 export { Local, LocalFilter } from '@app/models/local';
-export { Reservation, ReservationFilter } from '@app/models/reservation';
+export { Reservation, ReservationToCreate, ReservationFilter } from '@app/models/reservation';
+export { Notification } from '@app/models/notifications';
 export { Session } from '@app/models/session';
 export {
     User, EditUser,

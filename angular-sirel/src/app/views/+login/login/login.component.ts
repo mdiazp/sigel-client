@@ -51,8 +51,8 @@ export class LoginComponent implements OnInit {
         user: this.username.value,
         pass: this.password.value
       }).subscribe(
-        (res) => {
-          this.session.Open(res.json());
+        (user) => {
+          this.session.Open(user);
           this.router.navigate(['home']);
         },
         (error) => this.errh.HandleError(error)

@@ -2,7 +2,8 @@
   <mat-form-field>
     <mat-select placeholder="Seleccione un local"
                 formControlName="selectLocalControl">
-      <mat-option [value]="0">
+      <mat-option [value]="0"
+        *ngIf="(session.getMode() | async) !== 'public'">
         Todos
       </mat-option>
       <mat-optgroup *ngFor="let opt of opts" [label]="opt.area">
@@ -24,7 +25,7 @@
 
   <br/>
 
-  <mat-form-field>
+  <mat-form-field *ngIf="(session.getMode() | async)==='admin'">
     <input  type="text" 
             placeholder="Usuario" 
             aria-label="Number" 

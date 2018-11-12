@@ -90,7 +90,7 @@ export class LocalOneComponent implements OnInit, AfterViewInit {
     this.api.PatchLocal(local).subscribe(
       (data) => {
         this.local = data;
-        this.localProfile.reset();
+        this.localProfile.reset(data);
       },
       (err) => {
         this.errh.HandleError(err);

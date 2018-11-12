@@ -1,3 +1,7 @@
-<p>
-  reservation-one works!
-</p>
+<div *ngIf="!(loading$ | async)">
+  <app-reservation-profile
+    [reservation]="reservation"
+    [local]="local"
+    [user]="user">
+  </app-reservation-profile>
+</div>

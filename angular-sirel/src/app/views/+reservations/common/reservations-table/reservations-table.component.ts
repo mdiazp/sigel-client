@@ -1,12 +1,15 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material';
+import {
+  Component, OnInit, Input,
+  ViewChild, AfterViewInit, Output,
+  EventEmitter,
+} from '@angular/core';
+import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 import {
   ReservationsFilterComponent,
-  ReservationsFilterData,
 } from '@app/views/+reservations/common/reservations-filter/reservations-filter.component';
 import { ApiService, SessionService, ErrorHandlerService } from '@app/services/core';
-import { ReservationFilter, Reservation, PagAndOrderFilter } from '@app/models/core';
+import { ReservationFilter, Reservation, PagAndOrderFilter, Util } from '@app/models/core';
 
 @Component({
   selector: 'app-reservations-table',
@@ -15,90 +18,102 @@ import { ReservationFilter, Reservation, PagAndOrderFilter } from '@app/models/c
 })
 export class ReservationsTableComponent implements OnInit, AfterViewInit {
 
-  @Input() mode = 'public';
-  @Input() displayedColumns =
-  ['name', 'local', 'date', 'status', 'operations'];
   dataSource = new MatTableDataSource();
+  reservations: Reservation[] = [];
+  serverTime = new Date(Date.now());
 
-  @ViewChild(ReservationsFilterComponent) filter: ReservationsFilterComponent;
-  filterData: ReservationsFilterData = new ReservationsFilterData(null, null, null);
+  @Input() filter: ReservationsFilterComponent;
+  @Output() ConfirmClick = new EventEmitter<Reservation>();
+  @Output() AcceptClick = new EventEmitter<Reservation>();
+  @Output() RefuseClick = new EventEmitter<Reservation>();
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   // For fill column 'local'
   localNames = new Map<number, string>();
+
+  util = new Util();
 
   constructor(private api: ApiService,
               private session: SessionService,
               private errh: ErrorHandlerService) {}
 
   ngOnInit() {
-    console.log('ngOnInit');
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit');
     this.filter.Ready.subscribe(
       (ready) => {
         if ( ready ) {
           this.fillLocalNames();
-          this.loadReservations();
+          this.LoadData();
+          this.filter.FilterChanges.subscribe(
+            (filterData) => {
+              this.LoadData();
+            }
+          );
         }
       }
     );
+
+    this.dataSource.paginator = this.paginator;
   }
 
-  onRefuseClick(reservation: Reservation): void {
-    this.api.RefuseReservation(reservation.ID).subscribe(
-      (data) => {
-        alert(`The reservation with ID(${reservation.ID}) has been deleted`);
-        this.loadReservations();
-      },
-      (err) => {
-        this.errh.HandleError(err);
-      }
-    );
-  }
-
-  onAcceptClick(reservation: Reservation): void {
-    console.log('onAcceptClick');
-    this.api.AcceptReservation(reservation.ID).subscribe(
-      (data) => {
-        this.loadReservations();
-      },
-      (err) => {
-        this.errh.HandleError(err);
-      }
-    );
-  }
-
-  onFilter(filterData: ReservationsFilterData): void {
-    this.filterData = filterData;
-    this.loadReservations();
-  }
-/*
-  loadLocals(): void {
-    this.api.GetLocals(null, this.mode).subscribe(
-      (locals) => {
-        this.locals = locals;
-        this.fillLocalNames();
-      },
-      (err) => {
-        this.errh.HandleError(err);
-      }
-    );
-  }
-*/
-  fillLocalNames(): void {
-    for ( let i = 0; i < this.filter.locals.length; i++ ) {
-      this.localNames[ this.filter.locals[i].ID ] = this.filter.locals[i].Name;
-      // console.log(this.locals[i].ID.toString() + ' => ' + this.locals[i].Name);
+  GetDisplayedColumns(): string[] {
+    if ( this.session.getModeValue() === 'public' ) {
+      return ['name', 'local', 'date', 'status'];
+    } else {
+      return ['name', 'local', 'date', 'status', 'operations'];
     }
   }
 
+  canConfirm(reservation: Reservation): boolean {
+    let bt: Date; bt = this.util.StrtoDate(reservation.BeginTime);
+    bt.setDate(bt.getDate() - 1);
+    // Check confirm one day before
+    if ( !reservation.Confirmed &&
+         (
+          this.serverTime.getFullYear() !== bt.getFullYear() ||
+          this.serverTime.getMonth() !== bt.getMonth() ||
+          this.serverTime.getDate() !== bt.getDate()
+         )
+        ) {
+        return false;
+    }
+
+    return (this.session.getModeValue() === 'public') &&
+           (this.session.getUserID() === reservation.UserID);
+  }
+
+  fillLocalNames(): void {
+    for ( let i = 0; i < this.filter.locals.length; i++ ) {
+      this.localNames[ this.filter.locals[i].ID ] = this.filter.locals[i].Name;
+    }
+  }
+
+  LoadData(): void {
+    this.loadServerTime();
+  }
+
+  loadServerTime(): void {
+    this.api.GetServerTime().subscribe(
+      (serverTime) => {
+        this.serverTime = serverTime;
+        this.loadReservations();
+      },
+      (err) => {
+        this.errh.HandleError(err);
+      }
+    );
+  }
+
   loadReservations(): void {
+    const filterData = this.filter.GetFilterData();
+    console.log(filterData.Date);
     const f = new ReservationFilter(
-      this.filterData.UserID,
-      this.filterData.LocalID,
-      this.filterData.Date,
+      filterData.UserID,
+      filterData.LocalID,
+      filterData.Date,
       null,
       null,
       null,
@@ -107,7 +122,8 @@ export class ReservationsTableComponent implements OnInit, AfterViewInit {
 
     this.api.GetReservations(f, this.session.getModeValue()).subscribe(
       (reservations) => {
-        this.dataSource.data = reservations;
+        this.reservations = reservations;
+        this.dataSource.data = this.reservations;
       },
       (err) => {
         this.errh.HandleError(err);

@@ -1,1 +1,30 @@
-<app-reservations-table></app-reservations-table>
+
+  <app-reservations-filter>
+  </app-reservations-filter>
+
+  <app-reservations-table
+      [filter]="filter"
+      (ConfirmClick)="ConfirmReservation($event)"
+      (AcceptClick)="AcceptReservation($event)"
+      (RefuseClick)="RefuseReservation($event)">
+  </app-reservations-table>
+
+  <br/>
+  <br/>
+
+  <mat-accordion 
+    *ngIf="showReserveForm()">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>add</mat-icon>Reservar
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <app-reservation-form
+        [filter]="filter"
+        (Submit)="CreateReservation($event)">
+      </app-reservation-form>
+      
+    </mat-expansion-panel>
+  </mat-accordion>

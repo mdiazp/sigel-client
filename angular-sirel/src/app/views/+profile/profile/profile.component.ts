@@ -13,7 +13,7 @@ import { ApiService,  ErrorHandlerService } from '@app/services/core';
 export class ProfileComponent implements OnInit {
 
   loading$: Observable<boolean>;
-  loadingSubject = new BehaviorSubject<boolean>(false);
+  loadingSubject = new BehaviorSubject<boolean>(true);
   profile = new UserProfile(0, '', '', '', false);
 
   profileForm: FormGroup;

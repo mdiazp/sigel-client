@@ -2,15 +2,14 @@
 
 
 <!--div *ngIf="!(loading$ | async)"-->
-  <mat-table #table [dataSource]="dataSource"
-    matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+  <mat-table #table [dataSource]="dataSource">
 
-    <ng-container matColumnDef="id">
+    <!--ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
       <mat-cell *matCellDef="let element">
         <a [routerLink]="['/','users',element.ID]"> {{element.ID}} </a>
       </mat-cell>
-    </ng-container>
+    </ng-container-->
 
     <ng-container matColumnDef="username">
       <mat-header-cell *matHeaderCellDef> Usuario </mat-header-cell>
