@@ -7,3 +7,12 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
 .flex-spacer {
   flex: 1 1 auto;
 }
+
+.flex-row-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.flex-filter-form-control {
+  margin: 10px;
+}

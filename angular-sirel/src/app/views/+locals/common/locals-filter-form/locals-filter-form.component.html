@@ -1,6 +1,6 @@
-<form [formGroup]="filterForm" class="example-container">
+<form [formGroup]="filterForm" class="flex-row-container">
 
-  <mat-form-field>
+  <mat-form-field class="flex-filter-form-control">
     <mat-select placeholder="Area"
                 formControlName="selectAreaControl">
       <mat-option [value]="0">
@@ -10,16 +10,9 @@
         {{area.Name}}
       </mat-option>
     </mat-select>
-  </mat-form-field>  <br/>  <br/>
+  </mat-form-field>
 
-  <mat-form-field>
-    <mat-label>Buscar en nombre</mat-label>
-    <input formControlName="search"
-            matInput
-            type="text">
-  </mat-form-field> <br/> <br/>
-
-  <mat-form-field *ngIf="showEToR">
+  <mat-form-field *ngIf="showEToR" class="flex-filter-form-control">
     <mat-select placeholder="Habilitado"
                 formControlName="enableToReserve">
       <mat-option [value]="0">
@@ -34,4 +27,11 @@
     </mat-select>
   </mat-form-field>
 
-<form [formGroup]="filterForm" class="example-container">
+  <mat-form-field class="flex-filter-form-control">
+    <mat-label>Buscar en nombre</mat-label>
+    <input formControlName="search"
+            matInput
+            type="text">
+  </mat-form-field>
+
+</form>

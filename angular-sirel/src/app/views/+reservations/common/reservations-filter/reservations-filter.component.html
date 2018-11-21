@@ -1,5 +1,5 @@
-<form [formGroup]="filterForm" class="example-container">
-  <mat-form-field>
+<form [formGroup]="filterForm" class="flex-row-container">
+  <mat-form-field class="flex-filter-form-control">
     <mat-select placeholder="Seleccione un local"
                 formControlName="selectLocalControl">
       <mat-option [value]="0"
@@ -14,18 +14,15 @@
     </mat-select>
   </mat-form-field>
 
-  <br/>
-
-  <mat-form-field>
+  <mat-form-field class="flex-filter-form-control">
     <input matInput [matDatepicker]="picker" placeholder="Seleccione una fecha"
                     formControlName="selectDate">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker disabled="false"></mat-datepicker>
   </mat-form-field>
 
-  <br/>
-
-  <mat-form-field *ngIf="(session.getMode() | async)==='admin'">
+  <mat-form-field *ngIf="(session.getMode() | async)==='admin'"
+      class="flex-filter-form-control">
     <input  type="text" 
             placeholder="Usuario" 
             aria-label="Number" 
@@ -42,5 +39,4 @@
     </mat-autocomplete>
   </mat-form-field>
 
-  <br/>
 </form>
