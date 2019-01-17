@@ -1,3 +1,29 @@
+
+<div class="reservations-list">
+  <div class="reservations-list-item" *ngFor="let r of reservations">
+    <div class="reservation-list-item-activity">
+      {{r.ActivityName}}
+    </div>
+    <span class="flex-space"></span>
+    
+    <div class="reservations-list-item-interval-time">
+      <mat-icon class="reservations-list-tiem-icon-time">access_time</mat-icon>
+      <div class="reservation-list-item-begin-time">
+        {{r.BeginTime.slice(11, 16)}}
+      </div>
+      <div class="reservation-list-item-end-time">
+        {{r.EndTime.slice(11, 16)}}
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+<br/>
+<br/>
+<br/>
+
+
 <mat-table #table [dataSource]="dataSource">
 
   <!--ng-container matColumnDef="id">

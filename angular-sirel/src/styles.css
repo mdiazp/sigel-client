@@ -16,3 +16,7 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
 .flex-filter-form-control {
   margin: 10px;
 }
+
+.flex-space {
+  flex: 1 1 auto;
+}

@@ -1,0 +1,58 @@
+.reservations-list {
+    display: flex;
+    flex-flow: column;
+
+    border: 1px solid rgba(0, 0, 0, .54);
+
+    padding: 0 0;
+
+    border-radius: 10px;
+    background-color: white;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)*/
+}
+
+.reservations-list-item {
+    display: flex;
+    flex-flow: row wrap;  
+    align-items: center;
+
+    padding: 10px 10px;
+
+    border: 1px solid rgba(0, 0, 0, 255);
+}
+
+.reservation-list-item:first-child {
+    border-radius: 10px 10px 0px 0px;
+}
+
+.reservation-list-item:last-child {
+    border-radius: 0px 0px 10px 10px;
+}
+
+.reservations-list-item:hover {
+    cursor: pointer;
+    border: 1px solid rgba(0,0,0,.54);
+}
+
+.reservation-list-item-activity {
+
+}
+
+.reservations-list-item-interval-time {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    padding: 5px;
+
+    border-radius: 15px;
+    background-color: gray;
+
+    color: white;
+}
+
+.reservation-list-item-begin-time,
+.reservation-list-item-end-time,
+.reservation-list-item-icon-time {
+    margin: 0 10px;
+}
