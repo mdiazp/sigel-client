@@ -34,14 +34,14 @@
       <button mat-raised-button
         color="primary"
         (click)="EditProfile()"
-        [disabled]="profileForm.invalid">Enviar</button>
+        [disabled]="profileForm.invalid">Actualizar</button>
     </form>
   </mat-tab>
 </mat-tab-group>
 
 <br/><br/>
 <mat-accordion *ngIf="!(loading$ | async)">
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
       <mat-panel-title>
         Notificaciones

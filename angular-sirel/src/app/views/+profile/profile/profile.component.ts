@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { UserProfile, EditUserProfile } from '@app/models/core';
-import { ApiService,  ErrorHandlerService } from '@app/services/core';
+import { ApiService,  ErrorHandlerService, FeedbackHandlerService } from '@app/services/core';
 
 @Component({
   selector: 'app-profile',
@@ -23,7 +23,8 @@ export class ProfileComponent implements OnInit {
   firstLoad = true;
 
   constructor(private api: ApiService,
-              private errh: ErrorHandlerService) {
+              private errh: ErrorHandlerService,
+              private feedback: FeedbackHandlerService) {
     this.loading$ = this.loadingSubject.asObservable();
   }
 
@@ -51,6 +52,7 @@ export class ProfileComponent implements OnInit {
     this.api.PatchProfile(editProfile).subscribe(
       (profile) => {
         this.profile = profile;
+        this.feedback.ShowFeedback('Su perfil fue actualizado correctamente');
       },
       (err) => {
         this.errh.HandleError(err);

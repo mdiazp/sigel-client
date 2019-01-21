@@ -6,6 +6,7 @@ import {
   ApiService,
   ErrorHandlerService,
   SessionService,
+  FeedbackHandlerService,
 } from '@app/services/core';
 
 @Component({
@@ -24,7 +25,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
               private api: ApiService,
               private session: SessionService,
-              private errh: ErrorHandlerService) {
+              private errh: ErrorHandlerService,
+              private feedback: FeedbackHandlerService) {
 
   }
 
@@ -54,6 +56,7 @@ export class LoginComponent implements OnInit {
         (user) => {
           this.session.Open(user);
           this.router.navigate(['home']);
+          this.feedback.ShowFeedback(`Bienvenido ${user.username}`);
         },
         (error) => this.errh.HandleError(error)
       );

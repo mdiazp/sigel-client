@@ -59,4 +59,22 @@ export class WorkingTimeUtil {
     }
     return config;
   }
+
+  IsWorking(date: Date, monthConfig: string, wdConfig: string): boolean {
+    if ( monthConfig[date.getMonth()] === '0' ) {
+      return false;
+    }
+
+    let d: number; d = date.getDay();
+    d--;
+    if ( d === -1 ) {
+      d = 6;
+    }
+
+    if (wdConfig[d] === '0') {
+      return false;
+    }
+
+    return true;
+  }
 }

@@ -1,0 +1,26 @@
+.custom-snackbar {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.custom-snackbar-success {
+  background-color: #00529B;
+  /*background-color: rgb(189, 217, 248);*/
+}
+
+
+.custom-snackbar-error {
+  background-color: #D8000C;
+  /*background-color: #FFBABA;*/
+}
+
+.custom-snackbar-msg {
+  margin-left: 10px;
+}
+
+.custom-snackbar-close {
+  cursor: pointer;
+}
+  
+  

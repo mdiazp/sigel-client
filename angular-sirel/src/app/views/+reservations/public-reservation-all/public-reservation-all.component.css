@@ -1,4 +1,13 @@
-.reservations-list {
+.reservations-info-reserve-button {
+    display: flex;
+    flex-flow: row wrap;
+
+    align-items: center;
+
+    padding: 10px;
+}
+
+.public-reservations-list {
     display: flex;
     flex-flow: column;
 
@@ -10,16 +19,36 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
 }
 
-.reservations-list-item {
+.public-reservations-list-empty {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px;
+}
+
+.public-reservations-list-empty-info {
+    align-items: center;
+    /*background-color: #00529B;
+    border-radius: 10px;
+    color: white;*/
+
+    color: #00529B;
+    padding: 5px 10px;
+}
+
+.public-reservations-list-item {
     display: flex;
     flex-flow: row wrap;  
     align-items: center;
+    justify-content: space-evenly;
 
     padding: 25px 20px;
 }
 /*
 @media(max-width: 350px) {
-    .reservations-list-item {
+    .public-reservations-list-item {
         display: flex;
         flex-flow: column;
         align-items: center;
@@ -29,13 +58,13 @@
     }
 }
 */
-.reservations-list-item:hover {
+.public-reservations-list-item:hover {
     cursor: pointer;
     border-radius: 10px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
 }
 
-.reservations-list-item-activity {
+.public-reservations-list-item-activity {
     padding: 5px;
     width: 250px;
 }
@@ -44,10 +73,12 @@
     width: 10px;
 }
 
-.reservations-list-item-time {
+.public-reservations-list-item-time {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
+
+    width: 150px;
     
     padding: 5px;
 
@@ -57,29 +88,31 @@
     color: white;
 }
 
-.reservations-list-item-interval-time {
+.public-reservations-list-item-interval-time {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
 }
 
-.reservations-list-item-begin-time,
-.reservations-list-item-end-time,
-.reservations-list-item-icon-time {
+.public-reservations-list-item-begin-time,
+.public-reservations-list-item-end-time,
+.public-reservations-list-item-icon-time {
     margin: 0px 5px;
 }
 
-.reservations-list-item-status {
+.public-reservations-list-item-status {
     display: flex;
     flex-flow: row wrap;
     align-items: center;
+
+    width: 150px;
 
     text-align: center;
 }
 
-.reservations-list-item-status-pending {
+.public-reservations-list-item-status-pending {
     color: orange;
 }
-.reservations-list-item-status-accepted {
+.public-reservations-list-item-status-accepted {
     color: green;
 }

@@ -27,19 +27,24 @@
       </a>
       <a  *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
           mat-list-item [routerLink]="['users']">
-        <mat-icon>arrow</mat-icon>
+        <mat-icon>supervisor_account</mat-icon>
         Usuarios
       </a>
       <a mat-list-item [routerLink]="['areas']">
-        <mat-icon>arrow</mat-icon>
+        <mat-icon>account_balance</mat-icon>
         Areas
       </a>
       <a mat-list-item [routerLink]="['locals']">
-        <mat-icon>arrow</mat-icon>
+        <mat-icon>class</mat-icon>
         Locales
       </a>
-      <a mat-list-item [routerLink]="['reservations']">
-        <mat-icon>arrow</mat-icon>
+      <a *ngIf="this.session.getModeValue() === 'public'" 
+         mat-list-item [routerLink]="['reservations-public']">
+        <mat-icon>date_range</mat-icon>Reservaciones
+      </a>
+      <a *ngIf="this.session.getModeValue() === 'admin'" 
+         mat-list-item [routerLink]="['reservations']">
+        <mat-icon>date_range</mat-icon>
         Reservaciones
       </a>
       <a mat-list-item [routerLink]="['profile']"
@@ -47,17 +52,12 @@
         <mat-icon>person</mat-icon>
         <span>Mi Cuenta</span>
       </a>
-      <a mat-list-item
-        *ngIf="(session.isAdmin() | async)"
-        (click)="session.changeMode()">
-        Cambiar a modo {{(session.getMode() | async) === 'public' ? 'admin' : 'public'}}
-      </a>
     </mat-nav-list>
 
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary" style="z-index: 2000;">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -71,14 +71,30 @@
 
       <a *ngIf="!(session.isOpen() | async)" style="text-decoration: none; color: white;"
                             [routerLink]="['login']">
-        <span>Iniciar Sesion</span>
+        <span class="flex-row-container" style="align-items: center;"><mat-icon>lock_open</mat-icon>Iniciar</span>
       </a>
-      <a *ngIf="(session.isOpen() | async)"
-                            style="text-decoration: none; color: white; cursor: pointer;"
-                            (click)="logout()">
-        <mat-icon>exit_to_app</mat-icon>
-        <!--span>Logout</span-->
-      </a>
+      <span *ngIf="(session.isOpen() | async)">
+        <button mat-raised-button color="accent"
+          *ngIf="(session.isAdmin() | async)"
+          (click)="session.changeMode()"
+          style="margin-right: 10px;">
+          Modo {{(session.getMode() | async) === 'public' ? 'Publico' : 'Administracion'}}
+        </button>
+        <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/avatar_2x.png" alt="user" class="profile-pic"> </button>
+        <mat-menu #profile="matMenu" class="mymegamenu">
+            <!--button mat-menu-item>
+                <mat-icon>settings</mat-icon> Settings </button>
+            <button mat-menu-item>
+                <mat-icon>account_box</mat-icon> Profile </button>
+            <button-- mat-menu-item>
+                <mat-icon>notifications_off</mat-icon> Disable notifications </button-->
+            <button mat-menu-item (click)="onProfile()">
+                <mat-icon>account_box</mat-icon>{{session.getUsername()}} </button>
+            <button mat-menu-item (click)="logout()">
+                <mat-icon>exit_to_app</mat-icon> Salir
+            </button>
+        </mat-menu>
+      </span>
 
      </mat-toolbar>
 

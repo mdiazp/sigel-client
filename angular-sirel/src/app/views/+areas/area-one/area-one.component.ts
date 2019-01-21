@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 
-import { SessionService, ApiService, ErrorHandlerService } from '@app/services/core';
+import { SessionService, ApiService, ErrorHandlerService, FeedbackHandlerService } from '@app/services/core';
 import { Area } from '@app/models/core';
 
 @Component({
@@ -21,6 +21,7 @@ export class AreaOneComponent implements OnInit {
               private route: ActivatedRoute,
               private api: ApiService,
               private errh: ErrorHandlerService,
+              private feedback: FeedbackHandlerService,
               private session: SessionService) {
     this.route.params.subscribe(
       params => {
@@ -38,6 +39,7 @@ export class AreaOneComponent implements OnInit {
     this.api.PatchArea(area).subscribe(
       (data) => {
         this.area = data;
+        this.feedback.ShowFeedback('El area fue actualizada correctamente');
       },
       (err) => {
         this.errh.HandleError(err);
@@ -49,6 +51,7 @@ export class AreaOneComponent implements OnInit {
     this.api.DeleteArea(this.area.ID).subscribe(
       (_) => {
         this.router.navigate(['areas']);
+        this.feedback.ShowFeedback('El area fue eliminada correctamente');
       },
       (err) => {
         this.errh.HandleError(err);

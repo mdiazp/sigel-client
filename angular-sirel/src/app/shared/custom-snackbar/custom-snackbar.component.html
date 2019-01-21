@@ -1,0 +1,5 @@
+<div [class]="'custom-snackbar custom-snackbar-'+this.data.style">
+  <mat-icon>{{ data?.icon }}</mat-icon>
+  <span class="custom-snackbar-msg flex-space">{{ data?.message }}</span>
+  <mat-icon class="custom-snackbar-close" (click)="onClose()">close</mat-icon>
+</div>

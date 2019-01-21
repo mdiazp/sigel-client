@@ -21,7 +21,7 @@
 
       <!-- LocalInfo -->
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Editar Informacion
@@ -45,7 +45,7 @@
 
       <!-- Local's Laboral Time -->
       <mat-accordion>
-        <mat-expansion-panel>
+        <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               Horario Laboral
@@ -66,7 +66,7 @@
 
       <!-- Advanced -->
       <mat-accordion *ngIf="(session.isSuperadmin() | async)">
-          <mat-expansion-panel>
+          <mat-expansion-panel [expanded]="true">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 Avanzada

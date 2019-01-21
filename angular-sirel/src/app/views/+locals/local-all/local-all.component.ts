@@ -8,7 +8,7 @@ import {
 } from '@app/views/+locals/common/local-info-form/local-info-form.component';
 
 
-import { ApiService, SessionService, ErrorHandlerService } from '@app/services/core';
+import { ApiService, SessionService, ErrorHandlerService, FeedbackHandlerService } from '@app/services/core';
 import { Local } from '@app/models/core';
 
 @Component({
@@ -21,11 +21,18 @@ export class LocalAllComponent implements OnInit {
   @ViewChild(LocalsTableComponent) locals: LocalsTableComponent;
   @ViewChild(LocalInfoFormComponent) createForm: LocalInfoFormComponent;
 
+  expandCreateLocal = false;
+
   constructor(private api: ApiService,
               private session: SessionService,
-              private errh: ErrorHandlerService) { }
+              private errh: ErrorHandlerService,
+              private feedback: FeedbackHandlerService) { }
 
   ngOnInit() {
+  }
+
+  onOpenCreateLocal(): void {
+    this.expandCreateLocal = true;
   }
 
   CreateLocal(local: Local) {
@@ -34,16 +41,18 @@ export class LocalAllComponent implements OnInit {
     local.WorkingWeekDays = '1111120';
     local.WorkingBeginTimeHours = 8;
     local.WorkingBeginTimeMinutes = 0;
-    local.WorkingEndTimeHours = 5;
+    local.WorkingEndTimeHours = 17;
     local.WorkingEndTimeMinutes = 0;
 
     this.api.PostLocal(local).subscribe(
       (data) => {
         this.createForm.Reset();
         this.locals.LoadLocals();
+        this.feedback.ShowFeedback('El local fue creado correctamente');
+        this.expandCreateLocal = false;
       },
       (err) => {
-        this.errh.HandleError(err);
+        this.errh.HandleError(err, 'Existe otro local con el mismo nombre.');
       }
     );
   }

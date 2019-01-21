@@ -1,0 +1,65 @@
+<app-public-reservation-filter>
+</app-public-reservation-filter>
+
+<div class="reservations-info-reserve-button">
+    <div class="reservations-info">
+        <span class="flex-row-container" style="align-items: center;">
+            <mat-icon>info</mat-icon>
+                {{information}}
+        </span>
+    </div>
+
+    <span class="flex-space"></span>
+
+    <button mat-raised-button color="primary"
+            style="flex: 0 1 auto; margin-left: 10px;"
+            [disabled]="!canReserve()"
+            (click)="onReserve()">
+        <mat-icon>add</mat-icon>Reservar
+    </button>
+</div>
+
+<div class="public-reservations-list">
+    <div *ngIf="reservations.length === 0" 
+         class="public-reservations-list-empty">
+        <span class="flex-row-container public-reservations-list-empty-info">
+            <mat-icon>info</mat-icon>
+            <h5>No hay reservaciones</h5>
+        </span>
+    </div>
+
+    <div class="public-reservations-list-item" *ngFor="let r of reservations">
+        
+        <div class="public-reservations-list-item-time">
+            <mat-icon class="public-reservations-list-item-icon-time">access_time</mat-icon>
+            <div class="public-reservations-list-item-interval-time">
+                <div class="public-reservations-list-item-begin-time">
+                {{r.BeginTime.slice(11, 16)}}
+                </div>
+                <div class="public-reservations-list-item-end-time">
+                {{r.EndTime.slice(11, 16)}}
+                </div>
+            </div>
+        </div>
+        
+        
+        <div class="public-reservations-list-item-activity">
+        {{r.ActivityName}}
+        </div>
+        
+        <div [ngClass]="{
+            'public-reservations-list-item-status': true,
+            'public-reservations-list-item-status-accepted': !r.Pending,
+            'public-reservations-list-item-status-pending': r.Pending
+        }">
+            <mat-icon style="margin-right: 5px;">{{!r.Pending ? 'check_circle' : 'info'}}</mat-icon>
+            <span><strong>{{!r.Pending ? 'Aceptada' : 'Pendiente'}}</strong></span>
+        </div>
+
+        <button mat-raised-button color="primary"
+                (click)="onConfirm(r)"
+                *ngIf="canConfirm(r)">
+            <mat-icon aria-label="edit">check-circle</mat-icon>Confirmar
+        </button>
+    </div>
+</div>

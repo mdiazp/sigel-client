@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ResponseType } from '@angular/http';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material';
 import { Router } from '@angular/router';
 
-import { SessionService } from '@app/services/session.service';
+import { SessionService } from './session.service';
+import { CustomSnackbarComponent } from '../shared/custom-snackbar/custom-snackbar.component';
+import { isNullOrUndefined } from 'util';
 
 @Injectable()
 export class ErrorHandlerService {
@@ -12,35 +14,40 @@ export class ErrorHandlerService {
               private router: Router,
               private session: SessionService) {}
 
-  HandleError(error: Response) {
-    console.log('ErrorHandler - ErrorStatusText: ', error.statusText);
-    console.log('ErrorHandler - ErrorStatus: ', error.status);
-    console.log('ErrorHandler - ErrorType: ', error.type);
-
-    const time = 4000;
+  HandleError(error: Response, msg?: string) {
+    if (isNullOrUndefined(msg)) {
+      msg = `${error.status} Petición incorrecta`;
+    }
 
     switch (error.status) {
       case 0:
-        this.snackBar.open(`(500) Server Internal Error`, 'X', {duration: time});
-        break;
-      case 400:
-        this.snackBar.open(`(400) Bad Request`, 'X', {duration: time});
+        msg = '500 Problema de conexión';
         break;
       case 401:
         this.session.Close();
         this.router.navigate(['/login']);
-        this.snackBar.open(`(401) Fail Authentication`, 'X', {duration: time});
+        msg = '401 No autorizado';
         break;
       case 403:
         this.router.navigate(['/home']);
-        this.snackBar.open(`(403) Permission Denegued`, 'X', {duration: time});
+        msg = '403 Acceso restringido';
         break;
       case 404:
-        this.snackBar.open(`(404) Record Not Found`, 'X', {duration: time});
+        msg = '404 No encontrado';
         break;
       case 500:
-        this.snackBar.open(`(500) Server Internal Error`, 'X', {duration: time});
+        msg = '500 Error interno del servidor';
         break;
     }
+
+    this.snackBar.openFromComponent(CustomSnackbarComponent, {
+      panelClass: ['custom-snackbar-error'],
+      data: {
+        message: msg,
+        icon: 'error',
+        style: 'error',
+      },
+      duration: 10000,
+    });
   }
 }

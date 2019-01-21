@@ -8,6 +8,7 @@ import { DatePipe } from '@angular/common';
 
 import {
   MAT_DIALOG_DEFAULT_OPTIONS, MatPaginatorIntl,
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
 } from '@angular/material';
 
 import {
@@ -22,7 +23,8 @@ import {
   SessionService,
   StorageService,
   ApiService,
-  ErrorHandlerService
+  ErrorHandlerService,
+  FeedbackHandlerService
 } from '@app/services/core';
 
 import {
@@ -64,6 +66,10 @@ import { ReservationFormComponent } from './views/+reservations/common/reservati
 import { ReservationProfileComponent } from './views/+reservations/common/reservation-profile/reservation-profile.component';
 import { UserNotificationsTableComponent } from './views/+users/common/user-notifications-table/user-notifications-table.component';
 import { CustomMatPaginatorIntl } from '@app/views/common/CustomMatPaginatorIntl';
+import { CustomSnackbarComponent } from './shared/custom-snackbar/custom-snackbar.component';
+import { PublicReservationAllComponent } from './views/+reservations/public-reservation-all/public-reservation-all.component';
+import { PublicReservationFilterComponent } from './views/+reservations/public-reservation-filter/public-reservation-filter.component';
+import { PublicReserveDialogComponent } from './views/+reservations/public-reserve-dialog/public-reserve-dialog.component';
 
 const routes: Routes = [
   {
@@ -114,7 +120,13 @@ const routes: Routes = [
   },
   {
     path: 'reservations',
-    component: ReservationAllComponent
+    component: ReservationAllComponent,
+    canActivate: [AdminGuard],
+    canLoad: [AdminGuard],
+  },
+  {
+    path: 'reservations-public',
+    component: PublicReservationAllComponent,
   },
   {
     path: 'reservation/:id',
@@ -169,6 +181,10 @@ const routes: Routes = [
     ReservationFormComponent,
     ReservationProfileComponent,
     UserNotificationsTableComponent,
+    CustomSnackbarComponent,
+    PublicReservationAllComponent,
+    PublicReservationFilterComponent,
+    PublicReserveDialogComponent,
   ],
   providers: [
     DatePipe,
@@ -176,17 +192,28 @@ const routes: Routes = [
     SessionService,
     ApiService,
     ErrorHandlerService,
+    FeedbackHandlerService,
 
     AuthGuard,
     AdminGuard,
     SuperadminGuard,
 
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    {provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: {duration: 4000}},
+
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {
+      width: '400px',
+      hasBackdrop: true,
+      disableClose: true,
+    }},
 
     {provide: MAT_DATE_LOCALE, useValue: 'es-SP'},
     {provide: MatPaginatorIntl, useClass: CustomMatPaginatorIntl},
     // {provide: DateAdapter, useClass: NativeDateAdapter, deps: [MAT_DATE_LOCALE]},
     // {provide: MAT_DATE_FORMATS, useValue: MAT_NATIVE_DATE_FORMATS},
+  ],
+  entryComponents: [
+    CustomSnackbarComponent,
+    PublicReserveDialogComponent,
   ],
   bootstrap: [AppComponent],
 })

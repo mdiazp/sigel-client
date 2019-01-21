@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { User, EditUser } from '@app/models/core';
-import { ApiService,  ErrorHandlerService, SessionService} from '@app/services/core';
+import { ApiService,  ErrorHandlerService, SessionService, FeedbackHandlerService} from '@app/services/core';
 
 @Component({
   selector: 'app-user-one',
@@ -28,7 +28,8 @@ export class UserOneComponent implements OnInit {
   constructor(private api: ApiService,
               private errh: ErrorHandlerService,
               private session: SessionService,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute,
+              private feedback: FeedbackHandlerService) {
     this.route.params.subscribe(
       (params) => {
         this.userID = params.id;
@@ -61,6 +62,7 @@ export class UserOneComponent implements OnInit {
     this.api.PatchUser(this.userID, editUser).subscribe(
       (user) => {
         this.user = user;
+        this.feedback.ShowFeedback('El usuario fue actualizado correctamente');
       },
       (err) => {
         this.errh.HandleError(err);

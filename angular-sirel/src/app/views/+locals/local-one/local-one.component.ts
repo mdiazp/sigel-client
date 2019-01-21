@@ -13,7 +13,7 @@ import {
   LocalLaboralTimeFormComponent,
   LocalLaboralTime,
 } from '@app/views/+locals/common/local-laboral-time-form/local-laboral-time-form.component';
-import { ApiService, ErrorHandlerService, SessionService } from '@app/services/core';
+import { ApiService, ErrorHandlerService, SessionService, FeedbackHandlerService } from '@app/services/core';
 
 @Component({
   selector: 'app-local-one',
@@ -38,6 +38,7 @@ export class LocalOneComponent implements OnInit, AfterViewInit {
               private route: ActivatedRoute,
               private api: ApiService,
               private errh: ErrorHandlerService,
+              private feedback: FeedbackHandlerService,
               private session: SessionService) {
     this.route.params.subscribe(
       params => {
@@ -91,6 +92,7 @@ export class LocalOneComponent implements OnInit, AfterViewInit {
       (data) => {
         this.local = data;
         this.localProfile.reset(data);
+        this.feedback.ShowFeedback('El local fue actualizado correctamente');
       },
       (err) => {
         this.errh.HandleError(err);
@@ -102,6 +104,7 @@ export class LocalOneComponent implements OnInit, AfterViewInit {
     this.api.DeleteLocal(this.local.ID).subscribe(
       (_) => {
         this.router.navigate(['locals']);
+        this.feedback.ShowFeedback('El local fue eliminado correctamente');
       },
       (err) => {
         this.errh.HandleError(err);

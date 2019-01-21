@@ -12,6 +12,7 @@ import {
 import {
   ApiService,
   ErrorHandlerService,
+  FeedbackHandlerService,
 } from '@app/services/core';
 
 import {
@@ -37,7 +38,8 @@ export class LocalAdminsComponent implements OnInit {
   @Input() local_id: number;
 
   constructor(private api: ApiService,
-              private errh: ErrorHandlerService) { }
+              private errh: ErrorHandlerService,
+              private feedback: FeedbackHandlerService) { }
 
   ngOnInit() {
     this.loadAdmins();
@@ -78,7 +80,7 @@ export class LocalAdminsComponent implements OnInit {
 
     obs.subscribe(
       (_) => {
-        alert(`El usuario con id(${user_id}) fue eliminado de la lista de administradores del local.`);
+        this.feedback.ShowFeedback(`El usuario fue eliminado de la lista de administradores del local correctamente.`);
         this.loadAdmins();
       },
       (err) => {

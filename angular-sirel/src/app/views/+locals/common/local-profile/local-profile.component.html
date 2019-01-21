@@ -7,44 +7,48 @@
     <b>Id: </b>{{local.ID}}
   </div-->
   <div>
-    <b>Area: </b>{{localArea.Name}}
+    <b>Area: </b> <br/> {{localArea.Name}}
   </div>
-  <div>
-    <b>Nombre: </b>{{local.Name}}
-  </div>
-  <div>
-    <b>Descripcion: </b>{{local.Description}}
-  </div>
-  <div>
-    <b>Direccion: </b>{{local.Location}}
-  </div>
-  <div>
-    <b>Disponible: </b>{{local.EnableToReserve}}
-  </div>
-  <mat-list>
-    <b mat-header>Meses Laborables</b>
-    <mat-list-item *ngFor="let wm of working_months">
-      {{wm.monthName}}
-      <div *ngIf="wm.working">
-        -> Laborable
-      </div>
-    </mat-list-item>
-  </mat-list>
   <br/>
-  <mat-list>
-    <b mat-header>Dias de la semana Laborables</b>
-    <mat-list-item *ngFor="let wd of working_week_days">
-      {{wd.weekDayName}}
+  <div>
+    <b>Nombre: </b> <br/> {{local.Name}}
+  </div>
+  <br/>
+  <div style="width: 400px;">
+    <b>Descripcion: </b> <br/>
+    {{local.Description}}
+  </div>
+  <br/>
+  <div>
+    <b>Direccion: </b> <br/> {{local.Location}}
+  </div>
+  <br/>
+  <div>
+    <b>Disponible: </b> {{local.EnableToReserve ? 'Si' : 'No'}}
+  </div>
+  <br/>
+  <div>
+    <b mat-header>Meses Laborables:</b> <br/>
+    <div style="width: 400px" class="flex-row-container">
+    <span *ngFor="let wm of working_months" style="margin: 0px 5px;">
+      <span *ngIf="wm.working" style="margin: 0px;">
+          {{wm.monthName}}
+      </span>
+    </span>
+  </div>
+  <br/>
+  <div>
+    <b>Dias de la semana Laborables</b> <br/> <br/>
+    <div *ngFor="let wd of working_week_days">
       <div *ngIf="wd.working">
-        -> Laborable
-        <div style="display: inline;"
+        {{wd.weekDayName}}
+        <h5 style="display: inline;"
              *ngIf="wd.needConfirmation">
           (Confirmar un dia antes)
-        </div>
+        </h5>
       </div>
-      <br/>
-    </mat-list-item>
-  </mat-list>
+    </div>
+  </div>
   <br/>
   <div style="display: inline;">
     <h4>Horario Laborable en el Dia: </h4>

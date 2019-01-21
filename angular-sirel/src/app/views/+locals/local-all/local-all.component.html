@@ -6,7 +6,9 @@
 
 <mat-accordion 
   *ngIf="!((session.getMode() | async)==='public' || !(session.isSuperadmin() | async))">
-  <mat-expansion-panel>
+  <mat-expansion-panel
+    [expanded]="expandCreateLocal"
+    (opened)="onOpenCreateLocal()">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <mat-icon>add</mat-icon>Crear Local

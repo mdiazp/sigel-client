@@ -17,7 +17,7 @@ export { JwtToken } from '@app/models/jwt-token';
 export {
     WorkingTimeUtil,
     WorkingWeekDay,
-    WorkingMonth
+    WorkingMonth,
 } from '@app/models/local_working_time_util';
 export { AuxAL } from '@app/models/aux_a_l';
 export { PagAndOrderFilter } from '@app/models/pag-and-order-filter';

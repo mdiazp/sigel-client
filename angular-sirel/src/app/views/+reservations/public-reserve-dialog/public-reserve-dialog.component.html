@@ -1,0 +1,64 @@
+<h3 style="margin-top: 10px;margin-bottom: 10px;">Nueva Reservacion</h3>
+<mat-dialog-content>
+    <form [formGroup]="reservationForm">
+      Local: {{local.Name}}
+      <br/>
+      Fecha: {{date.slice(0,10)}}
+      <br/>
+      Horario Laboral: {{getHorarioLaboral()}}
+      <br/>
+      <br/>
+      <mat-form-field>
+        <mat-label>Nombre de la actividad</mat-label>
+        <input formControlName="activityName"
+                matInput
+                type="text"
+                required>
+      </mat-form-field> <br/>
+    
+      <mat-form-field>
+          <mat-label>Descripcion</mat-label>
+          <textarea formControlName="activityDescription"
+                  matInput
+                  type="text"
+                  required>
+          </textarea>
+      </mat-form-field> <br/>
+    
+      <div>
+        <label>Inicio:</label><br/>
+        <mat-form-field>
+          <mat-label>Hora</mat-label>
+          <input matInput type="number" required formControlName="bth">
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Minutos</mat-label>
+          <input matInput type="number" required formControlName="btm">
+        </mat-form-field>
+      </div>
+      <br/>
+      <div>
+        <label>Fin: </label><br/>
+        <mat-form-field>
+            <mat-label>Hora</mat-label>
+            <input matInput type="number" required formControlName="eth">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Minutos</mat-label>
+            <input matInput type="number" required formControlName="etm">
+        </mat-form-field>
+      </div>
+      <br/>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions
+  style="flex-flow: row-reverse wrap; margin-top: 20px;">
+  <button mat-raised-button
+          color="primary"
+          [disabled]="this.reservationForm.invalid"
+          style="margin-left: 10px; margin-bottom: 10px;"
+          (click)="onSubmit()">Aceptar</button>
+
+  <button mat-raised-button [mat-dialog-close]
+          style="margin-left: 10px; margin-bottom: 10px;">Cancelar</button>
+</mat-dialog-actions>

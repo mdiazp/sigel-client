@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { SessionService } from '@app/services/session.service';
 import { ApiService } from '@app/services/api.service';
 import { ErrorHandlerService } from '@app/services/error-handler.service';
+import { FeedbackHandlerService } from '@app/services/core';
 
 @Component({
   selector: 'app-layout',
@@ -31,6 +32,7 @@ export class LayoutComponent {
               private api: ApiService,
               private session: SessionService,
               private errh: ErrorHandlerService,
+              private feedback: FeedbackHandlerService,
               private router: Router) {
     this.opened_admin_menu = false;
     /*
@@ -46,11 +48,16 @@ export class LayoutComponent {
     this.opened_admin_menu = !this.opened_admin_menu;
   }
 
+  onProfile(): void {
+    this.router.navigate(['profile']);
+  }
+
   logout() {
     this.api.Logout().subscribe(
       (res) => {
         this.session.Close();
         this.router.navigate(['home']);
+        this.feedback.ShowFeedback('Su session ha sido cerrada correctamente');
       },
       (err) => {
         this.errh.HandleError(err);
