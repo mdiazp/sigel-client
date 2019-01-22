@@ -2,8 +2,8 @@
 </app-public-reservation-filter>
 
 <div class="reservations-info-reserve-button">
-    <div class="reservations-info">
-        <span class="flex-row-container" style="align-items: center;">
+    <div *ngIf="information.length > 0" class="reservations-info">
+        <span style="display: flex; flex-flow: row nowrap; align-items: center;">
             <mat-icon>info</mat-icon>
                 {{information}}
         </span>

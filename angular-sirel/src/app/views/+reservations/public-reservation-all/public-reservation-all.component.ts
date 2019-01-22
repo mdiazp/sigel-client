@@ -151,6 +151,7 @@ export class PublicReservationAllComponent implements OnInit, AfterViewInit {
     }
 
     let show: boolean = (this.session.getModeValue() === 'public' &&
+                         !isNullOrUndefined(this.session.session) &&
                          this.session.getUsername() !== 'SIREL' &&
                          !this.PastDate());
 
