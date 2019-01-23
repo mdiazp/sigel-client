@@ -70,6 +70,7 @@ import { CustomSnackbarComponent } from './shared/custom-snackbar/custom-snackba
 import { PublicReservationAllComponent } from './views/+reservations/public-reservation-all/public-reservation-all.component';
 import { PublicReservationFilterComponent } from './views/+reservations/public-reservation-filter/public-reservation-filter.component';
 import { PublicReserveDialogComponent } from './views/+reservations/public-reserve-dialog/public-reserve-dialog.component';
+import { NewAreaDialogComponent } from './views/+areas/common/new-area-dialog/new-area-dialog.component';
 
 const routes: Routes = [
   {
@@ -185,6 +186,7 @@ const routes: Routes = [
     PublicReservationAllComponent,
     PublicReservationFilterComponent,
     PublicReserveDialogComponent,
+    NewAreaDialogComponent,
   ],
   providers: [
     DatePipe,
@@ -214,6 +216,7 @@ const routes: Routes = [
   entryComponents: [
     CustomSnackbarComponent,
     PublicReserveDialogComponent,
+    NewAreaDialogComponent,
   ],
   bootstrap: [AppComponent],
 })

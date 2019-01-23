@@ -1,9 +1,3 @@
-  <div>
-    <mat-form-field>
-      <input matInput (keyup)="FilterByName($event.target.value)" placeholder="Buscar en nombre">
-    </mat-form-field>
-  </div>
-
   <mat-table #table [dataSource]="dataSource">
 
     <!--ng-container matColumnDef="id">

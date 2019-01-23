@@ -55,6 +55,10 @@ export class PublicReservationAllComponent implements OnInit, AfterViewInit {
     );
   }
 
+  showInfo(): boolean {
+    return this.information.length > 0;
+  }
+
   canConfirm(reservation: Reservation): boolean {
     let bt: Date; bt = this.util.StrtoDate(reservation.BeginTime);
     bt.setDate(bt.getDate() - 1);
