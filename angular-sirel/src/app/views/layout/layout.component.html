@@ -42,6 +42,10 @@
          mat-list-item [routerLink]="['reservations-public']">
         <mat-icon>date_range</mat-icon>Reservaciones
       </a>
+      <a *ngIf="this.session.getModeValue() === 'public'" 
+         mat-list-item [routerLink]="['public-reservations']">
+        <mat-icon>date_range</mat-icon>Reservaciones
+      </a>
       <a *ngIf="this.session.getModeValue() === 'admin'" 
          mat-list-item [routerLink]="['reservations']">
         <mat-icon>date_range</mat-icon>
@@ -78,7 +82,7 @@
           *ngIf="(session.isAdmin() | async)"
           (click)="session.changeMode()"
           style="margin-right: 10px;">
-          Modo {{(session.getMode() | async) === 'public' ? 'Publico' : 'Administracion'}}
+          {{(session.getMode() | async) === 'public' ? 'Publico' : 'Administracion'}}
         </button>
         <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/avatar_2x.png" alt="user" class="profile-pic"> </button>
         <mat-menu #profile="matMenu" class="mymegamenu">

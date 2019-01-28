@@ -88,11 +88,13 @@ export class LocalOneComponent implements OnInit, AfterViewInit {
       etor
     );
 
+    console.log('llt.WorkingEndTimeMinutes = ', llt.WorkingEndTimeMinutes);
+
     this.api.PatchLocal(local).subscribe(
       (data) => {
         this.local = data;
         this.localProfile.reset(data);
-        this.feedback.ShowFeedback('El local fue actualizado correctamente');
+        this.feedback.ShowFeedback(['El local fue actualizado correctamente']);
       },
       (err) => {
         this.errh.HandleError(err);
@@ -104,7 +106,7 @@ export class LocalOneComponent implements OnInit, AfterViewInit {
     this.api.DeleteLocal(this.local.ID).subscribe(
       (_) => {
         this.router.navigate(['locals']);
-        this.feedback.ShowFeedback('El local fue eliminado correctamente');
+        this.feedback.ShowFeedback(['El local fue eliminado correctamente']);
       },
       (err) => {
         this.errh.HandleError(err);

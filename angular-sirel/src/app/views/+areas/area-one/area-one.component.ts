@@ -39,7 +39,7 @@ export class AreaOneComponent implements OnInit {
     this.api.PatchArea(area).subscribe(
       (data) => {
         this.area = data;
-        this.feedback.ShowFeedback('El area fue actualizada correctamente');
+        this.feedback.ShowFeedback(['El area fue actualizada correctamente']);
       },
       (err) => {
         this.errh.HandleError(err);
@@ -51,7 +51,7 @@ export class AreaOneComponent implements OnInit {
     this.api.DeleteArea(this.area.ID).subscribe(
       (_) => {
         this.router.navigate(['areas']);
-        this.feedback.ShowFeedback('El area fue eliminada correctamente');
+        this.feedback.ShowFeedback(['El area fue eliminada correctamente']);
       },
       (err) => {
         this.errh.HandleError(err);

@@ -1,0 +1,51 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    padding: 20px 10px 10px 10px;
+}
+
+.local-filter-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    width: 70%;
+    height: 50px;
+
+    @media(max-width: 470px) {
+        width: 95%;
+    }
+}
+
+.local-selector {
+    flex: 1 1 auto;
+    height: 100%;
+}
+
+.local-selector-info-button {
+    color: #3f51b5;
+}
+
+.calendar-reservations-tabs {
+    width: 100%;
+}
+
+.calendar-filter-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    width: 100%;
+}
+
+.calendar-filter {
+    /*min-width: 350px;    
+    max-width: 350px;*/
+
+    @media( max-width: 360px ) {
+        width: 60%;
+    }
+}

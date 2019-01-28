@@ -1,0 +1,102 @@
+$color-accepted2: rgb(104, 159, 56); /*#689f38*/
+$color-pending2: rgb(255, 207, 2); /*#ffcf02*/
+
+.accepted2 {
+    background-color: rgb(104, 159, 56);
+}
+
+.pending2 {
+    background-color: rgb(255, 207, 2);
+}
+
+.reservation-details-wrapper {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.reservation-detail-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: baseline;
+
+    margin-bottom: 15px;
+}
+
+.reservation-detail-header {
+    width: 105px;
+    margin: 15px 10px 0px 0px;
+
+    flex-shrink: 0;
+    text-align: right;
+
+    /*color: rgba(0, 0, 0, 0.54);*/
+}
+
+.reservation-detail-body {
+    flex: 1 1 auto;
+    padding: 5px;
+}
+
+.reservation-status {
+    border-radius: 15px;
+    color: white;
+
+    margin-left: -5px;
+    padding: 5px;    
+    width: fit-content;
+}
+
+.reservation-activity-description {
+    height: 90px;
+    overflow-y: auto;
+
+    border-radius: 5px;
+    border: 1px solid rgba(0,0,0,0.12);
+}
+
+.reservation-time-wrapper {
+    width: 100%;
+    
+    display: flex;
+    flex-flow: row wrap;
+
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.reservation-time-item-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    width: 140px;
+    margin-top: 10px;
+}
+
+.reservation-time-item-label {
+    margin-right: 5px;   
+    flex: 1 1 auto;
+    text-align: right;
+
+    /*color: rgba(0, 0, 0, 0.54);*/
+}
+
+.reservation-time-item-body {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+
+    /*width: 100px;*/
+    padding: 5px;
+
+    border-radius: 15px;
+    background-color: gray;
+
+    color: white;
+}
+
+.reservation-time-item-body mat-icon {
+    margin-right: 5px;
+}

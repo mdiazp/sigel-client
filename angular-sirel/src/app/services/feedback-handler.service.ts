@@ -8,7 +8,7 @@ export class FeedbackHandlerService {
 
   constructor(private snackBar: MatSnackBar) {}
 
-  ShowFeedback(msg: string) {
+  ShowFeedback(msgs?: string[]) {
     /*
     const conf = new MatSnackBarConfig();
     conf.duration = 100000;
@@ -16,11 +16,12 @@ export class FeedbackHandlerService {
     */
     this.snackBar.openFromComponent(CustomSnackbarComponent, {
       panelClass: ['custom-snackbar-success'],
+      duration: 5000,
       data: {
-        message: msg,
         icon: 'done',
         // icon: 'check_circle',
-        style: 'success'
+        style: 'success',
+        msgs: msgs,
       },
     });
   }

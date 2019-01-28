@@ -59,7 +59,7 @@ export class AreaAllComponent implements OnInit, AfterViewInit {
       (data) => {
         this.createForm.reset();
         this.areas.LoadAreas();
-        this.feedback.ShowFeedback('El area fue creada correctamente');
+        this.feedback.ShowFeedback(['El area fue creada correctamente']);
         this.expandCreateArea = false;
       },
       (err) => {

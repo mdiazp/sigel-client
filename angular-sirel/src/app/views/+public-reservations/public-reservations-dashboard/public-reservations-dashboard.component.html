@@ -1,0 +1,48 @@
+  <div class="wrapper mat-elevation-z4">
+    <div class="local-filter-wrapper" *ngIf="(this.readyLocalFilter | async)">
+      <mat-form-field class="local-selector">
+          <mat-select placeholder="Seleccione un local"
+                      [(value)]="selectedLocal"
+                      (selectionChange)="this.filterChange()">
+            <mat-optgroup *ngFor="let lfo of localFilterOptions" [label]="lfo.areaName">
+              <mat-option *ngFor="let local of lfo.locals" [value]="local">
+                {{local.Name}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+      </mat-form-field>
+      <button mat-icon-button class="local-selector-info-button"
+              [matTooltip]="'Ver detalles del local'"
+              [matTooltipPosition]="'below'"
+              (click)="showLocalDetails()"
+              [disabled]="this.locals.length === 0">
+        <mat-icon>info</mat-icon>
+      </button>
+    </div>
+
+    <mat-tab-group #tabs mat-stretch-tabs
+                   class="calendar-reservations-tabs">
+      <mat-tab label="Calendario">
+
+          <div class="calendar-filter-wrapper">
+            <mat-calendar class="calendar-filter"
+                          [selected]="selectedDate" *ngIf="(this.readyServerTime | async)"
+                          (selectedChange)="onSelectDate($event)">
+            </mat-calendar>
+          </div>
+
+      </mat-tab>
+      <mat-tab label="Reservaciones">
+
+        <app-public-reservations-of-day #reservationsOfDay
+          *ngIf="(this.readyServerTime | async) && (this.readyLocalFilter | async) && (this.readyReservations | async)"
+          [date]="this.selectedDate"
+          [local]="this.selectedLocal"
+          [reservations]="this.reservations"
+          (AddReservationChange)="this.filterChange()"
+          (ClickOnDate)="this.tabs.selectedIndex = 0;">
+        </app-public-reservations-of-day>
+
+      </mat-tab>
+    </mat-tab-group>
+  </div>

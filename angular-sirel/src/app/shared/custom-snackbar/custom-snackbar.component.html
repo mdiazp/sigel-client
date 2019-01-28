@@ -1,5 +1,9 @@
 <div [class]="'custom-snackbar custom-snackbar-'+this.data.style">
   <mat-icon>{{ data?.icon }}</mat-icon>
-  <span class="custom-snackbar-msg flex-space">{{ data?.message }}</span>
+  <div class="custom-snackbar-msgs-conatiner">
+    <span class="custom-snackbar-msg" *ngFor="let msg of data?.msgs">
+      {{msg}}
+    </span>
+  </div>
   <mat-icon class="custom-snackbar-close" (click)="onClose()">close</mat-icon>
 </div>

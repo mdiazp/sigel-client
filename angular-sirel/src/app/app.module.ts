@@ -69,8 +69,20 @@ import { CustomMatPaginatorIntl } from '@app/views/common/CustomMatPaginatorIntl
 import { CustomSnackbarComponent } from './shared/custom-snackbar/custom-snackbar.component';
 import { PublicReservationAllComponent } from './views/+reservations/public-reservation-all/public-reservation-all.component';
 import { PublicReservationFilterComponent } from './views/+reservations/public-reservation-filter/public-reservation-filter.component';
-import { PublicReserveDialogComponent } from './views/+reservations/public-reserve-dialog/public-reserve-dialog.component';
 import { NewAreaDialogComponent } from './views/+areas/common/new-area-dialog/new-area-dialog.component';
+import {
+  PublicReservationsDashboardComponent
+} from './views/+public-reservations/public-reservations-dashboard/public-reservations-dashboard.component';
+import {
+  PublicReservationsOfDayComponent
+} from './views/+public-reservations/public-reservations-of-day/public-reservations-of-day.component';
+import { PublicReserveDialogComponent } from './views/+public-reservations/public-reserve-dialog/public-reserve-dialog.component';
+import {
+  PublicReservationDetailsDialogComponent
+} from './views/+public-reservations/public-reservation-details-dialog/public-reservation-details-dialog.component';
+import {
+  PublicLocalDetailsDialogComponent
+} from './views/+public-reservations/public-local-details-dialog/public-local-details-dialog.component';
 
 const routes: Routes = [
   {
@@ -127,6 +139,10 @@ const routes: Routes = [
   },
   {
     path: 'reservations-public',
+    component: PublicReservationsDashboardComponent,
+  },
+  {
+    path: 'public-reservations',
     component: PublicReservationAllComponent,
   },
   {
@@ -187,6 +203,10 @@ const routes: Routes = [
     PublicReservationFilterComponent,
     PublicReserveDialogComponent,
     NewAreaDialogComponent,
+    PublicReservationsDashboardComponent,
+    PublicReservationsOfDayComponent,
+    PublicReservationDetailsDialogComponent,
+    PublicLocalDetailsDialogComponent,
   ],
   providers: [
     DatePipe,
@@ -216,6 +236,8 @@ const routes: Routes = [
   entryComponents: [
     CustomSnackbarComponent,
     PublicReserveDialogComponent,
+    PublicReservationDetailsDialogComponent,
+    PublicLocalDetailsDialogComponent,
     NewAreaDialogComponent,
   ],
   bootstrap: [AppComponent],

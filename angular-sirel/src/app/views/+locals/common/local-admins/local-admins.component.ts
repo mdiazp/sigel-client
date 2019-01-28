@@ -80,7 +80,7 @@ export class LocalAdminsComponent implements OnInit {
 
     obs.subscribe(
       (_) => {
-        this.feedback.ShowFeedback(`El usuario fue eliminado de la lista de administradores del local correctamente.`);
+        this.feedback.ShowFeedback(['El usuario fue eliminado de la lista de administradores del local correctamente.']);
         this.loadAdmins();
       },
       (err) => {

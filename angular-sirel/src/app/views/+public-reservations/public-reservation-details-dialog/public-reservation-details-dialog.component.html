@@ -1,0 +1,53 @@
+<div class="dialog-header">
+  <h3 class="dialog-header-text">Detalles de reservacion</h3>
+</div>
+
+<mat-dialog-content>
+  <div class="reservation-details-wrapper">
+
+    <div class="reservation-detail-wrapper">
+      <span class="reservation-detail-header dialog-item-header-label">Estado</span>
+      <div class="reservation-detail-body">
+        <div class="reservation-status"
+              [ngClass]="{
+                'pending2': this.reservation.Pending,
+                'accepted2': !this.reservation.Pending
+              }">
+          <strong>{{this.reservation.Pending ? 'Pendiente' : 'Aceptada'}}</strong>
+        </div>
+      </div>
+    </div>
+    
+    <div class="reservation-detail-wrapper">
+      <span class="reservation-detail-header dialog-item-header-label">Actividad</span>
+      <div class="reservation-detail-body reservation-activity-name">
+        {{this.reservation.ActivityName}}
+      </div>
+    </div>
+    
+    <div class="reservation-detail-wrapper">
+      <span class="reservation-detail-header dialog-item-header-label">Descripcion</span>
+      <div class="reservation-detail-body reservation-activity-description">
+        {{this.reservation.ActivityDescription}}
+      </div>
+    </div>
+
+    <div class="reservation-time-wrapper">
+      <div class="reservation-time-item-wrapper">
+        <span class="reservation-time-item-label dialog-item-header-label">Inicio</span>
+        <div class="reservation-time-item-body reservation-time-item-begining">
+          <mat-icon>access_time</mat-icon>{{timeToShowt(this.reservation.BeginTime)}}
+        </div>
+      </div>
+      <div class="reservation-time-item-wrapper">
+        <span class="reservation-time-item-label dialog-item-header-label">Fin</span>
+        <div class="reservation-time-item-body reservation-time-item-end">
+          <mat-icon>access_time</mat-icon>{{timeToShowt(this.reservation.EndTime)}}
+        </div>
+      </div>
+    </div>
+  </div>    
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]>Cerrar</button>
+</mat-dialog-actions>

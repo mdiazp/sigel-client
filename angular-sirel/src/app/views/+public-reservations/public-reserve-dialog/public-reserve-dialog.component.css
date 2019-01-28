@@ -1,0 +1,29 @@
+.reserve-form-control-wrapper {
+    width: 100%;
+    margin: 10px 0px;
+}
+
+.reserve-form-time-wrapper {
+    width: 100%;
+
+    display: flex;
+    flex-flow: row wrap;
+
+    justify-content: space-around;
+}
+
+.reserve-form-time-item-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    margin-bottom: 15px;
+    margin-left: 15px;
+}
+
+.reserve-form-time-item-header {
+    color: rgba(0, 0, 0, 0.54);
+
+    margin-bottom: 10px;
+}

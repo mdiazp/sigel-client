@@ -38,7 +38,7 @@ export class LocalAllComponent implements OnInit {
   CreateLocal(local: Local) {
     local.EnableToReserve = false;
     local.WorkingMonths = '111111111111';
-    local.WorkingWeekDays = '1111120';
+    local.WorkingWeekDays = '0111112';
     local.WorkingBeginTimeHours = 8;
     local.WorkingBeginTimeMinutes = 0;
     local.WorkingEndTimeHours = 17;
@@ -48,7 +48,7 @@ export class LocalAllComponent implements OnInit {
       (data) => {
         this.createForm.Reset();
         this.locals.LoadLocals();
-        this.feedback.ShowFeedback('El local fue creado correctamente');
+        this.feedback.ShowFeedback(['El local fue creado correctamente']);
         this.expandCreateLocal = false;
       },
       (err) => {

@@ -62,7 +62,7 @@ export class UserOneComponent implements OnInit {
     this.api.PatchUser(this.userID, editUser).subscribe(
       (user) => {
         this.user = user;
-        this.feedback.ShowFeedback('El usuario fue actualizado correctamente');
+        this.feedback.ShowFeedback(['El usuario fue actualizado correctamente']);
       },
       (err) => {
         this.errh.HandleError(err);

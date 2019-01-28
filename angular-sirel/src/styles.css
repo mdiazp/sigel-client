@@ -32,11 +32,11 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
 }
 
 /****************************************************************************/
-
+/*
 .mat-form-field {
   width: 300px;
 }
-
+*/
 /****************************************************************************/
 
 .custom-snackbar {
@@ -58,10 +58,82 @@ body { margin: 0; font-family: 'Roboto', sans-serif; }
 
 .custom-snackbar-msg {
   margin-left: 10px;
+  margin-right: 10px;
+}
+
+.custom-snackbar-msgs-container {
+  flex: 1 1 auto;
+  
+  display: flex;
+  flex-direction: column;
 }
 
 .custom-snackbar-close {
   cursor: pointer;
 }
+
+/****************************************************************************/
   
-  
+
+.activity-status-panel-tooltip {
+  height: 200px;
+  width: 200px;
+  /*position: absolute;*/
+  background-color: red;
+  /*visibility: visible;*/
+}
+
+/****************************************************************************/
+
+.mat-dialog-container {
+  border-radius: 15px !important;
+}
+
+.mat-dialog-content {
+  padding-bottom: 20px !important;
+}
+
+.dialog-header {
+  width: 100%;
+  /*border-bottom: 1px solid #3f51b5; */
+  margin-bottom: 10px;
+}
+
+.dialog-header-text {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #3f51b5;
+}
+
+.mat-dialog-actions {
+  flex-flow: row-reverse nowrap !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.12); 
+}
+
+.mat-dialog-actions button {
+  margin-left: 10px; margin-bottom: 10px;
+  /*color: rgb(51, 103, 214);*/
+  color: #3f51b5;
+}
+
+.dialog-item-header-label {
+  color: rgb(90,90,90);
+  font-weight: 700;
+}
+
+
+/****************************************************************************/
+
+form mat-form-field {
+  width: 100%;
+}
+
+/****************************************************************************/
+
+pre {
+  color: inherit;
+  font-family: inherit;
+  margin: 0px;
+
+  width: 100%;
+}

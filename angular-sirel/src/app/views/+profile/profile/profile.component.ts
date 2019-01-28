@@ -52,7 +52,7 @@ export class ProfileComponent implements OnInit {
     this.api.PatchProfile(editProfile).subscribe(
       (profile) => {
         this.profile = profile;
-        this.feedback.ShowFeedback('Su perfil fue actualizado correctamente');
+        this.feedback.ShowFeedback(['Su perfil fue actualizado correctamente']);
       },
       (err) => {
         this.errh.HandleError(err);

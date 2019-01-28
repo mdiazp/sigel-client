@@ -1,0 +1,72 @@
+.local-details-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.local-detail-wrapper {
+    margin-bottom: 20px;
+    
+    display: flex;
+    flex-direction: column;
+}
+
+.local-detail-header {
+    margin-bottom: 10px;
+    /*color: rgba(0, 0, 0, 0.52);*/
+}
+
+.local-detail-body {
+    padding: 5px;
+}
+
+.local-detail-body-textarea {
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 5px;
+    /*margin-left: -4px;*/
+
+    max-height: 90px;
+    overflow: auto;
+}
+
+.local-detail-body-working-months, .local-detail-body-working-weekdays {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.local-detail-tag {
+    color: #3f51b5;
+    border-radius: 5px;
+    border: 1px solid #3f51b5;
+
+    padding: 5px;
+    /*font-weight: 700;*/
+    margin: 5px;
+    line-height: 10px;
+}
+
+.local-detail-body-working-time-wrapper {
+    display: flex;
+    flex-flow: row wrap;
+    
+    justify-content: space-between;
+}
+
+.local-detail-body-working-time-item {
+    display: flex;
+    flex-flow: row nowrap;
+
+    margin-right: 10px;
+    align-items: center;
+}
+
+.local-detail-body-working-time-item .dialog-item-header-label {
+    margin-right: 5px;
+    width: 50px;
+    text-align: right;
+}
+
+.local-detail-body-working-time-item .mat-icon {
+    margin-right: 3px;
+}

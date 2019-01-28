@@ -399,6 +399,7 @@ export class ApiService {
   }
 
   PostReservation(reservation: ReservationToCreate): Observable<Reservation> {
+    console.log(reservation);
     return this.http.post(
       `${this.bpath}/private/reservation`,
       reservation,

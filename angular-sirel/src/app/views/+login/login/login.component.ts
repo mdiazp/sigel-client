@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
         (user) => {
           this.session.Open(user);
           this.router.navigate(['home']);
-          this.feedback.ShowFeedback(`Bienvenido ${user.username}`);
+          this.feedback.ShowFeedback([`Bienvenido ${user.username}`]);
         },
         (error) => this.errh.HandleError(error)
       );

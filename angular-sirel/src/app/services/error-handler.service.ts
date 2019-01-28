@@ -46,6 +46,7 @@ export class ErrorHandlerService {
         message: msg,
         icon: 'error',
         style: 'error',
+        msgs: [msg]
       },
       duration: 10000,
     });

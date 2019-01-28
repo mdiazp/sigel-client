@@ -71,10 +71,14 @@ export class ReservationAllComponent implements OnInit, AfterViewInit {
       (r) => {
         this.table.LoadData();
         if (!r.Confirmed) {
-          this.feedback.ShowFeedback('Su reservacion esta pendiente de revision.' +
-                'La reservacion necesita de su confirmacion un dia antes');
+          this.feedback.ShowFeedback(
+            [
+              'Su reservacion esta pendiente de revision.',
+              'La reservacion necesita de su confirmacion un dia antes'
+            ]
+          );
         } else {
-          this.feedback.ShowFeedback('Su reservacion esta pendiente de revision.');
+          this.feedback.ShowFeedback(['Su reservacion esta pendiente de revision.']);
         }
         if ( this.reserve ) {
           this.reserve.Reset();
@@ -89,7 +93,7 @@ export class ReservationAllComponent implements OnInit, AfterViewInit {
   AcceptReservation(reservation: Reservation): void {
     this.api.AcceptReservation(reservation.ID).subscribe(
       (data) => {
-        this.feedback.ShowFeedback(`La reservacion fue aceptada`);
+        this.feedback.ShowFeedback([`La reservacion fue aceptada`]);
         this.table.LoadData();
       },
       (err) => {
@@ -101,7 +105,7 @@ export class ReservationAllComponent implements OnInit, AfterViewInit {
   RefuseReservation(reservation: Reservation): void {
     this.api.RefuseReservation(reservation.ID).subscribe(
       (data) => {
-        this.feedback.ShowFeedback(`La reservacion fue eliminada`);
+        this.feedback.ShowFeedback([`La reservacion fue eliminada`]);
         this.table.LoadData();
       },
       (err) => {
@@ -113,7 +117,7 @@ export class ReservationAllComponent implements OnInit, AfterViewInit {
   ConfirmReservation(reservation: Reservation): void {
     this.api.ConfirmReservation(reservation.ID).subscribe(
       (data) => {
-        this.feedback.ShowFeedback(`La reservacion fue confirmada`);
+        this.feedback.ShowFeedback([`La reservacion fue confirmada`]);
         this.table.LoadData();
       },
       (err) => {

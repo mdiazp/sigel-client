@@ -6,6 +6,7 @@ import { Local, ReservationToCreate, Reservation } from '@app/models/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import { CustomSnackbarComponent } from '@app/shared/custom-snackbar/custom-snackbar.component';
+import { HM } from '../public-reservations-of-day/public-reservations-of-day.component';
 
 @Component({
   selector: 'app-public-reserve-dialog',
@@ -14,8 +15,10 @@ import { CustomSnackbarComponent } from '@app/shared/custom-snackbar/custom-snac
 })
 export class PublicReserveDialogComponent implements OnInit {
   local: Local = null;
-  date: string = null;
+  date: Date = null;
   reservations: Reservation[] = [];
+  bt: HM;
+  et: HM;
 
   util = new Util();
 
@@ -39,17 +42,15 @@ export class PublicReserveDialogComponent implements OnInit {
     this.date = data.date;
     this.local = data.local;
     this.reservations = data.reservations;
-
-    console.log('constructor');
+    this.bt = data.bt;
+    this.et = data.et;
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
     this.initForm();
   }
 
   initForm(): void {
-    console.log('initForm');
     this.activityName = new FormControl(
       '', [Validators.required, Validators.maxLength(100)]
     );
@@ -57,19 +58,17 @@ export class PublicReserveDialogComponent implements OnInit {
       '', [Validators.required, Validators.maxLength(1024)]
     );
     this.bth = new FormControl(
-      0, [Validators.required, Validators.min(0), Validators.max(23)]
+      this.bt.h, [Validators.required, Validators.min(0), Validators.max(23)]
     );
     this.btm = new FormControl(
-      0, [Validators.required, Validators.min(0), Validators.max(59)]
+      this.bt.m, [Validators.required, Validators.min(0), Validators.max(59)]
     );
     this.eth = new FormControl(
-      0, [Validators.required, Validators.min(0), Validators.max(23)]
+      this.et.h, [Validators.required, Validators.min(0), Validators.max(23)]
     );
     this.etm = new FormControl(
-      0, [Validators.required, Validators.min(0), Validators.max(59)]
+      this.et.m, [Validators.required, Validators.min(0), Validators.max(59)]
     );
-
-    console.log('go to create FormGroup');
 
     this.reservationForm = new FormGroup({
       'activityName': this.activityName,
@@ -79,8 +78,6 @@ export class PublicReserveDialogComponent implements OnInit {
       'eth': this.eth,
       'etm': this.etm
     });
-
-    console.log('go out from initForm');
   }
 
   private getHorarioLaboral() {
@@ -118,36 +115,43 @@ export class PublicReserveDialogComponent implements OnInit {
     this.api.PostReservation(rtc).subscribe(
       (r) => {
         if (!r.Confirmed) {
-          this.feedback.ShowFeedback('Su reservacion esta pendiente de revision.' +
-                'La reservacion necesita de su confirmacion un dia antes');
+          this.feedback.ShowFeedback(
+            [
+              'Su reservacion esta pendiente de revision.',
+              'La reservacion necesita de su confirmacion un dia antes.'
+            ]
+          );
         } else {
-          this.feedback.ShowFeedback('Su reservacion esta pendiente de revision.');
+          this.feedback.ShowFeedback(
+            ['Su reservacion esta pendiente de revision.']
+          );
         }
         this.dialogRef.close(true);
       },
       (err) => {
         this.eh.HandleError(err);
-        console.log(err);
         this.dialogRef.close(true);
       }
     );
   }
 
   GetReservation(): ReservationToCreate {
-    let btime: Date; btime = this.util.StrtoDate(this.date);
+    let btime: Date; btime = new Date(this.date);
     btime.setHours(Number(this.bth.value));
     btime.setMinutes(Number(this.btm.value));
 
-    let etime: Date; etime = this.util.StrtoDate(this.date);
+    let etime: Date; etime = new Date(this.date);
     etime.setHours(Number(this.eth.value));
     etime.setMinutes(Number(this.etm.value));
 
-    return new ReservationToCreate(
+    const rtc = new ReservationToCreate(
       this.local.ID, this.activityName.value,
       this.activityDescription.value,
       this.util.DatetoStr(btime),
       this.util.DatetoStr(etime),
     );
+
+    return rtc;
   }
 
   validateNewReservation(rtc: ReservationToCreate): boolean {
@@ -204,5 +208,24 @@ export class PublicReserveDialogComponent implements OnInit {
   private gm(s: string): number {
     return this.util.getMinutes(s);
     // return Number(s[14]) * 10 + Number(s[15]);
+  }
+
+  public dateToShow(): string {
+    return this.util.DateToDisplayValue(this.date);
+  }
+
+  genSeq(begin: number, end: number): number[] {
+    const x = new Array<number>();
+    for ( let i = begin; i < end; i++ ) {
+      x.push(i);
+    }
+    return x;
+  }
+
+  twoDigs(x: number): string {
+    if ( x < 10 ) {
+      return '0' + x.toString();
+    }
+    return x.toString();
   }
 }

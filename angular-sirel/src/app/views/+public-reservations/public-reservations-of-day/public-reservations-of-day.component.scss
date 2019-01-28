@@ -1,0 +1,134 @@
+.main-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    padding: 0px 10px;
+}
+
+$color-accepted: rgba(104, 159, 56, 0.5); /*#689f38*/
+$color-pending: rgba(255, 207, 2, 0.5); /*#ffcf02*/
+
+// $color-free: rgba(0, 0, 0, 0.10); 
+$color-free: rgba(255, 255, 255, 0.5); 
+
+$color-accepted2: rgb(104, 159, 56); /*#689f38*/
+$color-pending2: rgb(255, 207, 2); /*#ffcf02*/
+
+.header {
+    display: flex;
+    flex-flow: row wrap;
+
+    margin: 20px 0px 0px 0px; 
+}
+
+.date {
+    flex: 0 1 auto;
+    border-radius: 15px;
+    background-color: gray;
+    color: white;
+    padding: 10px;
+
+    text-align: center;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.leyend {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-flow: row-reverse wrap;
+    margin-bottom: 10px;
+}
+
+.item-leyend {
+    display: flex;
+    flex-flow: row nowrap;
+
+    align-items: center;
+    
+    width: 120px;
+}
+
+.item-leyend-accepted {
+    color: $color-accepted2;
+    margin-left: 5px;
+}
+
+.item-leyend-pending {
+    color: $color-pending2;
+}
+
+.activities-shedule-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+
+    position: relative;
+    /*margin: 10px 20px;*/
+    margin: 10px 5px;
+}
+
+.hours-list-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    width: 60px;
+
+    margin-right: 10px;
+}
+
+.hour-wrapper {
+    text-align: right;
+    color: rgb(102, 108, 119);
+
+    border-top: 1px solid transparent;
+}
+
+.activities-list-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1 1 auto;
+
+    margin-top: 10px;
+}
+
+.hour-activities-wrapper {
+    border-top: 1px solid rgba(0, 0, 0, .12);
+    margin: 0;
+}
+
+.hour-activity-with-border-right {
+    border-right: 1px solid rgba(0, 0, 0, .12);
+}
+
+.activity-status-panel {
+    left: 80px;
+    right: 0px;
+    position: absolute;
+
+    overflow-y: auto;
+
+    /*z-index: 100;*/
+}
+
+.activity-status-pending {
+    background-color: $color-pending;
+    border-top: solid 1px $color-pending2;
+}
+
+.activity-status-accepted {
+    background-color: $color-accepted;
+    border-top: solid 1px $color-accepted2;
+}
+
+.activity-status-free {
+    background-color: $color-free;
+}
+
+.activity-status-panel-tooltip {
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    z-index: 1999;
+}

@@ -46,7 +46,7 @@ export class NewAreaDialogComponent implements OnInit {
       )
     ).subscribe(
       (area) => {
-        this.feedback.ShowFeedback('La nueva area fue creada exitosamente');
+        this.feedback.ShowFeedback(['La nueva area fue creada exitosamente']);
         this.dialog.close(true);
       },
       (e) => {

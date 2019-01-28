@@ -10,7 +10,7 @@ export class WorkingMonth {
 }
 
 export class WorkingTimeUtil {
-  weekDays = ['Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado', 'Domingo'];
+  weekDays = ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
   months = ['Enero', 'Febrero', 'Marzo', 'Abril',
             'Mayo', 'Junio', 'Julio', 'Agosto',
             'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -61,20 +61,10 @@ export class WorkingTimeUtil {
   }
 
   IsWorking(date: Date, monthConfig: string, wdConfig: string): boolean {
-    if ( monthConfig[date.getMonth()] === '0' ) {
+    if ( monthConfig[date.getMonth()] === '0' ||
+         wdConfig[date.getDay()] === '0' ) {
       return false;
     }
-
-    let d: number; d = date.getDay();
-    d--;
-    if ( d === -1 ) {
-      d = 6;
-    }
-
-    if (wdConfig[d] === '0') {
-      return false;
-    }
-
     return true;
   }
 }

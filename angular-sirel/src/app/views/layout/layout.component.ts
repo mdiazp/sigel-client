@@ -57,7 +57,7 @@ export class LayoutComponent {
       (res) => {
         this.session.Close();
         this.router.navigate(['home']);
-        this.feedback.ShowFeedback('Su session ha sido cerrada correctamente');
+        this.feedback.ShowFeedback(['Su session ha sido cerrada correctamente']);
       },
       (err) => {
         this.errh.HandleError(err);

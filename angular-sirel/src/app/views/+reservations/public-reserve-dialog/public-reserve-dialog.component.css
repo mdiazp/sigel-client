@@ -1,9 +1,0 @@
-.form-error-wrapper {
-    display: flex;
-    flex-flow: row nowrap;
-
-    border-radius: 7px;
-
-    background-color: red;
-    color: white;
-}

@@ -1,0 +1,71 @@
+<div class="main-wrapper">
+  <header class="header">
+    <div class="date"
+          matTooltip="Cambiar fecha"
+          (click)="this.ClickOnDate.emit(true)">
+      <strong>{{dateToShow()}}</strong>
+    </div>
+    <div class="leyend">
+      <div class="item-leyend item-leyend-pending">
+          <mat-icon>indeterminate_check_box</mat-icon><strong>Pendiente</strong>
+      </div>
+      <div class="item-leyend item-leyend-accepted">
+          <mat-icon>indeterminate_check_box</mat-icon><strong>Aceptado</strong>
+      </div>
+    </div>
+  </header>
+
+  <div style="min-height: 250px;
+              max-height: 335px;
+              overflow-y: scroll;
+              border: 1px solid rgba(0,0,0,.12);
+              border-radius: 5px;
+              margin: 0px 0px;"
+        class="mat-elevation-z10">
+
+    <div class="activities-shedule-wrapper">
+      
+      <div class="hours-list-wrapper">
+        <div class="hour-wrapper"
+            *ngFor="let hp of hps"
+            [style.height.px]="!hp.isLast ? hp.height-1 : 0">
+          {{hp.t.toString()}}
+        </div>
+      </div>
+
+      <div class="activities-list-wrapper">
+          <div class="hour-activities-wrapper"
+              *ngFor="let hp of hps"
+              [style.height.px]="!hp.isLast ? hp.height-1 : 0"
+              [ngClass]="{'hour-activity-with-border-right': !(hp.isLast)}">
+              <div style="width: 9px;
+                height: 100%;
+                border-right: 1px solid rgb(0, 0, 0, .12);"
+                *ngIf="!(hp.isLast)">
+              </div>  
+          </div>
+      </div>
+
+      <div class="activity-status-panel"
+          *ngFor="let asp of asps"
+          [ngClass]="{
+            'activity-status-pending': asp.status === 'pending',
+            'activity-status-accepted': asp.status === 'accepted',
+            'activity-status-free': asp.status === 'free'
+            }"
+          [style.background-color]="asp.backgroundColor"
+          [style.top.px]="10 + asp.top"
+          [style.height.px]="asp.height - 1"
+          [style.cursor]="asp.status === 'free' && ((asp.et.rest(asp.bt) + 1) < 30) ? 'inherit' : 'pointer'"
+          [matTooltip]="asp.status === 'free' ? 'Reservar' : 'Ver detalles'"
+          [matTooltipPosition]="'left'"
+          [matTooltipDisabled]="asp.status === 'free' && ((asp.et.rest(asp.bt) + 1) < 30)"
+          (click)="clickOnActivityStatusPanel(asp)">
+        <span *ngIf="asp.status !== 'free'"
+              style="margin: 5px 0px 0px 10px; position: absolute;">
+          <strong>{{asp.r.ActivityName}}</strong>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

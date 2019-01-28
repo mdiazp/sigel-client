@@ -1,0 +1,89 @@
+<div class="dialog-header">
+  <h3 class="dialog-header-text">Detalles de local</h3>
+</div>
+
+<mat-dialog-content>
+
+  <div class="local-details-wrapper">
+    <div class="local-detail-wrapper">
+      <div class="local-detail-header dialog-item-header-label">
+        Nombre
+      </div>
+      <div class="local-detail-body">
+        {{local.Name}}
+      </div>
+    </div>
+
+    <div class="local-detail-wrapper">
+      <div class="local-detail-header dialog-item-header-label">
+        Descripcion
+      </div>
+      <div class="local-detail-body local-detail-body-textarea">
+        {{local.Description}}
+      </div>
+    </div>
+
+    <div class="local-detail-wrapper">
+      <div class="local-detail-header dialog-item-header-label">
+        Ubicacion
+      </div>
+      <div class="local-detail-body local-detail-body-textarea">
+        {{local.Location}}
+      </div>
+    </div>
+
+    <div class="local-detail-wrapper">
+      <div class="local-detail-header dialog-item-header-label">
+        Meses laborables
+      </div>
+      <div class="local-detail-body local-detail-body-working-months">
+        <div class="local-detail-tag" *ngFor="let wm of wms"
+             [matTooltip]="wm.monthName">
+          {{wm.monthName.slice(0, 3) + '.'}}
+        </div>
+      </div>
+    </div>
+
+    <div class="local-detail-wrapper">
+      <div class="local-detail-header dialog-item-header-label">
+        Dias laborables
+      </div>
+      <div class="local-detail-body local-detail-body-working-weekdays">
+        <div class="local-detail-tag" *ngFor="let wd of wds"
+             [matTooltip]="
+                wd.weekDayName +
+                (!wd.needConfirmation ? '' : ' (confirmar un dia antes)')"
+             matBadge="!"
+             matBadgePosition="before"
+             matBadgeColor="primary"
+             [matBadgeHidden]="!wd.needConfirmation"
+             [matBadgeSize]="'small'">
+          {{wd.weekDayName.slice(0, 3) + '.'}}
+        </div>
+      </div>
+    </div>
+
+    <div class="local-detail-wrapper">
+      <div class="local-detail-header dialog-item-header-label">
+        Horario Laboral
+      </div>
+      <div class="local-detail-body local-detail-body-working-time-wrapper">
+          <div class="local-detail-body-working-time-item">
+            <div class="dialog-item-header-label">Inicio</div>
+            <mat-icon>access_time</mat-icon>
+            <div>{{showTime(true)}}</div>
+          </div>
+          <div class="local-detail-body-working-time-item">
+            <div class="dialog-item-header-label">Fin</div>
+            <mat-icon>access_time</mat-icon>
+            <div>{{showTime(false)}}</div>
+          </div>
+      </div>
+    </div>
+
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]>Cerrar</button>
+</mat-dialog-actions>

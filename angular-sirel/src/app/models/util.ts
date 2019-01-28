@@ -5,7 +5,7 @@ export class Util {
         if (!s || s === null || s === '') {
             return null;
         }
-        let d: Date; d = new Date();
+        const d = new Date();
         d.setFullYear(this.getYear(s));
         d.setMonth(this.getMonth(s) - 1);
         d.setDate(this.getDay(s));
@@ -27,6 +27,23 @@ export class Util {
                this.ItoStr(date.getMinutes(), 2) + ':' +
                this.ItoStr(date.getSeconds(), 2) + 'Z';
         return s;
+    }
+
+    DateToDisplayValue(date: Date): string {
+        const d = this.DatetoStr(date);
+        const year = this.getYear(d);
+        const month = this.getMonth(d);
+        const day = this.getDay(d);
+        return year + ' / ' +
+            (month < 10 ? '0' : '') + month.toString() + ' / ' +
+            (day < 10 ? '0' : '') + day.toString();
+    }
+
+    StrTimeToDisplayValue(date: string): string {
+        const hours = this.getHours(date);
+        const minutes = this.getMinutes(date);
+        return (hours < 10 ? '0' : '') + hours.toString() + ':' +
+               (minutes < 10 ? '0' : '') + minutes.toString();
     }
 
     // 0123456789012345678
@@ -79,7 +96,7 @@ export class Util {
     }
 
     ItoStr(x: number, size: number): string {
-        let s: string; s = x.toString();
+        let s = x.toString();
         while ( s.length < size ) {
             s = '0' + s;
         }

@@ -4,7 +4,7 @@ import { PublicReservationFilterComponent } from '@app/views/+reservations/publi
 import { ReservationFilter, PagAndOrderFilter, Reservation, Util, Local, WorkingTimeUtil } from '@app/models/core';
 import { isNullOrUndefined } from 'util';
 import { MatDialog } from '@angular/material';
-import { PublicReserveDialogComponent } from '@app/views/+reservations/public-reserve-dialog/public-reserve-dialog.component';
+import { PublicReserveDialogComponent } from '@app/views/+public-reservations/public-reserve-dialog/public-reserve-dialog.component';
 
 @Component({
   selector: 'app-public-reservation-all',
@@ -80,7 +80,7 @@ export class PublicReservationAllComponent implements OnInit, AfterViewInit {
   onConfirm(reservation: Reservation): void {
     this.api.ConfirmReservation(reservation.ID).subscribe(
       (r) => {
-        this.feedback.ShowFeedback('La reservacion fue confirmada correctamente');
+        this.feedback.ShowFeedback(['La reservacion fue confirmada correctamente']);
         this.LoadData();
       },
       (e) => {
