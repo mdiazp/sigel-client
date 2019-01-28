@@ -45,7 +45,25 @@
     /*min-width: 350px;    
     max-width: 350px;*/
 
-    @media( max-width: 360px ) {
-        width: 60%;
+    width: 350px;
+
+    @media(max-height: 520px) {
+        width: 260px;
+
+        @media( max-width: 520px ) {
+            width: 50%;
+        }
+
+        @media( max-width: 470px ) {
+            width: 60%;
+        }
+
+        @media( max-width: 420px ) {
+            width: 70%;
+        }
+
+        @media( max-width: 370px ) {
+            width: 80%;
+        }
     }
 }
