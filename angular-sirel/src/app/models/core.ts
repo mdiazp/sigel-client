@@ -1,6 +1,6 @@
 export { NgModule } from '@angular/core';
 export { CommonModule } from '@angular/common';
-export { Util } from '@app/models/util';
+export { Util, HM } from '@app/models/util';
 export { Area, AreaFilter } from '@app/models/area';
 export { Local, LocalFilter } from '@app/models/local';
 export { Reservation, ReservationToCreate, ReservationFilter } from '@app/models/reservation';

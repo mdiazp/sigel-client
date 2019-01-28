@@ -137,3 +137,10 @@ pre {
 
   width: 100%;
 }
+
+/****************************************************************************/
+
+input[type=time]::-ms-clear { display: none; }
+input[type=time]::-moz-clear { display: none; }
+input[type=time]::-webkit-clear { display: none; }
+input[type="time"]::-webkit-clear-button { display: none; }

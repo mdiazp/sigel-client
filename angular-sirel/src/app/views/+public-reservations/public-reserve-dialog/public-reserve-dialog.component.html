@@ -34,30 +34,20 @@
           <div class="reserve-form-time-item-header">
             Inicio
           </div>
-          <div style="display: flex; flex-flow: row nowrap; width: 100px;">
-              <mat-select formControlName="bth" required>
-                <mat-option *ngFor="let h of genSeq(0, 24)" [value]="h">{{twoDigs(h)}}</mat-option>
-              </mat-select>
-              <!--span>h</span-->
-              <mat-select formControlName="btm" required>
-                <mat-option *ngFor="let m of genSeq(0, 60)" [value]="m">{{twoDigs(m)}}</mat-option>
-              </mat-select>
-              <!--span>m</span-->
-          </div>
+          <input type="time"
+                 formControlName="btControl"
+                 min="00:00" max="23:59"
+                 required/>
         </div>
 
         <div class="reserve-form-time-item-wrapper">
           <div class="reserve-form-time-item-header">
             Fin
           </div>
-          <div style="display: flex; flex-flow: row nowrap; width: 100px;">
-              <mat-select formControlName="eth" required>
-                <mat-option *ngFor="let h of genSeq(0, 24)" [value]="h">{{twoDigs(h)}}</mat-option>
-              </mat-select>
-              <mat-select formControlName="etm" required>
-                <mat-option *ngFor="let m of genSeq(0, 60)" [value]="m">{{twoDigs(m)}}</mat-option>
-              </mat-select>
-          </div>
+          <input type="time"
+                 formControlName="etControl"
+                 min="00:00" max="23:59"
+                 required/>
         </div>
       </div>
     </form>

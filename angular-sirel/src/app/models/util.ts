@@ -112,3 +112,57 @@ export class Util {
         return x;
     }
 }
+
+export class HM {
+    constructor(public h: number,
+                public m: number) {}
+  
+    le(o: HM): boolean {
+      if ( this.h !== o.h ) {
+        return this.h < o.h;
+      }
+      return this.m < o.m;
+    }
+    rq(o: HM): boolean {
+      return !this.le(o) && !o.le(this);
+    }
+    gt(o: HM): boolean {
+      return o.le(this);
+    }
+  
+    rest(o: HM): number {
+      return this.tom() - o.tom();
+    }
+  
+    tom(): number {
+      return this.h * 60 + this.m;
+    }
+  
+    add1m(): void {
+      this.m++;
+      if ( this.m === 60 ) {
+        this.m = 0;
+        this.h++;
+      }
+      if ( this.h === 24 ) {
+        this.h = 0;
+      }
+    }
+  
+    rest1m(): void {
+      this.m--;
+      if ( this.m === -1 ) {
+        this.m = 59;
+        this.h--;
+      }
+      if ( this.h === -1 ) {
+        this.h = 23;
+      }
+    }
+  
+    toString(): string {
+      return (this.h < 10 ? '0' : '') + this.h.toString() + ':' +
+             (this.m < 10 ? '0' : '') + this.m.toString();
+    }
+  }
+  

@@ -1,12 +1,11 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { ApiService, ErrorHandlerService, FeedbackHandlerService } from '@app/services/core';
-import { Util } from '@app/models/util';
+import { Util, HM } from '@app/models/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Local, ReservationToCreate, Reservation } from '@app/models/core';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import { CustomSnackbarComponent } from '@app/shared/custom-snackbar/custom-snackbar.component';
-import { HM } from '../public-reservations-of-day/public-reservations-of-day.component';
 
 @Component({
   selector: 'app-public-reserve-dialog',
@@ -17,21 +16,18 @@ export class PublicReserveDialogComponent implements OnInit {
   local: Local = null;
   date: Date = null;
   reservations: Reservation[] = [];
-  bt: HM;
-  et: HM;
+  bt: HM = new HM(0, 0);
+  et: HM = new HM(0, 0);
 
   util = new Util();
 
   reservationForm: FormGroup;
   activityName: FormControl;
   activityDescription: FormControl;
-  bth: FormControl;
-  btm: FormControl;
-  eth: FormControl;
-  etm: FormControl;
+  btControl: FormControl;
+  etControl: FormControl;
 
   error: string = null;
-
 
   constructor(private api: ApiService,
               private eh: ErrorHandlerService,
@@ -57,26 +53,18 @@ export class PublicReserveDialogComponent implements OnInit {
     this.activityDescription = new FormControl(
       '', [Validators.required, Validators.maxLength(1024)]
     );
-    this.bth = new FormControl(
-      this.bt.h, [Validators.required, Validators.min(0), Validators.max(23)]
+    this.btControl = new FormControl(
+      this.bt.toString(), [Validators.required]
     );
-    this.btm = new FormControl(
-      this.bt.m, [Validators.required, Validators.min(0), Validators.max(59)]
-    );
-    this.eth = new FormControl(
-      this.et.h, [Validators.required, Validators.min(0), Validators.max(23)]
-    );
-    this.etm = new FormControl(
-      this.et.m, [Validators.required, Validators.min(0), Validators.max(59)]
+    this.etControl = new FormControl(
+      this.et.toString(), [Validators.required]
     );
 
     this.reservationForm = new FormGroup({
       'activityName': this.activityName,
       'activityDescription': this.activityDescription,
-      'bth': this.bth,
-      'btm': this.btm,
-      'eth': this.eth,
-      'etm': this.etm
+      'btControl': this.btControl,
+      'etControl': this.etControl,
     });
   }
 
@@ -91,7 +79,7 @@ export class PublicReserveDialogComponent implements OnInit {
     this.snackbar.openFromComponent(CustomSnackbarComponent, {
       panelClass: ['custom-snackbar-error'],
       data: {
-        message: msg,
+        msgs: [msg],
         icon: 'error',
         style: 'error',
       },
@@ -136,13 +124,21 @@ export class PublicReserveDialogComponent implements OnInit {
   }
 
   GetReservation(): ReservationToCreate {
+    const btStr = this.btControl.value;
+    const etStr = this.etControl.value;
+    // console.log(this.btControl.value);
+    // console.log(this.etControl.value);
+
     let btime: Date; btime = new Date(this.date);
-    btime.setHours(Number(this.bth.value));
-    btime.setMinutes(Number(this.btm.value));
+    btime.setHours(Number(btStr.slice(0, 2)));
+    btime.setMinutes(Number(btStr.slice(3, 5)));
 
     let etime: Date; etime = new Date(this.date);
-    etime.setHours(Number(this.eth.value));
-    etime.setMinutes(Number(this.etm.value));
+    etime.setHours(Number(etStr.slice(0, 2)));
+    etime.setMinutes(Number(etStr.slice(3, 5)));
+
+    // console.log('btime: ', btime.toString());
+    // console.log('etime: ', etime.toString());
 
     const rtc = new ReservationToCreate(
       this.local.ID, this.activityName.value,

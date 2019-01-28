@@ -83,6 +83,9 @@ import {
 import {
   PublicLocalDetailsDialogComponent
 } from './views/+public-reservations/public-local-details-dialog/public-local-details-dialog.component';
+import {
+  AmazingTimePickerModule
+} from 'amazing-time-picker';
 
 const routes: Routes = [
   {
@@ -163,6 +166,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { useHash: true }),
     HttpModule,
     ReactiveFormsModule,
+    AmazingTimePickerModule,
 
     AppMaterialModule,
   ],
