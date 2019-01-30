@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Local, Reservation, ReservationFilter, PagAndOrderFilter, Util, HM } from '@app/models/core';
 import { ApiService, ErrorHandlerService, SessionService, FeedbackHandlerService } from '@app/services/core';
 import { BehaviorSubject, config } from 'rxjs';
@@ -34,7 +35,8 @@ export class PublicReservationsOfDayComponent implements OnInit {
               private eh: ErrorHandlerService,
               private feedback: FeedbackHandlerService,
               private session: SessionService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog,
+              private router: Router) { }
 
   ngOnInit() {
     console.log('ngOnInit');
@@ -150,6 +152,11 @@ export class PublicReservationsOfDayComponent implements OnInit {
   clickOnActivityStatusPanel(asp: ActivityStatusPanel): void {
     if ( asp.status === 'free' ) {
       if (asp.et.rest(asp.bt) + 1 < 30) {
+        return;
+      }
+
+      if (this.session.session === null) {
+        this.router.navigate(['/login']);
         return;
       }
 

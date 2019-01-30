@@ -25,26 +25,24 @@
         <mat-icon>home</mat-icon>
         Inicio
       </a>
+      <a *ngIf="this.session.getModeValue() === 'public'" 
+         mat-list-item [routerLink]="['reservations-public']">
+        <mat-icon>date_range</mat-icon>Reservar
+      </a>
       <a  *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
           mat-list-item [routerLink]="['users']">
         <mat-icon>supervisor_account</mat-icon>
         Usuarios
       </a>
-      <a mat-list-item [routerLink]="['areas']">
+      <a *ngIf="this.session.getModeValue() === 'admin'"
+         mat-list-item [routerLink]="['areas']">
         <mat-icon>account_balance</mat-icon>
         Areas
       </a>
-      <a mat-list-item [routerLink]="['locals']">
+      <a *ngIf="this.session.getModeValue() === 'admin'"
+         mat-list-item [routerLink]="['locals']">
         <mat-icon>class</mat-icon>
         Locales
-      </a>
-      <a *ngIf="this.session.getModeValue() === 'public'" 
-         mat-list-item [routerLink]="['reservations-public']">
-        <mat-icon>date_range</mat-icon>Reservaciones
-      </a>
-      <a *ngIf="this.session.getModeValue() === 'public'" 
-         mat-list-item [routerLink]="['public-reservations']">
-        <mat-icon>date_range</mat-icon>Reservaciones
       </a>
       <a *ngIf="this.session.getModeValue() === 'admin'" 
          mat-list-item [routerLink]="['reservations']">
@@ -78,14 +76,30 @@
         <span class="flex-row-container" style="align-items: center;"><mat-icon>lock_open</mat-icon>Iniciar</span>
       </a>
       <span *ngIf="(session.isOpen() | async)">
-        <button mat-raised-button color="accent"
-          *ngIf="(session.isAdmin() | async)"
-          (click)="session.changeMode()"
-          style="margin-right: 10px;">
-          {{(session.getMode() | async) === 'public' ? 'Publico' : 'Administracion'}}
+        <button mat-raised-button
+                [color]="(session.getMode() | async) === 'public' ? 'primary' : 'accent'"
+                *ngIf="(session.isAdmin() | async)"
+                (click)="session.changeMode()"
+                style="margin-right: 10px;">
+          <mat-icon style="margin-right: 5px;">build</mat-icon>Administracion
         </button>
-        <button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/avatar_2x.png" alt="user" class="profile-pic"> </button>
-        <mat-menu #profile="matMenu" class="mymegamenu">
+
+
+        <button [matMenuTriggerFor]="notifications" mat-icon-button>
+          <mat-icon>notifications</mat-icon>
+        </button>
+        <mat-menu #notifications="matMenu" yPosition="below">
+          <div style="width: 200px; height: 200px; display: flex; flex-direction: column;">
+            <span *ngFor="let x of [1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,1,18,19,20]">
+              Some notifications
+            </span>
+          </div>
+        </mat-menu>
+
+        <button [matMenuTriggerFor]="profile" mat-icon-button>
+          <img src="assets/images/avatar_2x.png" alt="user" class="profile-pic">
+        </button>
+        <mat-menu #profile="matMenu" xPosition="after" yPosition="below">
             <!--button mat-menu-item>
                 <mat-icon>settings</mat-icon> Settings </button>
             <button mat-menu-item>

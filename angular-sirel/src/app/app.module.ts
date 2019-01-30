@@ -83,9 +83,15 @@ import {
 import {
   PublicLocalDetailsDialogComponent
 } from './views/+public-reservations/public-local-details-dialog/public-local-details-dialog.component';
+import { SessionDashboardComponent } from './views/+session/session-dashboard/session-dashboard.component';
+import { SessionNotificationsComponent } from './views/+session/session-notifications/session-notifications.component';
+import { SessionProfileComponent } from './views/+session/session-profile/session-profile.component';
+import { SessionReservationsComponent } from '@app/views/+session/session-reservations/session-reservations.component';
+/*
 import {
   AmazingTimePickerModule
 } from 'amazing-time-picker';
+*/
 
 const routes: Routes = [
   {
@@ -100,6 +106,39 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'session',
+    component: SessionDashboardComponent,
+    canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
+    children: [
+      {
+        path: '',
+        pathMatch: 'full',
+        redirectTo: 'profile',
+        canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'profile',
+        component: SessionProfileComponent,
+        canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'notifications',
+        component: SessionNotificationsComponent,
+        canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
+      },
+      {
+        path: 'reservations',
+        component: SessionReservationsComponent,
+        canLoad: [AuthGuard],
+        canActivate: [AuthGuard],
+      }
+    ]
   },
   {
     path: 'profile',
@@ -166,7 +205,7 @@ const routes: Routes = [
     RouterModule.forRoot(routes, { useHash: true }),
     HttpModule,
     ReactiveFormsModule,
-    AmazingTimePickerModule,
+    // AmazingTimePickerModule,
 
     AppMaterialModule,
   ],
@@ -211,6 +250,10 @@ const routes: Routes = [
     PublicReservationsOfDayComponent,
     PublicReservationDetailsDialogComponent,
     PublicLocalDetailsDialogComponent,
+    SessionDashboardComponent,
+    SessionNotificationsComponent,
+    SessionProfileComponent,
+    SessionReservationsComponent,
   ],
   providers: [
     DatePipe,
