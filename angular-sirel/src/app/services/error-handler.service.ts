@@ -29,7 +29,7 @@ export class ErrorHandlerService {
         msg = '401 No autorizado';
         break;
       case 403:
-        this.router.navigate(['/home']);
+        this.router.navigate(['/reserve']);
         msg = '403 Acceso restringido';
         break;
       case 404:

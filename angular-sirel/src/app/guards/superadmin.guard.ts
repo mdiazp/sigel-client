@@ -16,7 +16,7 @@ export class SuperadminGuard implements CanActivate, CanLoad {
     if (s !== null && s.rol === 'Superadmin') {
       return true;
     }
-    this.router.navigate(['/home']);
+    this.router.navigate(['/reserve']);
     return false;
   }
 
@@ -25,7 +25,7 @@ export class SuperadminGuard implements CanActivate, CanLoad {
     if (s !== null && s.rol === 'Superadmin') {
       return true;
     }
-    this.router.navigate(['/home']);
+    this.router.navigate(['/reserve']);
     return false;
   }
 }

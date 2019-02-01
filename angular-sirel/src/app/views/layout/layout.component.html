@@ -21,12 +21,8 @@
     </mat-toolbar>
 
     <mat-nav-list>
-      <a mat-list-item [routerLink]="['home']">
-        <mat-icon>home</mat-icon>
-        Inicio
-      </a>
       <a *ngIf="this.session.getModeValue() === 'public'" 
-         mat-list-item [routerLink]="['reservations-public']">
+         mat-list-item [routerLink]="['reserve']">
         <mat-icon>date_range</mat-icon>Reservar
       </a>
       <a  *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
@@ -49,7 +45,7 @@
         <mat-icon>date_range</mat-icon>
         Reservaciones
       </a>
-      <a mat-list-item [routerLink]="['profile']"
+      <a mat-list-item [routerLink]="['session', '0']"
         *ngIf="(session.haveProfile() | async)">
         <mat-icon>person</mat-icon>
         <span>Mi Cuenta</span>
@@ -80,8 +76,8 @@
                 [color]="(session.getMode() | async) === 'public' ? 'primary' : 'accent'"
                 *ngIf="(session.isAdmin() | async)"
                 (click)="session.changeMode()"
-                style="margin-right: 10px;">
-          <mat-icon style="margin-right: 5px;">build</mat-icon>Administracion
+                style="margin-right: 10px; padding: 0 5px;">
+          <mat-icon style="margin-right: 5px;">build</mat-icon>Administración
         </button>
 
 

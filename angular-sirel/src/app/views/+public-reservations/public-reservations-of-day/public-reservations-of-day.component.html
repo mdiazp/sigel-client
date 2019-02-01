@@ -55,11 +55,10 @@
             }"
           [style.background-color]="asp.backgroundColor"
           [style.top.px]="10 + asp.top"
-          [style.height.px]="asp.height - 1"
-          [style.cursor]="asp.status === 'free' && ((asp.et.rest(asp.bt) + 1) < 30) ? 'inherit' : 'pointer'"
-          [matTooltip]="asp.status === 'free' ? 'Reservar' : 'Ver detalles'"
+          [style.height.px]="asp.height - (asp.status === 'free' ? 1 : 5)"
+          [style.cursor]="(asp.status === 'free' && this.canReserve(asp) !== 'Reservar') ? 'inherit' : 'pointer'"
+          [matTooltip]="asp.status !== 'free' ? 'Ver detalles' : this.canReserve(asp)"
           [matTooltipPosition]="'left'"
-          [matTooltipDisabled]="asp.status === 'free' && ((asp.et.rest(asp.bt) + 1) < 30)"
           (click)="clickOnActivityStatusPanel(asp)">
         <span *ngIf="asp.status !== 'free'"
               style="margin: 5px 0px 0px 10px; position: absolute;">

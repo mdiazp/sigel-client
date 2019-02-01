@@ -16,7 +16,7 @@
 
     <div class="local-detail-wrapper">
       <div class="local-detail-header dialog-item-header-label">
-        Descripcion
+        Descripción
       </div>
       <div class="local-detail-body local-detail-body-textarea">
         {{local.Description}}
@@ -25,7 +25,7 @@
 
     <div class="local-detail-wrapper">
       <div class="local-detail-header dialog-item-header-label">
-        Ubicacion
+        Ubicación
       </div>
       <div class="local-detail-body local-detail-body-textarea">
         {{local.Location}}
@@ -52,7 +52,7 @@
         <div class="local-detail-tag" *ngFor="let wd of wds"
              [matTooltip]="
                 wd.weekDayName +
-                (!wd.needConfirmation ? '' : ' (confirmar un dia antes)')"
+                (!wd.needConfirmation ? '' : ' (confirmar un día antes)')"
              matBadge="!"
              matBadgePosition="before"
              matBadgeColor="primary"

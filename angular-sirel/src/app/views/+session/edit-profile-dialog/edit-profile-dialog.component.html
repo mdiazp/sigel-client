@@ -1,0 +1,40 @@
+<div class="dialog-header">
+  <h3 class="dialog-header-text">Editar Perfil</h3>
+</div>
+
+<mat-dialog-content>
+    <form [formGroup]="editProfileForm">
+      <mat-form-field class="edit-profile-form-control-wrapper"
+                      style="margin-bottom: 15px;">
+        <mat-label>Correo</mat-label>
+        <input formControlName="email"
+                matInput
+                type="email"
+                maxlength="50">
+        <mat-hint *ngIf="this.email.invalid">
+          <span style="color: #f44336;">email no valido</span>
+        </mat-hint>
+      </mat-form-field>
+    
+      <mat-form-field class="edit-profile-form-control-wrapper">
+        <mat-select placeholder="Enviar notificaciones a su correo"
+                    formControlName="send">
+          <mat-option [value]="true">
+            Si
+          </mat-option>
+          <mat-option [value]="false">
+            No
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button
+          color="primary"
+          [disabled]="this.editProfileForm.invalid"
+          (click)="EditProfile()">Aceptar</button>
+
+  <button mat-raised-button [mat-dialog-close]="null">Cancelar</button>
+</mat-dialog-actions>

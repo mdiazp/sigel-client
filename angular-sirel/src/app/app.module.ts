@@ -36,10 +36,7 @@ import {
 import { AppMaterialModule } from '@app/app-material';
 import { AppComponent } from '@app/app.component';
 import { LoginComponent } from '@app/views/+login/login/login.component';
-import { ProfileComponent } from '@app/views/+profile/profile/profile.component';
-import { Error404Component } from '@app/views/+errors/error404/error404.component';
 import { LayoutComponent } from '@app/views/layout/layout.component';
-import { HomeComponent } from '@app/views/+home/home/home.component';
 import { LocalAdminsComponent } from './views/+locals/common/local-admins/local-admins.component';
 import { AreaOneComponent } from './views/+areas/area-one/area-one.component';
 import { AreaAllComponent } from './views/+areas/area-all/area-all.component';
@@ -87,6 +84,8 @@ import { SessionDashboardComponent } from './views/+session/session-dashboard/se
 import { SessionNotificationsComponent } from './views/+session/session-notifications/session-notifications.component';
 import { SessionProfileComponent } from './views/+session/session-profile/session-profile.component';
 import { SessionReservationsComponent } from '@app/views/+session/session-reservations/session-reservations.component';
+import { EditProfileDialogComponent } from './views/+session/edit-profile-dialog/edit-profile-dialog.component';
+import { InfoDialogComponent } from './shared/info-dialog/info-dialog.component';
 /*
 import {
   AmazingTimePickerModule
@@ -96,12 +95,12 @@ import {
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    redirectTo: 'reserve',
   },
   {
-    path: 'home',
-    component: HomeComponent
+    path: 'reserve',
+    component: PublicReservationsDashboardComponent,
   },
   {
     path: 'login',
@@ -109,41 +108,14 @@ const routes: Routes = [
   },
   {
     path: 'session',
+    pathMatch: 'full',
+    redirectTo: 'session/0',
+  },
+  {
+    path: 'session/:tab',
     component: SessionDashboardComponent,
     canLoad: [AuthGuard],
     canActivate: [AuthGuard],
-    children: [
-      {
-        path: '',
-        pathMatch: 'full',
-        redirectTo: 'profile',
-        canLoad: [AuthGuard],
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'profile',
-        component: SessionProfileComponent,
-        canLoad: [AuthGuard],
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'notifications',
-        component: SessionNotificationsComponent,
-        canLoad: [AuthGuard],
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'reservations',
-        component: SessionReservationsComponent,
-        canLoad: [AuthGuard],
-        canActivate: [AuthGuard],
-      }
-    ]
-  },
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'users',
@@ -180,20 +152,10 @@ const routes: Routes = [
     canLoad: [AdminGuard],
   },
   {
-    path: 'reservations-public',
-    component: PublicReservationsDashboardComponent,
-  },
-  {
-    path: 'public-reservations',
-    component: PublicReservationAllComponent,
-  },
-  {
     path: 'reservation/:id',
-    component: ReservationOneComponent
-  },
-  {
-    path: '**',
-    component: Error404Component
+    component: ReservationOneComponent,
+    canActivate: [AdminGuard],
+    canLoad: [AdminGuard],
   },
 ];
 
@@ -212,9 +174,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LayoutComponent,
-    HomeComponent,
     LoginComponent,
-    Error404Component,
     LocalInfoFormComponent,
     LocalAdminsComponent,
     LocalAllComponent,
@@ -232,7 +192,6 @@ const routes: Routes = [
     ReservationsTableComponent,
     ReservationAllComponent,
     ReservationOneComponent,
-    ProfileComponent,
     UserOneComponent,
     UserAllComponent,
     UserProfileComponent,
@@ -254,6 +213,8 @@ const routes: Routes = [
     SessionNotificationsComponent,
     SessionProfileComponent,
     SessionReservationsComponent,
+    EditProfileDialogComponent,
+    InfoDialogComponent,
   ],
   providers: [
     DatePipe,
@@ -286,6 +247,9 @@ const routes: Routes = [
     PublicReservationDetailsDialogComponent,
     PublicLocalDetailsDialogComponent,
     NewAreaDialogComponent,
+    EditProfileDialogComponent,
+
+    InfoDialogComponent,
   ],
   bootstrap: [AppComponent],
 })

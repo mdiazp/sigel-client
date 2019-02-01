@@ -1,6 +1,6 @@
 <div [class]="'custom-snackbar custom-snackbar-'+this.data.style">
   <mat-icon>{{ data?.icon }}</mat-icon>
-  <div class="custom-snackbar-msgs-conatiner">
+  <div class="custom-snackbar-msgs-container">
     <span class="custom-snackbar-msg" *ngFor="let msg of data?.msgs">
       {{msg}}
     </span>

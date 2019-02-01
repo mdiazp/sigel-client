@@ -49,7 +49,7 @@ export class LayoutComponent {
   }
 
   onProfile(): void {
-    this.router.navigate(['profile']);
+    this.router.navigate(['session']);
   }
 
   logout() {

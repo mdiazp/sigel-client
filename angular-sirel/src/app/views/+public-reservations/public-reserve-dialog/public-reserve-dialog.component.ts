@@ -3,9 +3,10 @@ import { ApiService, ErrorHandlerService, FeedbackHandlerService } from '@app/se
 import { Util, HM } from '@app/models/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Local, ReservationToCreate, Reservation } from '@app/models/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar, MatDialog } from '@angular/material';
 import { isNullOrUndefined } from 'util';
 import { CustomSnackbarComponent } from '@app/shared/custom-snackbar/custom-snackbar.component';
+import { InfoDialogComponent } from '@app/shared/info-dialog/info-dialog.component';
 
 @Component({
   selector: 'app-public-reserve-dialog',
@@ -34,6 +35,7 @@ export class PublicReserveDialogComponent implements OnInit {
               private feedback: FeedbackHandlerService,
               public dialogRef: MatDialogRef<PublicReserveDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
+              private dialog: MatDialog,
               private snackbar: MatSnackBar) {
     this.date = data.date;
     this.local = data.local;
@@ -102,19 +104,25 @@ export class PublicReserveDialogComponent implements OnInit {
 
     this.api.PostReservation(rtc).subscribe(
       (r) => {
+
         if (!r.Confirmed) {
           this.feedback.ShowFeedback(
-            [
-              'Su reservacion esta pendiente de revision.',
-              'La reservacion necesita de su confirmacion un dia antes.'
-            ]
+            ['La reservación esta pendiente de revisión.']
           );
         } else {
           this.feedback.ShowFeedback(
-            ['Su reservacion esta pendiente de revision.']
+            ['La reservación esta pendiente de revisión.']
           );
         }
         this.dialogRef.close(true);
+
+        if (!r.Confirmed) {
+          this.dialog.open(InfoDialogComponent, {
+            data: {
+              info : 'Debe confirmar la reservación un dia antes.'
+            }
+          });
+        }
       },
       (err) => {
         this.eh.HandleError(err);
@@ -168,12 +176,12 @@ export class PublicReserveDialogComponent implements OnInit {
     const localem = this.local.WorkingEndTimeMinutes;
 
     if ( bh < localbh || (bh === localbh && bm < localbm) ) {
-      this.showError('La hora del inicio no esta dentro del horario laboral');
+      this.showError('La hora del inicio no está dentro del horario laboral');
       return;
     }
 
     if ( eh > localeh || (eh === localeh && em > localem) ) {
-      this.showError('La hora del fin no esta dentro del horario laboral');
+      this.showError('La hora del fin no está dentro del horario laboral');
       return;
     }
 

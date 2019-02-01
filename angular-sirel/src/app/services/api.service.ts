@@ -21,6 +21,7 @@ import {
 } from '@app/models/core';
 
 import { SessionService } from '@app/services/session.service';
+import { isNullOrUndefined } from 'util';
 
 
 @Injectable()
@@ -73,7 +74,7 @@ export class ApiService {
 
   Logout(): Observable<Response> {
     return this.http.delete(
-      `${this.bpath}/private/logout`, { headers: this.commonHeaders() }
+      `${this.bpath}/private/session/logout`, { headers: this.commonHeaders() }
     );
   }
 
@@ -115,7 +116,7 @@ export class ApiService {
 
   GetProfile(): Observable<UserProfile> {
     return this.http.get(
-      `${this.bpath}/private/profile`,
+      `${this.bpath}/private/session/profile`,
       { headers: this.commonHeaders() }
     ).pipe(
       map(res => res.json())
@@ -126,7 +127,7 @@ export class ApiService {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
     return this.http.patch(
-      `${this.bpath}/private/profile`,
+      `${this.bpath}/private/session/profile`,
       editProfile,
       {
         params: usp,
@@ -385,11 +386,29 @@ export class ApiService {
     );
   }
 
-  GetReservation(localID: number, mode: string): Observable<Reservation> {
+  GetReservation(reservationID: number, mode: string): Observable<Reservation> {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
-    usp.append('reservation_id', localID.toString());
+    usp.append('reservation_id', reservationID.toString());
     return this.http.get(`${this.bpath}/${mode}/reservation`, {
+      params: usp,
+      headers: this.commonHeaders(),
+    })
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
+  GetUserReservations(not_before_date?: Date): Observable<Reservation[]> {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+
+    if (!isNullOrUndefined(not_before_date)) {
+      usp.append(
+        'not_before_date', this.util.DatetoStr(not_before_date).slice(0, 10));
+    }
+
+    return this.http.get(`${this.bpath}/private/session/reservations`, {
       params: usp,
       headers: this.commonHeaders(),
     })
@@ -401,7 +420,7 @@ export class ApiService {
   PostReservation(reservation: ReservationToCreate): Observable<Reservation> {
     console.log(reservation);
     return this.http.post(
-      `${this.bpath}/private/reservation`,
+      `${this.bpath}/private/session/reservation`,
       reservation,
       { headers: this.commonHeaders() }
     ).pipe(
@@ -441,7 +460,7 @@ export class ApiService {
     usp = new URLSearchParams();
     usp.append('reservationID', id.toString());
     return this.http.patch(
-      `${this.bpath}/private/reservation`,
+      `${this.bpath}/private/session/reservation`,
       null,
       {
         params: usp,
@@ -455,7 +474,7 @@ export class ApiService {
     usp = new URLSearchParams();
     usp.append('user_id', userID.toString());
     return this.http.get(
-      `${this.bpath}/${(profile ? 'private/profile' : 'admin')}/notifications`,
+      `${this.bpath}/${(profile ? 'private/session' : 'admin')}/notifications`,
       {
         params: usp,
         headers: this.commonHeaders()

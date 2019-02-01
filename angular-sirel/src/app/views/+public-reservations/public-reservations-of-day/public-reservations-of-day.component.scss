@@ -114,12 +114,14 @@ $color-pending2: rgb(255, 207, 2); /*#ffcf02*/
 
 .activity-status-pending {
     background-color: $color-pending;
-    border-top: solid 1px $color-pending2;
+    border-top: solid 5px $color-pending2;
+    /*border-top: 1px solid white;*/
 }
 
 .activity-status-accepted {
     background-color: $color-accepted;
-    border-top: solid 1px $color-accepted2;
+    border-top: solid 5px $color-accepted2;
+    /*border-top: 1px solid white;*/
 }
 
 .activity-status-free {

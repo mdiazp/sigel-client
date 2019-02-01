@@ -1,0 +1,18 @@
+<div class="dialog-header">
+  <h3 class="dialog-header-text">
+    <span style="display: flex; flex-flow: row wrap; align-items: center;">
+      <mat-icon>info</mat-icon>Información
+    </span>
+  </h3>
+</div>
+
+<mat-dialog-content>
+    <div  class="dialog-item-header-label"
+          style="display: flex; flex-flow: row wrap; justify-content: center;">
+      {{this.info}}
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="null">Cerrar</button>
+</mat-dialog-actions>

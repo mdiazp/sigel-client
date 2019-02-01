@@ -1,3 +1,61 @@
-<p>
-  session-reservations works!
-</p>
+<div class="comming-reservations-wrapper">
+  <div class="comming-reservations-header">
+    <div class="comming-reservations-header-title">Próximas Reservaciones</div>
+  </div>
+
+    <div class="comming-reservations-body">
+      <div *ngIf="this.commingReservations.length === 0"
+            class="comming-reservations-empty dialog-item-header-label">
+          <mat-icon style="margin-right: 5px;">info</mat-icon>No hay reservaciones
+      </div>
+      <div  *ngFor="let r of this.commingReservations"
+            class="comming-reservation-wrapper">
+        <div class="comming-reservation-date-wrapper">
+          <div class="comming-reservation-date">
+            {{r.BeginTime.slice(0, 10)}}
+          </div>
+          <div class="comming-reservation-time-wrapper">
+            <div class="comming-reservation-time comming-reservation-bt">
+              {{r.BeginTime.slice(11, 16)}}
+            </div>
+            <span style="padding: 0px 5px;  height: 20px;">-</span>
+            <div class="comming-reservation-time comming-reservation-et">
+              {{r.EndTime.slice(11, 16)}}
+            </div>
+          </div>
+        </div>
+
+        <div class="comming-reservation-activity-wrapper">
+          <span class="comming-reservation-activity-name">
+            {{r.ActivityName}}
+          </span>
+          <div class="comming-reservation-activity-description">
+            {{r.ActivityDescription}}
+          </div>
+        </div>
+
+        <div class="comming-reservation-status-wrapper">
+          <div class="comming-reservation-status"
+               [ngClass]="{
+                 'color-accepted2': !r.Pending,
+                 'color-pending2': r.Pending
+               }">
+            {{r.Pending ? 'Pendiente' : 'Aceptada'}}
+          </div>
+        </div>
+
+        <div class="comming-reservation-confirmation-wrapper">
+          <button mat-raised-button
+                  *ngIf="!r.Confirmed"
+                  (click)="this.ConfirmEvent.emit(r)"
+                  color="primary"
+                  [disabled]="!canConfirm(r)"
+                  [matTooltip]="'La reservacion solo puede ser confirmada un dia antes'"
+                  [matTooltipPosition]="'below'"
+                  [matTooltipDisabled]="canConfirm(r)">
+            <mat-icon style="margin-right: 10px;">check_circle</mat-icon>Confirmar
+          </button>
+        </div>
+      </div>
+    </div>
+</div>

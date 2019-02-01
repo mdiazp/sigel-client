@@ -39,7 +39,7 @@ export class SessionService {
       this.session_mode.next(this.session_mode.value === 'public' ? 'admin' : 'public');
     }
     this.storage.setItem(this.smname, this.session_mode.value);
-    this.router.navigate(['/home']);
+    this.router.navigate(['/reserve']);
   }
 
   getMode(): Observable<string> {
@@ -115,5 +115,8 @@ export class SessionService {
       return this.session.jwtToken;
     }
     return null;
+  }
+
+  getnoti(): void {
   }
 }

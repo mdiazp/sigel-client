@@ -12,7 +12,7 @@ import {
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
   loading: true;
@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
       }).subscribe(
         (user) => {
           this.session.Open(user);
-          this.router.navigate(['home']);
+          this.router.navigate(['reserve']);
           this.feedback.ShowFeedback([`Bienvenido ${user.username}`]);
         },
         (error) => this.errh.HandleError(error)

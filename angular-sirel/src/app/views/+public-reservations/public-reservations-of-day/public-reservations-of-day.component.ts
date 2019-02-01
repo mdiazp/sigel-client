@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { Local, Reservation, ReservationFilter, PagAndOrderFilter, Util, HM } from '@app/models/core';
+import { Local, Reservation, ReservationFilter, PagAndOrderFilter, Util, HM, WorkingTimeUtil } from '@app/models/core';
 import { ApiService, ErrorHandlerService, SessionService, FeedbackHandlerService } from '@app/services/core';
 import { BehaviorSubject, config } from 'rxjs';
 import { MatDialog } from '@angular/material';
@@ -19,10 +19,12 @@ import {
 export class PublicReservationsOfDayComponent implements OnInit {
 
   util = new Util();
+  workingTimeUtil = new WorkingTimeUtil();
 
   @Input() local: Local = null;
   @Input() date: Date = new Date();
   @Input() reservations: Reservation[] = [];
+  @Input() serverTime: Date = new Date();
   @Output() AddReservationChange = new EventEmitter<boolean>();
   @Output() ClickOnDate = new EventEmitter<boolean>();
 
@@ -151,7 +153,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
 
   clickOnActivityStatusPanel(asp: ActivityStatusPanel): void {
     if ( asp.status === 'free' ) {
-      if (asp.et.rest(asp.bt) + 1 < 30) {
+      if ( this.canReserve(asp) !== 'Reservar' ) {
         return;
       }
 
@@ -189,6 +191,31 @@ export class PublicReservationsOfDayComponent implements OnInit {
         }
       );
     }
+  }
+
+  canReserve(asp: ActivityStatusPanel): string {
+    if (asp.et.rest(asp.bt) + 1 < 30) {
+      return 'No se puede reservar por menos de 30 minutos.';
+    }
+
+    if (this.serverTime.getFullYear() > this.date.getFullYear() ||
+        (this.serverTime.getFullYear() === this.date.getFullYear() &&
+         this.serverTime.getMonth() > this.date.getMonth())  ||
+        (this.serverTime.getFullYear() === this.date.getFullYear() &&
+         this.serverTime.getMonth() === this.date.getMonth() &&
+         (this.serverTime.getDate() === this.date.getDate() ||
+          this.serverTime.getDate() > this.date.getDate())
+        )
+       ) {
+        return 'Solo se puede reservar con al menos un dia de antelación';
+    }
+
+    if (!this.workingTimeUtil.IsWorking(
+      this.date, this.local.WorkingMonths, this.local.WorkingWeekDays)) {
+        return 'Fecha no laborable. Vea los detalles del local para más información';
+    }
+
+    return 'Reservar';
   }
 }
 

@@ -1,3 +1,32 @@
-<p>
-  session-profile works!
-</p>
+<div class="session-profile-wrapper">
+  <div class="session-profile-picture-wrapper">
+    <img src="assets/images/avatar_2x.png" alt="user" class="session-profile-picture">
+  </div>
+  <div class="session-profile-info-wrapper">
+    <div class="session-profile-info-item-wrapper">
+      <span class="session-profile-info-item-label">Nombre</span>
+      <span class="session-profile-info-item-body">{{this.userProfile.Name}}</span>
+    </div>
+    <div class="session-profile-info-item-wrapper">
+      <span class="session-profile-info-item-label">Correo</span>
+      <span class="session-profile-info-item-body">{{this.userProfile.Email}}</span>
+    </div>
+    <div class="session-profile-info-item-wrapper session-profile-info-item-wrapper-notificate-user">
+      <span class="session-profile-info-item-label
+                   session-profile-info-item-label-notificate-user">Notificarme al correo</span>
+      <span class="session-profile-info-item-body session-profile-notificate-user"
+            [ngClass]="{
+              'session-profile-notificate-user-yes': this.userProfile.SendNotificationsToEmail,
+              'session-profile-notificate-user-not': !this.userProfile.SendNotificationsToEmail
+            }">
+        {{this.userProfile.SendNotificationsToEmail ? 'Si' : 'No'}}
+      </span>
+    </div>
+    <div class="session-profile-info-item-wrapper session-profile-info-item-wrapper-edit">
+      <button mat-raised-button color="primary"
+              (click)="this.EditUserProfile.emit()">
+        <mat-icon>edit</mat-icon>Editar
+      </button>
+    </div>
+  </div>
+</div>

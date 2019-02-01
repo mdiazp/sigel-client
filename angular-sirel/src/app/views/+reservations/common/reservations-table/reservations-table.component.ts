@@ -117,7 +117,7 @@ export class ReservationsTableComponent implements OnInit, AfterViewInit {
       null,
       null,
       null,
-      new PagAndOrderFilter(null, 0, 'begin_time', false)
+      new PagAndOrderFilter(null, 0, 'begin_time', true)
     );
 
     this.api.GetReservations(f, this.session.getModeValue()).subscribe(

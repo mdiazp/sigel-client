@@ -5,13 +5,14 @@ export class Util {
         if (!s || s === null || s === '') {
             return null;
         }
-        const d = new Date();
-        d.setFullYear(this.getYear(s));
-        d.setMonth(this.getMonth(s) - 1);
-        d.setDate(this.getDay(s));
-        d.setHours(this.getHours(s));
-        d.setMinutes(this.getMinutes(s));
-        d.setSeconds(this.getSeconds(s));
+        const d = new Date(
+            this.getYear(s),
+            this.getMonth(s) - 1,
+            this.getDay(s),
+            this.getHours(s),
+            this.getMinutes(s),
+            this.getSeconds(s),
+        );
         return d;
     }
 
@@ -116,7 +117,7 @@ export class Util {
 export class HM {
     constructor(public h: number,
                 public m: number) {}
-  
+
     le(o: HM): boolean {
       if ( this.h !== o.h ) {
         return this.h < o.h;
@@ -129,15 +130,15 @@ export class HM {
     gt(o: HM): boolean {
       return o.le(this);
     }
-  
+
     rest(o: HM): number {
       return this.tom() - o.tom();
     }
-  
+
     tom(): number {
       return this.h * 60 + this.m;
     }
-  
+
     add1m(): void {
       this.m++;
       if ( this.m === 60 ) {
@@ -148,7 +149,7 @@ export class HM {
         this.h = 0;
       }
     }
-  
+
     rest1m(): void {
       this.m--;
       if ( this.m === -1 ) {
@@ -159,10 +160,9 @@ export class HM {
         this.h = 23;
       }
     }
-  
+
     toString(): string {
       return (this.h < 10 ? '0' : '') + this.h.toString() + ':' +
              (this.m < 10 ? '0' : '') + this.m.toString();
     }
   }
-  
