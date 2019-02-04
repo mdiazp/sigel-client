@@ -150,3 +150,14 @@ input[type=time]::-ms-clear { display: none; }
 input[type=time]::-moz-clear { display: none; }
 input[type=time]::-webkit-clear { display: none; }
 input[type="time"]::-webkit-clear-button { display: none; }
+
+/****************************************************************************/
+
+.mat-menu-panel {
+  border-radius: 15px !important;
+}
+
+/****************************************************************************/
+.nav-active-link, .nav-active-link:hover {
+  background: rgba(0,0,0,.2) !important;
+}

@@ -1,3 +1,43 @@
-<p>
-  session-notifications works!
-</p>
+<div class="session-notifications-wrapper">
+  <div class="session-notifications-header">
+      <div [ngClass]="{
+        'session-notifications-header-clearbutton' : true,
+        'session-notifications-header-clearbutton-actived': true}"
+        (click)="this.ReadAllNotifications.emit()">
+        <mat-icon class="ntfs-button-clear-notifications" style="margin-right: 5px;">
+              done_all
+        </mat-icon>
+        <span>Marcar todas como leídas</span>
+      </div>
+  </div>
+  <div  *ngIf="this.notifications.length === 0"
+        class="session-notifications-empty-list dialog-item-header-label">
+    <mat-icon style="margin-right: 5px;">info</mat-icon>No tiene notificaciones
+  </div>
+  <div  *ngIf="this.notifications.length > 0"
+        class="session-notifications-list">
+      <div  *ngFor="let ntf of notifications"
+          [ngClass]="{
+            'ntf-wrapper': true,
+            'ntf-wrapper-unreaded': !ntf.Readed,
+            'ntf-wrapper-readed': ntf.Readed,
+            'mat-elevation-z10': !ntf.Readed
+          }"
+          [matTooltip]="'Marcar como leída'"
+          [matTooltipPosition]="'left'"
+          [matTooltipDisabled]="ntf.Readed"
+          (click)="this.ReadNotification.emit(ntf)">
+        <div class="ntf-datetime-wrapper dialog-item-header-label">
+          <div class="ntf-date-wrapper">
+            {{ntf.CreationTime.slice(0, 10)}}
+          </div>
+          <div class="ntf-time-wrapper">
+            {{ntf.CreationTime.slice(11, 16)}}
+          </div>
+        </div>
+        <div class="ntf-message-wrapper">
+          {{ntf.Message}}
+        </div>
+      </div>
+  </div>
+</div>

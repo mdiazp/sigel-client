@@ -8,6 +8,7 @@ import { Reservation, Util } from '@app/models/core';
 })
 export class SessionReservationsComponent implements OnInit {
 
+  @Input() localNames: Map<number, string>;
   @Input() commingReservations: Reservation[];
   @Input() serverTime: Date;
   @Output() ConfirmEvent = new EventEmitter<Reservation>();
@@ -17,7 +18,6 @@ export class SessionReservationsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('this.commingReservations.length = ', this.commingReservations.length);
   }
 
   canConfirm(reservation: Reservation): boolean {

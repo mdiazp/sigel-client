@@ -16,12 +16,20 @@
 
 .login-form-wrapper {
   min-width: 300px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 
-.example-container {
+.login-form {
   display: flex;
   flex-direction: column;
   align-content: center;
+  width: 100%;
 }
 
 .mat-icon {

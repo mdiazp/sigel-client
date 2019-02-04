@@ -1,6 +1,10 @@
 <div class="login-wrapper">
   <mat-card class="login-form-wrapper">
-    <form [formGroup]="loginform" class="example-container">
+    <div class="login-form-wrapper-logo">
+      <img src="/assets/images/sigafinal-150x150.gif" alt="logo" 
+           class="login-form-img-logo">
+    </div>
+    <form [formGroup]="loginform" class="login-form">
       <mat-form-field>
         <mat-label>Usuario</mat-label>
         <input formControlName="username"
@@ -20,10 +24,14 @@
         <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
         <!--<mat-error *ngIf="password.invalid">You must enter a value</mat-error>-->
       </mat-form-field>
-      <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="this.loginform.invalid">
+      <button mat-raised-button color="primary" (click)="onSubmit()"
+              [disabled]="this.loginform.invalid || (this.loading$ | async)">
         <mat-icon>lock</mat-icon>
         <span>Entrar</span>
       </button>
     </form>
+    <div *ngIf="(this.loading$ | async)" style="width: 100%; margin-top: 10px;">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
   </mat-card>
 </div>

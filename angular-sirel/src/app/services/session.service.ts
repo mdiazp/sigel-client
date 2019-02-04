@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { StorageService } from '@app/services/storage.service';
 import { Session } from '@app/models/session';
 import { JwtToken } from '@app/models/jwt-token';
+import { ObserversModule } from '@angular/cdk/observers';
 
 @Injectable()
 export class SessionService {
@@ -39,7 +40,12 @@ export class SessionService {
       this.session_mode.next(this.session_mode.value === 'public' ? 'admin' : 'public');
     }
     this.storage.setItem(this.smname, this.session_mode.value);
-    this.router.navigate(['/reserve']);
+
+    if ( this.session_mode.value === 'admin' ) {
+      this.router.navigate(['/reservations']);
+    } else {
+      this.router.navigate(['/reserve']);
+    }
   }
 
   getMode(): Observable<string> {

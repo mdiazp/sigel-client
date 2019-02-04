@@ -18,6 +18,8 @@ import {
   Area, AreaFilter,
   Local, LocalFilter,
   Reservation, ReservationFilter, ReservationToCreate,
+  Notification,
+  NotificationsFilter
 } from '@app/models/core';
 
 import { SessionService } from '@app/services/session.service';
@@ -48,12 +50,7 @@ export class ApiService {
   }
 
   toDate(s: string): Date {
-    // console.log('kkokokokokokokokokokokoko');
-    // console.log( this.util.StrtoDate(s) );
-    // 2018-11-07T11:53:22
-    console.log('xxxxxxxxx -----> ', s);
     let x: Date; x = new Date(Date.parse(s.slice(0, 19) + 'Z'));
-    console.log('xxxxx   -----> ', x);
     return x;
   }
 
@@ -418,7 +415,6 @@ export class ApiService {
   }
 
   PostReservation(reservation: ReservationToCreate): Observable<Reservation> {
-    console.log(reservation);
     return this.http.post(
       `${this.bpath}/private/session/reservation`,
       reservation,
@@ -477,6 +473,55 @@ export class ApiService {
       `${this.bpath}/${(profile ? 'private/session' : 'admin')}/notifications`,
       {
         params: usp,
+        headers: this.commonHeaders()
+      }
+    ).pipe(
+      map(res => res.json())
+    );
+  }
+
+  GetSessionNotifications(filter: NotificationsFilter): Observable<Notification[]> {
+    return this.http.get(
+      `${this.bpath}/private/session/notifications`,
+      {
+        params: filter.GetURLSearchParams(),
+        headers: this.commonHeaders()
+      }
+    ).pipe(
+      map(res => res.json())
+    );
+  }
+
+  GetSessionNotificationsCount(filter: NotificationsFilter): Observable<number> {
+    return this.http.get(
+      `${this.bpath}/private/session/notificationscount`,
+      {
+        params: filter.GetURLSearchParams(),
+        headers: this.commonHeaders()
+      }
+    ).pipe(
+      map(res => res.json())
+    );
+  }
+
+  SetUserNotificationAsReaded(): Observable<boolean> {
+    return this.http.patch(
+      `${this.bpath}/private/session/readallnotifications`,
+      null,
+      {
+        headers: this.commonHeaders()
+      }
+    ).pipe(
+      map(res => res.json())
+    );
+  }
+
+  ReadNotification(ntf: Notification): Observable<boolean> {
+    return this.http.patch(
+      `${this.bpath}/private/session/readnotification`,
+      null,
+      {
+        params: { 'notification_id' : ntf.ID.toString() },
         headers: this.commonHeaders()
       }
     ).pipe(

@@ -86,6 +86,8 @@ import { SessionProfileComponent } from './views/+session/session-profile/sessio
 import { SessionReservationsComponent } from '@app/views/+session/session-reservations/session-reservations.component';
 import { EditProfileDialogComponent } from './views/+session/edit-profile-dialog/edit-profile-dialog.component';
 import { InfoDialogComponent } from './shared/info-dialog/info-dialog.component';
+import { NotificationsService } from '@app/services/notifications.service';
+import { SessionNotificationsMenuComponent } from './views/+session/session-notifications-menu/session-notifications-menu.component';
 /*
 import {
   AmazingTimePickerModule
@@ -131,19 +133,27 @@ const routes: Routes = [
   },
   {
     path: 'areas',
-    component: AreaAllComponent
+    component: AreaAllComponent,
+    canActivate: [SuperadminGuard],
+    canLoad: [SuperadminGuard]
   },
   {
     path: 'area/:id',
-    component: AreaOneComponent
+    component: AreaOneComponent,
+    canActivate: [SuperadminGuard],
+    canLoad: [SuperadminGuard]
   },
   {
     path: 'locals',
-    component: LocalAllComponent
+    component: LocalAllComponent,
+    canActivate: [SuperadminGuard],
+    canLoad: [SuperadminGuard]
   },
   {
     path: 'local/:id',
-    component: LocalOneComponent
+    component: LocalOneComponent,
+    canActivate: [SuperadminGuard],
+    canLoad: [SuperadminGuard]
   },
   {
     path: 'reservations',
@@ -215,6 +225,7 @@ const routes: Routes = [
     SessionReservationsComponent,
     EditProfileDialogComponent,
     InfoDialogComponent,
+    SessionNotificationsMenuComponent,
   ],
   providers: [
     DatePipe,
@@ -223,6 +234,7 @@ const routes: Routes = [
     ApiService,
     ErrorHandlerService,
     FeedbackHandlerService,
+    NotificationsService,
 
     AuthGuard,
     AdminGuard,

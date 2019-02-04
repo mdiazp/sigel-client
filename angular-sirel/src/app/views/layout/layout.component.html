@@ -16,39 +16,40 @@
         >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Sirel</span>
+      <span>SIGEL</span>
 
     </mat-toolbar>
 
     <mat-nav-list>
       <a *ngIf="this.session.getModeValue() === 'public'" 
-         mat-list-item [routerLink]="['reserve']">
-        <mat-icon>date_range</mat-icon>Reservar
+         mat-list-item [routerLink]="['reserve']" [routerLinkActive]="['nav-active-link']">
+        <mat-icon style="margin-right: 8px;">date_range</mat-icon>
+        Reservar
       </a>
       <a  *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
-          mat-list-item [routerLink]="['users']">
-        <mat-icon>supervisor_account</mat-icon>
+          mat-list-item [routerLink]="['users']" [routerLinkActive]="['nav-active-link']">
+        <mat-icon style="margin-right: 8px;">supervisor_account</mat-icon>
         Usuarios
       </a>
-      <a *ngIf="this.session.getModeValue() === 'admin'"
-         mat-list-item [routerLink]="['areas']">
-        <mat-icon>account_balance</mat-icon>
+      <a *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
+         mat-list-item [routerLink]="['areas']" [routerLinkActive]="['nav-active-link']">
+        <mat-icon style="margin-right: 8px;">account_balance</mat-icon>
         Areas
       </a>
-      <a *ngIf="this.session.getModeValue() === 'admin'"
-         mat-list-item [routerLink]="['locals']">
-        <mat-icon>class</mat-icon>
+      <a *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
+         mat-list-item [routerLink]="['locals']" [routerLinkActive]="['nav-active-link']">
+        <mat-icon style="margin-right: 8px;">class</mat-icon>
         Locales
       </a>
       <a *ngIf="this.session.getModeValue() === 'admin'" 
-         mat-list-item [routerLink]="['reservations']">
-        <mat-icon>date_range</mat-icon>
+         mat-list-item [routerLink]="['reservations']" [routerLinkActive]="['nav-active-link']">
+        <mat-icon style="margin-right: 8px;">date_range</mat-icon>
         Reservaciones
       </a>
-      <a mat-list-item [routerLink]="['session', '0']"
+      <a mat-list-item [routerLink]="['session']" [routerLinkActive]="['nav-active-link']"
         *ngIf="(session.haveProfile() | async)">
-        <mat-icon>person</mat-icon>
-        <span>Mi Cuenta</span>
+        <mat-icon style="margin-right: 8px;">person</mat-icon>
+        Mi Cuenta
       </a>
     </mat-nav-list>
 
@@ -64,13 +65,27 @@
         *ngIf="!drawer.opened">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span *ngIf="!drawer.opened">Sirel</span>
+      <span *ngIf="!drawer.opened">SIGEL</span>
       <span class="flex-spacer"></span>
 
-      <a *ngIf="!(session.isOpen() | async)" style="text-decoration: none; color: white;"
+      <!--a *ngIf="!(session.isOpen() | async)" style="text-decoration: none; color: white;"
                             [routerLink]="['login']">
         <span class="flex-row-container" style="align-items: center;"><mat-icon>lock_open</mat-icon>Iniciar</span>
-      </a>
+      </a-->
+
+      <button *ngIf="!(session.isOpen() | async)"
+              mat-icon-button [matMenuTriggerFor]="unlogguedMenu">
+          <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #unlogguedMenu="matMenu"
+                xPosition="after" yPosition="below" [overlapTrigger]="false">
+        <button mat-menu-item
+                (click)="goToLogin()">
+          <mat-icon>lock_open</mat-icon>
+          <span>Iniciar sesión</span>
+        </button>
+      </mat-menu>
+
       <span *ngIf="(session.isOpen() | async)">
         <button mat-raised-button
                 [color]="(session.getMode() | async) === 'public' ? 'primary' : 'accent'"
@@ -82,20 +97,24 @@
 
 
         <button [matMenuTriggerFor]="notifications" mat-icon-button>
-          <mat-icon>notifications</mat-icon>
+          <mat-icon [matBadge]="(this.ntfs.notificationsUnreadCount$ | async)"
+                    matBadgeColor="warn"
+                    [matBadgeHidden]="(this.ntfs.notificationsUnreadCount$ | async) === 0">
+                    notifications
+          </mat-icon>
         </button>
-        <mat-menu #notifications="matMenu" yPosition="below">
-          <div style="width: 200px; height: 200px; display: flex; flex-direction: column;">
-            <span *ngFor="let x of [1,2,3,4,5,6,8,9,10,11,12,13,14,15,16,1,18,19,20]">
-              Some notifications
-            </span>
-          </div>
+        <mat-menu #notifications="matMenu" 
+                  xPosition="after" yPosition="below" [overlapTrigger]="false" >
+          <ng-template matMenuContent>
+            <app-session-notifications-menu></app-session-notifications-menu>
+          </ng-template>
         </mat-menu>
 
         <button [matMenuTriggerFor]="profile" mat-icon-button>
           <img src="assets/images/avatar_2x.png" alt="user" class="profile-pic">
         </button>
-        <mat-menu #profile="matMenu" xPosition="after" yPosition="below">
+        <mat-menu #profile="matMenu" 
+                  xPosition="after" yPosition="below" [overlapTrigger]="false">
             <!--button mat-menu-item>
                 <mat-icon>settings</mat-icon> Settings </button>
             <button mat-menu-item>

@@ -16,7 +16,7 @@ export class ErrorHandlerService {
 
   HandleError(error: Response, msg?: string) {
     if (isNullOrUndefined(msg)) {
-      msg = `${error.status} Petición incorrecta`;
+      msg = `400 Petición incorrecta`;
     }
 
     switch (error.status) {

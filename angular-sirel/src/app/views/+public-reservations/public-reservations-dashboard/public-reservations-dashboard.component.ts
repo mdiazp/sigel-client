@@ -168,7 +168,6 @@ export class PublicReservationsDashboardComponent implements OnInit {
   }
 
   private loadReservations(): void {
-    console.log('loadReservations');
     this.readySubjectReservations.next(false);
     this.api.GetReservations(
       new ReservationFilter(

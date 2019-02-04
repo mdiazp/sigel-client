@@ -1,0 +1,47 @@
+<div class="ntfs-menu-wrapper">
+  <div class="ntfs-menu-header dialog-item-header-label">
+    <span>Sin leer</span>
+    <mat-icon class="ntfs-button-clear-notifications"
+              (click)="clearNotifications()"
+              [matTooltip]="'Marcar todas como leídas'"
+              [ngClass]="{'ntfs-button-clear-notifications-disabled': this.notifications.length === 0}">
+              done_all
+    </mat-icon>
+  </div>
+  <div class="ntfs-menu-body">
+    <div class="ntfs-menu-spinner-wrapper" *ngIf="(this.loading$ | async)">
+      <mat-spinner [diameter]="30"></mat-spinner>
+    </div>
+    <div *ngIf="!(this.loading$ | async)" class="ntfs-list">
+      <div  *ngIf="this.notifications.length === 0"
+            class="ntfs-empty-list">
+        <div class="empty-list-message dialog-item-header-label">
+          No tiene nuevas notificaciones
+        </div>
+      </div>
+      <div class="ntf-wrapper dialog-item-header-label"
+           *ngFor="let ntf of this.notifications"
+           [matTooltip]="'Marcar como leída'"
+           (click)="readNotification(ntf)">
+          <div class="ntf-header">
+            <div class="ntf-header-date">
+              {{ntf.CreationTime.slice(0, 10)}}
+            </div>
+            <div class="ntf-header-time">
+              {{ntf.CreationTime.slice(11, 16)}}
+            </div>
+          </div>
+          <div class="ntf-body">
+            {{ntf.Message}}
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="ntfs-menu-footer dialog-item-header-label">
+      <div [routerLink]="['session/2']"
+          class="ntfs-menu-footer-link">
+        <mat-icon class="ntfs-menu-footer-icon" [inline]="true">visibility</mat-icon>
+        Ver todas
+      </div>
+  </div>
+</div>

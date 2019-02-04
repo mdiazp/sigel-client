@@ -26,18 +26,21 @@
 
   <mat-tab-group #tabs mat-stretch-tabs
                   class="calendar-reservations-tabs">
-    <mat-tab label="Calendario">
 
+    <mat-tab label="Calendario">
         <div class="calendar-filter-wrapper">
           <mat-calendar class="calendar-filter"
                         [selected]="selectedDate" *ngIf="(this.readyServerTime | async)"
                         (selectedChange)="onSelectDate($event)">
           </mat-calendar>
         </div>
-
     </mat-tab>
-    <mat-tab label="Reservaciones">
 
+    <mat-tab label="Reservaciones">
+      <mat-progress-bar *ngIf="!(this.readyReservations | async)" 
+                        mode="indeterminate"
+                        style="margin: 20px 0px;">
+      </mat-progress-bar>
       <app-public-reservations-of-day #reservationsOfDay
         *ngIf="(this.readyServerTime | async) && (this.readyLocalFilter | async) && (this.readyReservations | async)"
         [date]="this.selectedDate"
@@ -47,7 +50,7 @@
         (AddReservationChange)="this.filterChange()"
         (ClickOnDate)="this.tabs.selectedIndex = 0;">
       </app-public-reservations-of-day>
-
     </mat-tab>
+
   </mat-tab-group>
 </mat-card>

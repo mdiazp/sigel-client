@@ -1,12 +1,17 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { SessionService, ApiService, ErrorHandlerService, FeedbackHandlerService } from '@app/services/core';
+import { SessionService, ApiService, ErrorHandlerService, FeedbackHandlerService, NotificationsService } from '@app/services/core';
 import { BehaviorSubject } from 'rxjs';
-import { UserProfile } from '@app/models/user';
 import { MatDialog } from '@angular/material';
 import { EditProfileDialogComponent } from '@app/views/+session/edit-profile-dialog/edit-profile-dialog.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isNullOrUndefined } from 'util';
-import { Reservation, ReservationFilter } from '@app/models/core';
+import {
+  UserProfile,
+  Reservation, ReservationFilter,
+  Notification,
+  NotificationsFilter,
+  LocalFilter
+} from '@app/models/core';
 
 @Component({
   selector: 'app-session-dashboard',
@@ -21,6 +26,9 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
   serverTime: Date;
   userProfile: UserProfile;
   commingReservations: Reservation[];
+  notifications: Notification[];
+
+  localNames = new Map<number, string>();
 
   selectedTab = 0;
 
@@ -31,6 +39,7 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
               private dialog: MatDialog,
               private route: ActivatedRoute,
               private router: Router,
+              private ntfs: NotificationsService
               ) {
     this.route.params.subscribe(
       (params) => {
@@ -40,12 +49,10 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
     this.loadData();
   }
 
   ngOnDestroy(): void {
-    console.log('ngOnDestroy');
   }
 
   editProfile(): void {
@@ -88,6 +95,20 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
     this.api.GetProfile().subscribe(
       (userProfile) => {
         this.userProfile = userProfile;
+        this.loadLocals();
+      },
+      (e) => {
+        this.eh.HandleError(e);
+      }
+    );
+  }
+
+  loadLocals(): void {
+    this.api.GetLocals(new LocalFilter(null, null, null, null), 'public').subscribe(
+      (locals) => {
+        for (let i = 0; i < locals.length; i++) {
+          this.localNames.set(locals[i].ID, locals[i].Name);
+        }
         this.loadCommingReservations();
       },
       (e) => {
@@ -100,6 +121,20 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
     this.api.GetUserReservations(this.serverTime).subscribe(
       (creservations) => {
         this.commingReservations = creservations;
+        this.loadNotifications();
+      },
+      (e) => {
+        this.eh.HandleError(e);
+      }
+    );
+  }
+
+  loadNotifications(): void {
+    this.api.GetSessionNotifications(
+      new NotificationsFilter(null, null, null)
+    ).subscribe(
+      (notifications) => {
+        this.notifications = notifications;
         this.loadingSubject.next(false);
       },
       (e) => {
@@ -113,6 +148,34 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
       (r) => {
         this.feedback.ShowFeedback(['La reservacion fue confirmada correctamente']);
         this.loadData();
+      },
+      (e) => {
+        this.eh.HandleError(e);
+      }
+    );
+  }
+
+  readNotification(ntf: Notification): void {
+    this.api.ReadNotification(ntf).subscribe(
+      (_) => {
+        this.loadNotifications();
+        this.ntfs.Restart();
+      },
+      (e) => {
+        this.eh.HandleError(e);
+      }
+    );
+  }
+
+  clearNotifications(): void {
+    if ( this.notifications.length === 0 ) {
+      return;
+    }
+
+    this.api.SetUserNotificationAsReaded().subscribe(
+      (_) => {
+        this.ntfs.Restart();
+        this.loadNotifications();
       },
       (e) => {
         this.eh.HandleError(e);

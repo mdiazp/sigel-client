@@ -1,0 +1,123 @@
+.ntfs-menu-wrapper {
+    width: 280px; 
+    height: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+.ntf-wrapper:hover {
+    cursor: pointer;
+    background: rgba(0,0,0,.04) !important;
+}
+
+.ntfs-menu-header {
+    height: 10%;
+
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    color: #3f51b5;
+    font-weight: 700;
+    opacity: inherit;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding: 5px 10px;
+}
+
+.ntfs-button-clear-notifications {
+    border-radius: 100%;
+    border: 1px solid #3f51b5;
+    cursor: pointer;
+}
+
+.ntfs-button-clear-notifications-disabled {
+    cursor: inherit;
+    opacity: .3;
+}
+
+.ntfs-menu-body {
+    height: 210px;
+    /*overflow-y: auto;*/
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ntfs-menu-spinner-wrapper {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.ntfs-menu-footer {
+    height: 10%;
+
+    text-align: center;
+    color: #3f51b5;
+    font-weight: 700;
+    opacity: inherit;
+
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    padding-top: 10px;
+}
+
+.ntfs-menu-footer-link {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    
+    text-decoration: none;
+    text-decoration-color: none;
+
+    cursor: pointer;
+}
+
+.ntfs-menu-footer-icon {
+    margin-right: 5px;
+}
+
+.ntfs-list {
+    height: 100%;
+    overflow-y: auto;
+
+    padding-left: 5px;
+}
+
+.ntfs-empty-list {
+    display: flex;
+    flex-flow: row nowrap;
+
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+
+    height: 100%;
+}
+
+.empty-list-message {
+    font-size: smaller;
+}
+
+.ntf-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    padding: 5px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.ntf-header {
+    display: flex;
+    flex-flow: row nowrap;
+
+    justify-content: space-between;
+    font-size: smaller;
+}
+
+.ntf-body {
+    margin: 5px 0px;
+}

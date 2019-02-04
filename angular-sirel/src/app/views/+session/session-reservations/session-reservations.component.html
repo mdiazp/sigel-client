@@ -1,6 +1,6 @@
 <div class="comming-reservations-wrapper">
   <div class="comming-reservations-header">
-    <div class="comming-reservations-header-title">Próximas Reservaciones</div>
+    <div class="comming-reservations-header-title">Próximas</div>
   </div>
 
     <div class="comming-reservations-body">
@@ -22,6 +22,9 @@
             <div class="comming-reservation-time comming-reservation-et">
               {{r.EndTime.slice(11, 16)}}
             </div>
+          </div>
+          <div class="comming-reservation-local-name">
+            {{this.localNames.get(r.LocalID)}}
           </div>
         </div>
 

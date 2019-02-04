@@ -54,7 +54,6 @@ export class AreasTableComponent implements OnInit, AfterViewInit {
   }
 
   LoadAreas(): void {
-    console.log('loadAreas');
     this.loadingSubject.next(true);
     const filter = new AreaFilter(this.search, null);
 

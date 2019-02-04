@@ -10,7 +10,7 @@
           <mat-icon>indeterminate_check_box</mat-icon><strong>Pendiente</strong>
       </div>
       <div class="item-leyend item-leyend-accepted">
-          <mat-icon>indeterminate_check_box</mat-icon><strong>Aceptado</strong>
+          <mat-icon>indeterminate_check_box</mat-icon><strong>Aceptada</strong>
       </div>
     </div>
   </header>
@@ -62,7 +62,7 @@
           (click)="clickOnActivityStatusPanel(asp)">
         <span *ngIf="asp.status !== 'free'"
               style="margin: 5px 0px 0px 10px; position: absolute;">
-          <strong>{{asp.r.ActivityName}}</strong>
+          <strong class="dialog-item-header-label" style="font-weight: 700;">{{asp.r.ActivityName}}</strong>
         </span>
       </div>
     </div>

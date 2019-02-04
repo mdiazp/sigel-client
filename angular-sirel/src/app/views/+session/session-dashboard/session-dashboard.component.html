@@ -6,24 +6,40 @@
   <mat-tab-group *ngIf="!(this.loading$ | async)"
     mat-stretch-tabs
     [selectedIndex]="this.selectedTab"
-    (selectedIndexChange)="this.router.navigate(['session',$event])">
-    <mat-tab [label]="this.session.getUsername()">
+    (selectedIndexChange)="this.router.navigate(['/session',$event])">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 8px;">person</mat-icon>
+        {{this.session.getUsername()}}
+      </ng-template>
       <app-session-profile  class="mat-tab-item" 
                             [userProfile]="this.userProfile"
                             (EditUserProfile)="this.editProfile()">
       </app-session-profile>
     </mat-tab>
 
-    <mat-tab [label]="'Reservaciones (' + this.commingReservations.length.toString() + ')'">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 8px;">event_note</mat-icon>
+        Reservaciones
+      </ng-template>
       <app-session-reservations class="mat-tab-item"
+                                [localNames]="this.localNames"
                                 [commingReservations]="this.commingReservations"
                                 [serverTime]="this.serverTime"
                                 (ConfirmEvent)="this.onConfirm($event)">
       </app-session-reservations>
     </mat-tab>
     
-    <mat-tab label="Notificaciones">
-      <app-session-notifications class="mat-tab-item">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon style="margin-right: 8px;">notifications</mat-icon>
+        Notificaciones
+      </ng-template>
+      <app-session-notifications class="mat-tab-item"
+                                 [notifications]="this.notifications"
+                                 (ReadNotification)="readNotification($event)"
+                                 (ReadAllNotifications)="clearNotifications()">
       </app-session-notifications>
     </mat-tab>
     

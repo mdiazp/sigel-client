@@ -1,5 +1,6 @@
-export { ErrorHandlerService } from '@app/services/error-handler.service';
+export { ErrorHandlerService } from './error-handler.service';
 export { FeedbackHandlerService } from './feedback-handler.service';
-export { SessionService } from '@app/services/session.service';
-export { StorageService } from '@app/services/storage.service';
-export { ApiService } from '@app/services/api.service';
+export { SessionService } from './session.service';
+export { StorageService } from './storage.service';
+export { ApiService } from './api.service';
+export { NotificationsService } from './notifications.service';

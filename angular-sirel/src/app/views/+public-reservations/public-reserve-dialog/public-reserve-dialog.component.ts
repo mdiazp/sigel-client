@@ -91,7 +91,7 @@ export class PublicReserveDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.reservationForm.invalid) {
-      this.showError('Horario Incorrecto');
+      this.showError('Horario incorrecto');
       return;
     }
 
@@ -105,21 +105,15 @@ export class PublicReserveDialogComponent implements OnInit {
     this.api.PostReservation(rtc).subscribe(
       (r) => {
 
-        if (!r.Confirmed) {
-          this.feedback.ShowFeedback(
-            ['La reservación esta pendiente de revisión.']
-          );
-        } else {
-          this.feedback.ShowFeedback(
-            ['La reservación esta pendiente de revisión.']
-          );
-        }
+        this.feedback.ShowFeedback(
+          ['La reservación está pendiente de revisión.']
+        );
         this.dialogRef.close(true);
 
         if (!r.Confirmed) {
           this.dialog.open(InfoDialogComponent, {
             data: {
-              info : 'Debe confirmar la reservación un dia antes.'
+              info : 'Debe confirmar la reservación un día antes.'
             }
           });
         }
@@ -134,8 +128,6 @@ export class PublicReserveDialogComponent implements OnInit {
   GetReservation(): ReservationToCreate {
     const btStr = this.btControl.value;
     const etStr = this.etControl.value;
-    // console.log(this.btControl.value);
-    // console.log(this.etControl.value);
 
     let btime: Date; btime = new Date(this.date);
     btime.setHours(Number(btStr.slice(0, 2)));
@@ -144,9 +136,6 @@ export class PublicReserveDialogComponent implements OnInit {
     let etime: Date; etime = new Date(this.date);
     etime.setHours(Number(etStr.slice(0, 2)));
     etime.setMinutes(Number(etStr.slice(3, 5)));
-
-    // console.log('btime: ', btime.toString());
-    // console.log('etime: ', etime.toString());
 
     const rtc = new ReservationToCreate(
       this.local.ID, this.activityName.value,
@@ -166,7 +155,7 @@ export class PublicReserveDialogComponent implements OnInit {
 
     if ( bh > eh ||
         (bh === eh && bm > em) ) {
-      this.showError('La hora del inicio no puede ser mayor que la hora del fin');
+      this.showError('La hora de inicio no puede ser mayor que la hora de fin');
       return;
     }
 
@@ -176,12 +165,12 @@ export class PublicReserveDialogComponent implements OnInit {
     const localem = this.local.WorkingEndTimeMinutes;
 
     if ( bh < localbh || (bh === localbh && bm < localbm) ) {
-      this.showError('La hora del inicio no está dentro del horario laboral');
+      this.showError('La hora de inicio no se encuentra dentro del horario laboral');
       return;
     }
 
     if ( eh > localeh || (eh === localeh && em > localem) ) {
-      this.showError('La hora del fin no está dentro del horario laboral');
+      this.showError('La hora de fin no se encuentra dentro del horario laboral');
       return;
     }
 

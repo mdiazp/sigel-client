@@ -8,6 +8,8 @@ import {
   SessionService,
   FeedbackHandlerService,
 } from '@app/services/core';
+import { BehaviorSubject } from 'rxjs';
+import { delay } from 'q';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +17,8 @@ import {
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loading: true;
+  loadingSubject = new BehaviorSubject<boolean>(false);
+  loading$ = this.loadingSubject.asObservable();
   loginform: FormGroup;
   username: FormControl;
   password: FormControl;
@@ -48,6 +51,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.loadingSubject.next(true);
     if (this.loginform.valid) {
       this.api.Login({
         user: this.username.value,
@@ -57,8 +61,12 @@ export class LoginComponent implements OnInit {
           this.session.Open(user);
           this.router.navigate(['reserve']);
           this.feedback.ShowFeedback([`Bienvenido ${user.username}`]);
+          this.loadingSubject.next(false);
         },
-        (error) => this.errh.HandleError(error)
+        (error) => {
+          this.errh.HandleError(error);
+          this.loadingSubject.next(false);
+        }
       );
     }
   }

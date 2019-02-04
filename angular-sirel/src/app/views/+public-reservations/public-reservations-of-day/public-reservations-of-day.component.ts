@@ -41,7 +41,6 @@ export class PublicReservationsOfDayComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
-    console.log('ngOnInit');
     this.refresh();
   }
 
@@ -159,6 +158,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
 
       if (this.session.session === null) {
         this.router.navigate(['/login']);
+        this.feedback.ShowFeedback(['Debe iniciar sesión para reservar.']);
         return;
       }
 
@@ -195,7 +195,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
 
   canReserve(asp: ActivityStatusPanel): string {
     if (asp.et.rest(asp.bt) + 1 < 30) {
-      return 'No se puede reservar por menos de 30 minutos.';
+      return 'No puede reservar por menos de 30 minutos.';
     }
 
     if (this.serverTime.getFullYear() > this.date.getFullYear() ||
@@ -207,7 +207,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
           this.serverTime.getDate() > this.date.getDate())
         )
        ) {
-        return 'Solo se puede reservar con al menos un dia de antelación';
+        return 'No puede reservar con menos de un día de antelación';
     }
 
     if (!this.workingTimeUtil.IsWorking(
