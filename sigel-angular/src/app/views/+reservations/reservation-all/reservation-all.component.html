@@ -74,22 +74,22 @@
                     </div>
                     <div class="reservation-item-third-column">
                       <button mat-icon-button 
-                              (click)="onShowReservation(r)">
-                        <mat-icon [matTooltip]="'Ver otros detalles'"
-                                  [style.color]="'blue'"
+                              (click)="onShowReservation(r)"
+                              [matTooltip]="'Ver otros detalles'">
+                        <mat-icon [style.color]="'blue'"
                                   class="reservation-item-action">visibility</mat-icon>
                       </button>
                       <button mat-icon-button
                               (click)="onAcceptReservation(r)"
-                              [disabled]="!r.Pending">
-                        <mat-icon [matTooltip]="'Aceptar'"
-                                  [style.color]="r.Pending ? 'green' : 'rgba(0,0,0,.26)'"
+                              [disabled]="!r.Pending"
+                              [matTooltip]="'Aceptar'">
+                        <mat-icon [style.color]="r.Pending ? 'green' : 'rgba(0,0,0,.26)'"
                                   class="reservation-item-action">check</mat-icon>
                       </button>
                       <button mat-icon-button
-                              (click)="onRefuseReservation(r)">
-                        <mat-icon [matTooltip]="'Denegar'"
-                                  [color]="'warn'"
+                              (click)="onRefuseReservation(r)"
+                              [matTooltip]="'Denegar'">
+                        <mat-icon [color]="'warn'"
                                   class="reservation-item-action">clear</mat-icon>
                       </button>
                     </div>
