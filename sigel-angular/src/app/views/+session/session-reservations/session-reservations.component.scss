@@ -68,13 +68,17 @@
     padding: 10px 0px;
     border-bottom: 1px solid rgba(0,0,0,0.12);
 
-    @media(min-width: 570px) {
+    @media(min-width: 825px) {
         flex-flow: row wrap;
         justify-content: center;
     }
 }
 
 .comming-reservation-date-wrapper {
+    flex: 0 0 auto;
+    width: 200px;
+    overflow: hidden;
+
     display: flex;
     flex-flow: column;
 
@@ -138,27 +142,31 @@
     /*border-bottom: 1px solid #3f51b5;*/
     width: fit-content;
 
-    color: #3f51b5;
-    /*font-weight: 700;*/
+    /*color: #3f51b5;*/
+    font-weight: 700;
 
+    text-align: center;
     margin-bottom: 10px;
 }
 
 .comming-reservation-activity-description {
     text-align: center;
 
-    @media(min-width: 570px) {
+    /*@media(min-width: 825px) {
         text-align: inherit;
-    }
+    }*/
 }
 
 .comming-reservation-status-wrapper {
+    flex: 0 0 auto;
+    width: 150px;
+    overflow: hidden;
+
     display: flex;
     flex-flow: row wrap;
     justify-content: center;
 
     padding: 10px 25px;
-    width: 150px;
 }
 
 .comming-reservation-status {
@@ -178,7 +186,7 @@
     margin: 10px 0px;
 
     /*
-    @media(min-width: 570px) {
+    @media(min-width: 825px) {
         justify-content: start;
     }
     */

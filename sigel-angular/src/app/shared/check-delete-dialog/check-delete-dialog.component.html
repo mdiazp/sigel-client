@@ -1,0 +1,26 @@
+<div class="dialog-header">
+  <h3 class="dialog-header-text">
+    <span style="display: flex; flex-flow: row wrap; align-items: center;"
+          [style.color]="this.color">
+      <mat-icon style="margin-right: 8px;">
+        confirmation_number
+      </mat-icon>Confirme la operación
+    </span>
+  </h3>
+</div>
+
+<mat-dialog-content>
+    <div  class="dialog-item-header-label"
+          style="display: flex; flex-flow: row wrap; justify-content: center;">
+      {{this.msg}}
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="true" 
+          [style.background-color]="this.color"
+          [style.color]="'#fff'">Aceptar</button>
+  <button mat-raised-button [mat-dialog-close]="false"
+          [style.color]="'rgba(0, 0, 0, 0.87)'"
+          [style.opacity]="'.6'">Cancelar</button>
+</mat-dialog-actions>

@@ -1,198 +1,185 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, ElementRef } from '@angular/core';
+import { MatPaginator, MatSort, MatSelect } from '@angular/material';
+import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { fromEvent, Observable, BehaviorSubject } from 'rxjs';
+import { MatDialog } from '@angular/material';
 
 import {
-  ReservationsTableComponent,
-} from '@app/views/+reservations/common/reservations-table/reservations-table.component';
-import {
-  ReservationsFilterComponent,
-} from '@app/views/+reservations/common/reservations-filter/reservations-filter.component';
-import {
-  ReservationFormComponent,
-} from '@app/views/+reservations/common/reservation-form/reservation-form.component';
-
+  CheckDeleteDialogComponent
+} from '@app/shared/check-delete-dialog/check-delete-dialog.component';
 
 import {
-  ApiService,
   ErrorHandlerService,
-  SessionService,
   FeedbackHandlerService,
+  ApiService,
 } from '@app/services/core';
-
 import {
-  Reservation,
-  Local,
-  ReservationToCreate,
-  Util,
+  Reservation, ReservationFilter, Paginator, OrderBy, Local
 } from '@app/models/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { isNullOrUndefined } from 'util';
+import { CustomDataSource } from '@app/datasources/core';
+import { APIReservationDataSource } from '@app/services/api-reservation.service';
+import { ReservationsFilterComponent } from '@app/views/+reservations/common/reservations-filter/reservations-filter.component';
+import {
+  PublicReservationDetailsDialogComponent
+} from '@app/views/+public-reservations/public-reservation-details-dialog/public-reservation-details-dialog.component';
 
 @Component({
   selector: 'app-reservation-all',
   templateUrl: './reservation-all.component.html',
-  styleUrls: ['./reservation-all.component.css']
+  styleUrls: ['./reservation-all.component.scss']
 })
 export class ReservationAllComponent implements OnInit, AfterViewInit {
 
-  @ViewChild(ReservationsTableComponent) table: ReservationsTableComponent;
+  datasource: CustomDataSource<Reservation>;
+  displayedColumns = ['reservation'];
+
   @ViewChild(ReservationsFilterComponent) filter: ReservationsFilterComponent;
-  @ViewChild(ReservationFormComponent) reserve: ReservationFormComponent;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  initialPageSize = 20;
+  pageSizeOptions = [20, 50, 100];
+  count$: Observable<number>;
 
-  util = new Util();
+  localNames = new Map<number, string>();
 
-
+  loadingInitialDataSubject = new BehaviorSubject<boolean>(false);
+  loadingInitialData$ = this.loadingInitialDataSubject.asObservable();
 
   constructor(private api: ApiService,
-              private session: SessionService,
-              private errh: ErrorHandlerService,
-              private feedback: FeedbackHandlerService) {
-  }
-
+              private eh: ErrorHandlerService,
+              private fh: FeedbackHandlerService,
+              private dialog: MatDialog) {}
 
   ngOnInit() {
+    this.datasource = new CustomDataSource<Reservation>(
+      new APIReservationDataSource(this.api),
+      this.eh
+    );
+    this.count$ = this.datasource.count();
+
+    this.loadInitialData();
+  }
+
+  loadInitialData(): void {
+    this.loadingInitialDataSubject.next(true);
+    this.api.GetLocals(null).subscribe(
+      (locals) => {
+        for ( const l of locals ) {
+          this.localNames.set(l.ID, l.Name);
+        }
+
+        this.datasource.load(
+          true,
+          new ReservationFilter(
+            null, null, null, null, null, null,
+            new Paginator(0, this.initialPageSize),
+            new OrderBy('begin_time', true),
+          ),
+        );
+
+        this.loadingInitialDataSubject.next(false);
+      },
+      (e) => {
+        this.eh.HandleError(e);
+      }
+    );
   }
 
   ngAfterViewInit() {
-    // console.log(this.filter.);
+    this.filter.FilterChanges.subscribe(
+      (_) => {
+        this.paginator.pageIndex = 0;
+        this.load(true);
+      }
+    );
+
+    this.paginator.page
+      .pipe(
+        tap(() => this.load(false)),
+      )
+      .subscribe();
   }
 
-  public showReserveForm(): boolean {
-    const show = (this.session.getModeValue() === 'public' &&
-                  this.session.getUsername() !== 'SIREL' &&
-                  !this.PastDate());
-    return show;
-  }
-
-  CreateReservation(rtc: ReservationToCreate) {
-    if (!this.validateNewReservation(rtc)) {
-      return;
-    }
-
-    this.api.PostReservation(rtc).subscribe(
-      (r) => {
-        this.table.LoadData();
-        if (!r.Confirmed) {
-          this.feedback.ShowFeedback(
-            [
-              'Su reservacion esta pendiente de revision.',
-              'La reservacion necesita de su confirmacion un dia antes'
-            ]
-          );
-        } else {
-          this.feedback.ShowFeedback(['Su reservacion esta pendiente de revision.']);
+  onShowReservation(r: Reservation): void {
+    this.dialog.open(
+      PublicReservationDetailsDialogComponent,
+      {
+        data: {
+          reservation: r,
+          showUser: true,
+          showActivityDescription: true,
+          showStatus: false,
+          showTimes: false,
+          showActivityName: false,
+          showConfirmationStatus: false,
         }
-        if ( this.reserve ) {
-          this.reserve.Reset();
-        }
-      },
-      (err) => {
-        this.errh.HandleError(err);
       }
     );
   }
 
-  AcceptReservation(reservation: Reservation): void {
-    this.api.AcceptReservation(reservation.ID).subscribe(
-      (data) => {
-        this.feedback.ShowFeedback([`La reservacion fue aceptada`]);
-        this.table.LoadData();
+  onAcceptReservation(r: Reservation): void {
+    const dialogRef = this.dialog.open(CheckDeleteDialogComponent, {
+      data: {
+        msg: `Está seguro que desea aceptar la reservación para la actividad ${r.ActivityName}?`,
+        color: 'green',
       },
-      (err) => {
-        this.errh.HandleError(err);
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if ( !isNullOrUndefined(result) && result === true ) {
+        this.api.AcceptReservation(r.ID).subscribe(
+          (_) => {
+            this.fh.ShowFeedback(['La reservación fue aceptada correctamente']);
+            this.load(true);
+          },
+          (e) => this.eh.HandleError(e)
+        );
       }
-    );
+    });
   }
 
-  RefuseReservation(reservation: Reservation): void {
-    this.api.RefuseReservation(reservation.ID).subscribe(
-      (data) => {
-        this.feedback.ShowFeedback([`La reservacion fue eliminada`]);
-        this.table.LoadData();
+  onRefuseReservation(r: Reservation): void {
+    const dialogRef = this.dialog.open(CheckDeleteDialogComponent, {
+      data: {
+        msg: `Está seguro que desea denegar la reservación para la actividad ${r.ActivityName}?`,
+        color: '#f44336',
       },
-      (err) => {
-        this.errh.HandleError(err);
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if ( !isNullOrUndefined(result) && result === true ) {
+        this.api.RefuseReservation(r.ID).subscribe(
+          (_) => {
+            this.fh.ShowFeedback(['La reservación fue denegada correctamente']);
+            this.load(true);
+          },
+          (e) => this.eh.HandleError(e)
+        );
       }
+    });
+  }
+
+  load(loadCount: boolean) {
+    const rd = this.filter.GetFilterData();
+
+    this.datasource.load(
+      loadCount,
+      new ReservationFilter(
+        rd.UserID,
+        rd.LocalID,
+        rd.Date,
+        null,
+        null,
+        null,
+        new Paginator(
+          this.paginator.pageIndex * this.paginator.pageSize,
+          this.paginator.pageSize
+        ),
+        new OrderBy(
+          'begin_time',
+          true,
+        ),
+      ),
     );
-  }
-
-  ConfirmReservation(reservation: Reservation): void {
-    this.api.ConfirmReservation(reservation.ID).subscribe(
-      (data) => {
-        this.feedback.ShowFeedback([`La reservacion fue confirmada`]);
-        this.table.LoadData();
-      },
-      (err) => {
-        this.errh.HandleError(err);
-      }
-    );
-  }
-
-  PastDate(): boolean {
-    const st = this.util.DatetoStr(this.filter.servertime);
-    const df = this.util.DatetoStr(this.filter.selectDate.value);
-
-    // console.log('st = ', st);
-    // console.log('df = ', df);
-
-    if ( !st || st === null || !df || df === null ) {
-      return false;
-    }
-
-    return this.util.before(df, st) || !this.util.before(st, df);
-  }
-
-  validateNewReservation(rtc: ReservationToCreate): boolean {
-    const bh = this.gh(rtc.BeginTime);
-    const bm = this.gm(rtc.BeginTime);
-    const eh = this.gh(rtc.EndTime);
-    const em = this.gm(rtc.EndTime);
-
-    if ( bh > eh ||
-        (bh === eh && bm > em) ) {
-      this.reserve.error = 'La hora del inicio no puede ser mayor que la hora del fin';
-      return;
-    }
-
-    const localbh = this.reserve.local.WorkingBeginTimeHours;
-    const localbm = this.reserve.local.WorkingBeginTimeMinutes;
-    const localeh = this.reserve.local.WorkingEndTimeHours;
-    const localem = this.reserve.local.WorkingEndTimeMinutes;
-
-    if ( bh < localbh || (bh === localbh && bm < localbm) ) {
-      this.reserve.error = 'La hora del inicio no esta dentro del horario laboral';
-      return;
-    }
-
-    if ( eh > localeh || (eh === localeh && em > localem) ) {
-      this.reserve.error = 'La hora del fin no esta dentro del horario laboral';
-      return;
-    }
-
-    // Validate that not exists any conflict with others reservations
-    for (let i = 0; i < this.table.reservations.length; i++) {
-      const xbh = this.gh(this.table.reservations[i].BeginTime);
-      const xbm = this.gm(this.table.reservations[i].BeginTime);
-      const xeh = this.gh(this.table.reservations[i].EndTime);
-      const xem = this.gm(this.table.reservations[i].EndTime);
-
-      if ( eh < xbh || (eh === xbh && em < xbm) ||
-           bh > xeh || (bh === xeh && bm > xem) ) {
-        continue;
-      }
-
-      this.reserve.error = 'Existe conflicto en el horario con otras reservaciones';
-      return false;
-    }
-    return true;
-  }
-
-  // 01234567890123456789
-  // yyyy-mm-ddThh:mm:ssZ
-  private gh(s: string): number {
-    return this.util.getHours(s);
-    // return Number(s[11]) * 10 + Number(s[12]);
-  }
-  private gm(s: string): number {
-    return this.util.getMinutes(s);
-    // return Number(s[14]) * 10 + Number(s[15]);
   }
 }

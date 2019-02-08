@@ -24,7 +24,8 @@ import {
   StorageService,
   ApiService,
   ErrorHandlerService,
-  FeedbackHandlerService
+  FeedbackHandlerService,
+  NotificationsService,
 } from '@app/services/core';
 
 import {
@@ -58,7 +59,6 @@ import { UsersTableComponent } from './views/+users/common/users-table/users-tab
 import { ReservationAllComponent } from './views/+reservations/reservation-all/reservation-all.component';
 import { ReservationOneComponent } from './views/+reservations/reservation-one/reservation-one.component';
 import { ReservationsFilterComponent } from './views/+reservations/common/reservations-filter/reservations-filter.component';
-import { ReservationsTableComponent } from './views/+reservations/common/reservations-table/reservations-table.component';
 import { ReservationFormComponent } from './views/+reservations/common/reservation-form/reservation-form.component';
 import { ReservationProfileComponent } from './views/+reservations/common/reservation-profile/reservation-profile.component';
 import { UserNotificationsTableComponent } from './views/+users/common/user-notifications-table/user-notifications-table.component';
@@ -84,8 +84,9 @@ import { SessionProfileComponent } from './views/+session/session-profile/sessio
 import { SessionReservationsComponent } from '@app/views/+session/session-reservations/session-reservations.component';
 import { EditProfileDialogComponent } from './views/+session/edit-profile-dialog/edit-profile-dialog.component';
 import { InfoDialogComponent } from './shared/info-dialog/info-dialog.component';
-import { NotificationsService } from '@app/services/notifications.service';
 import { SessionNotificationsMenuComponent } from './views/+session/session-notifications-menu/session-notifications-menu.component';
+import { CheckDeleteDialogComponent } from './shared/check-delete-dialog/check-delete-dialog.component';
+
 /*
 import {
   AmazingTimePickerModule
@@ -160,7 +161,7 @@ const routes: Routes = [
     canLoad: [AdminGuard],
   },
   {
-    path: 'reservation/:id',
+    path: 'reservations/showone/:id',
     component: ReservationOneComponent,
     canActivate: [AdminGuard],
     canLoad: [AdminGuard],
@@ -197,7 +198,6 @@ const routes: Routes = [
     AreaAllComponent,
     AreasTableComponent,
     ReservationsFilterComponent,
-    ReservationsTableComponent,
     ReservationAllComponent,
     ReservationOneComponent,
     UserOneComponent,
@@ -222,6 +222,7 @@ const routes: Routes = [
     EditProfileDialogComponent,
     InfoDialogComponent,
     SessionNotificationsMenuComponent,
+    CheckDeleteDialogComponent,
   ],
   providers: [
     DatePipe,
@@ -258,6 +259,7 @@ const routes: Routes = [
     EditProfileDialogComponent,
 
     InfoDialogComponent,
+    CheckDeleteDialogComponent
   ],
   bootstrap: [AppComponent],
 })

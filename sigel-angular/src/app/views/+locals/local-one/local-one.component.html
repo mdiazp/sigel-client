@@ -8,8 +8,7 @@
   </app-local-profile>
 
   <!-- Superadmin View -->
-  <mat-tab-group
-          *ngIf="((session.getMode() | async)==='admin')">
+  <mat-tab-group *ngIf="((session.getMode() | async)==='admin')">
     <mat-tab label="Perfil"> 
       <app-local-profile 
           [local]="local" 
@@ -17,14 +16,14 @@
       </app-local-profile>
     </mat-tab>
 
-    <mat-tab label="Configuracion"> 
+    <mat-tab label="Configuración"> 
 
       <!-- LocalInfo -->
       <mat-accordion>
         <mat-expansion-panel [expanded]="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
-              Editar Informacion
+              Editar Información
             </mat-panel-title>
             <!--mat-panel-description>
             </mat-panel-description-->

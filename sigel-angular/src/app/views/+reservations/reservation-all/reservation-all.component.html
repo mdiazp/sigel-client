@@ -1,31 +1,109 @@
-  <div class="reservations-all-filter-wrapper">
-    <app-reservations-filter>
-    </app-reservations-filter>
-  </div>
+<mat-card *ngIf="(this.loadingInitialData$|async)">
+  <mat-card-content>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-content>
+</mat-card>
 
-  <app-reservations-table
-      [filter]="filter"
-      (ConfirmClick)="ConfirmReservation($event)"
-      (AcceptClick)="AcceptReservation($event)"
-      (RefuseClick)="RefuseReservation($event)">
-  </app-reservations-table>
+<mat-card [style.visibility]="(this.loadingInitialData$|async) ? 'hidden' : 'visible'">
+  <mat-card-content>
+    <section>
+      <!--header>
+        <span style="display: flex; flex-flow: row wrap; align-items: center;">
+          <mat-icon>date_range</mat-icon><span>Reservaciones</span>
+        </span>
+      </header-->
 
-  <br/>
-  <br/>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+              <mat-panel-title> 
+                <span style="display: flex; flex-flow: row wrap; align-items: center;">
+                  <mat-icon>filter_list</mat-icon>Filtrar
+                </span> 
+              </mat-panel-title>
+          </mat-expansion-panel-header>
 
-  <mat-accordion 
-    *ngIf="showReserveForm()">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>add</mat-icon>Reservar
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+          <app-reservations-filter></app-reservations-filter>
+            
+        </mat-expansion-panel>
+      </mat-accordion> <br/>
 
-      <app-reservation-form
-        [filter]="filter"
-        (Submit)="CreateReservation($event)">
-      </app-reservation-form>
-      
-    </mat-expansion-panel>
-  </mat-accordion>
+      <section>
+        <mat-paginator  [length]="(count$ | async)" [pageSize]="initialPageSize"
+                        [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+        <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="reservation">
+                <mat-header-cell *matHeaderCellDef>Listado de reservaciones</mat-header-cell>
+                <mat-cell *matCellDef="let r">
+                  <div class="reservation-item-wrapper">
+                    <div class="reservation-item-first-column">
+                      <div class="reservation-item-status"
+                           [ngClass]="{
+                             'reservation-item-status-pending': r.Pending,
+                             'reservation-item-status-accepted': !r.Pending
+                            }">
+                        {{r.Pending ? 'Pendiente' : 'Aceptada'}}
+                      </div>
+                      <div class="reservation-item-date">
+                        {{r.BeginTime.slice(0, 10)}}
+                      </div>
+                      <div class="reservation-item-times-wrapper">
+                        <div class="reservations-item-time-in">
+                          {{r.BeginTime.slice(11, 16)}}
+                        </div>
+                        <div style="width: 20px; text-align: center;">-</div>
+                        <div class="reservations-item-time-out">
+                          {{r.EndTime.slice(11, 16)}}
+                        </div>
+                      </div>
+                      <div class="reservation-item-local">
+                        {{localNames.get(r.LocalID)}}
+                      </div>
+                    </div>
+                    <div class="reservation-item-second-column">
+                      <div class="reservation-item-activityname">
+                        {{r.ActivityName}}
+                      </div>
+                      <div  class="reservation-item-confirmation-status"
+                            [style.color]="r.Confirmed ? 'green' : 'red'"
+                            [style.font-weight]="'700'">
+                        {{r.Confirmed ? 'Confirmada' : 'Sin confirmar'}}
+                      </div>
+                    </div>
+                    <div class="reservation-item-third-column">
+                      <button mat-icon-button 
+                              (click)="onShowReservation(r)">
+                        <mat-icon [matTooltip]="'Ver otros detalles'"
+                                  [style.color]="'blue'"
+                                  class="reservation-item-action">visibility</mat-icon>
+                      </button>
+                      <button mat-icon-button
+                              (click)="onAcceptReservation(r)"
+                              [disabled]="!r.Pending">
+                        <mat-icon [matTooltip]="'Aceptar'"
+                                  [style.color]="r.Pending ? 'green' : 'rgba(0,0,0,.26)'"
+                                  class="reservation-item-action">check</mat-icon>
+                      </button>
+                      <button mat-icon-button
+                              (click)="onRefuseReservation(r)">
+                        <mat-icon [matTooltip]="'Denegar'"
+                                  [color]="'warn'"
+                                  class="reservation-item-action">clear</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+      </section>
+    </section>
+  </mat-card-content>
+</mat-card>
+  

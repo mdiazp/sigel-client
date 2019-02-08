@@ -5,7 +5,9 @@ import {
     Validators,
     ValidatorFn,
 } from '@angular/forms';
-import { PagAndOrderFilter } from '@app/models/pag-and-order-filter';
+import { PagAndOrderFilter } from './pag-and-order-filter';
+import { Paginator, OrderBy } from './pag-and-order-filter';
+import { isNullOrUndefined } from 'util';
 
 export class Reservation {
     constructor(public ID: number,
@@ -17,15 +19,6 @@ export class Reservation {
                 public EndTime: string,
                 public Confirmed: boolean,
                 public Pending: boolean) {}
-    /*
-    public IDValidators: ValidatorFn[] = [Validators.required];
-    public UserIDValidators: ValidatorFn[] = [Validators.required];
-    public LocalIDValidators: ValidatorFn[] = [Validators.required];
-    public ActivityNameValidators: ValidatorFn[] = [Validators.required];
-    public ActivityDescriptionValidators: ValidatorFn[] = [Validators.required];
-    public ConfirmedValidators: ValidatorFn[] = [Validators.required];
-    public PendingValidators: ValidatorFn[] = [Validators.required];
-    */
 }
 
 export class ReservationToCreate {
@@ -43,7 +36,8 @@ export class ReservationFilter {
                 public Search: string,
                 public Pending: boolean,
                 public Confirmed: boolean,
-                public pagAndOrderFilter: PagAndOrderFilter) {}
+                public paginator: Paginator,
+                public orderby: OrderBy) {}
 
     public GetURLSearchParams(): URLSearchParams {
         let usp: URLSearchParams;
@@ -63,11 +57,11 @@ export class ReservationFilter {
         if ( this.Pending != null ) {
             usp.append('pending', this.Pending.toString());
         }
-        if ( this.Confirmed != null ) {
-            usp.append('confirmed', this.Confirmed.toString());
+        if ( !isNullOrUndefined(this.paginator) ) {
+            usp.appendAll(this.paginator.GetUSP());
         }
-        if ( this.pagAndOrderFilter != null ) {
-            usp.appendAll(this.pagAndOrderFilter.GetUrlSearchParams());
+        if ( !isNullOrUndefined(this.orderby) ) {
+            usp.appendAll(this.orderby.GetUSP());
         }
         return usp;
     }

@@ -3,9 +3,14 @@
 </div>
 
 <mat-dialog-content>
-  <div class="reservation-details-wrapper">
+  <mat-progress-bar *ngIf="(this.loading$|async)" mode="indeterminate">
+  </mat-progress-bar>
 
-    <div class="reservation-detail-wrapper">
+  <div  *ngIf="!(this.loading$|async)"
+        class="reservation-details-wrapper">
+
+    <div  *ngIf="showStatus"
+          class="reservation-detail-wrapper">
       <span class="reservation-detail-header dialog-item-header-label">Estado</span>
       <div class="reservation-detail-body">
         <div class="reservation-status"
@@ -18,31 +23,54 @@
       </div>
     </div>
     
-    <div class="reservation-detail-wrapper">
+    <div  *ngIf="this.showUser"
+          class="reservation-detail-wrapper">
+      <span class="reservation-detail-header dialog-item-header-label">Usuario</span>
+      <div class="reservation-detail-body reservation-activity-user"
+           [style.font-weight]="'700'">
+        {{this.username}}
+      </div>
+    </div>
+
+    <div  *ngIf="this.showConfirmationStatus"
+          class="reservation-detail-wrapper">
+      <span class="reservation-detail-header dialog-item-header-label">Confirmada</span>
+      <div class="reservation-detail-body reservation-activity-confirmed-status">
+        <span [style.color]="this.reservation.Confirmed ? 'green' : 'red'"
+              [style.font-weight]="'700'">
+          {{this.reservation.Confirmed ? 'Si' : 'No'}}
+        </span>
+      </div>
+    </div>
+
+    <div  *ngIf="this.showActivityName"
+          class="reservation-detail-wrapper">
       <span class="reservation-detail-header dialog-item-header-label">Actividad</span>
       <div class="reservation-detail-body reservation-activity-name">
         {{this.reservation.ActivityName}}
       </div>
     </div>
     
-    <div class="reservation-detail-wrapper">
+    <div  *ngIf="this.showActivityDescription"
+          class="reservation-detail-wrapper">
       <span class="reservation-detail-header dialog-item-header-label">Descripción</span>
       <div class="reservation-detail-body reservation-activity-description">
         {{this.reservation.ActivityDescription}}
       </div>
     </div>
 
-    <div class="reservation-time-wrapper">
+    <div  *ngIf="this.showTimes"
+          class="reservation-time-wrapper">
       <div class="reservation-time-item-wrapper">
         <span class="reservation-time-item-label dialog-item-header-label">Inicio</span>
         <div class="reservation-time-item-body reservation-time-item-begining">
-          <mat-icon>access_time</mat-icon>{{timeToShowt(this.reservation.BeginTime)}}
+          <mat-icon>access_time</mat-icon>{{timeToShow(this.reservation.BeginTime)}}
         </div>
       </div>
       <div class="reservation-time-item-wrapper">
         <span class="reservation-time-item-label dialog-item-header-label">Fin</span>
         <div class="reservation-time-item-body reservation-time-item-end">
-          <mat-icon>access_time</mat-icon>{{timeToShowt(this.reservation.EndTime)}}
+          <mat-icon>access_time</mat-icon>{{timeToShow(this.reservation.EndTime)}}
         </div>
       </div>
     </div>

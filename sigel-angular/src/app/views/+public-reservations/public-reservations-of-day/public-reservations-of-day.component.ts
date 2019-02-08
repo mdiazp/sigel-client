@@ -195,7 +195,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
 
   canReserve(asp: ActivityStatusPanel): string {
     if (asp.et.rest(asp.bt) + 1 < 30) {
-      return 'No puede reservar por menos de 30 minutos.';
+      return 'No puede reservar por menos de 30 minutos';
     }
 
     if (this.serverTime.getFullYear() > this.date.getFullYear() ||

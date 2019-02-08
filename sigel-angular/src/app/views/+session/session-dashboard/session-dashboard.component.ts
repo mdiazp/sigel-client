@@ -146,7 +146,7 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
   onConfirm(reservation: Reservation): void {
     this.api.ConfirmReservation(reservation.ID).subscribe(
       (r) => {
-        this.feedback.ShowFeedback(['La reservacion fue confirmada correctamente']);
+        this.feedback.ShowFeedback(['La reservación fue confirmada correctamente']);
         this.loadData();
       },
       (e) => {

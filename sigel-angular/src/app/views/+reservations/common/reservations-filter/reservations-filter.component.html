@@ -2,8 +2,7 @@
   <mat-form-field class="flex-filter-form-control">
     <mat-select placeholder="Seleccione un local"
                 formControlName="selectLocalControl">
-      <mat-option [value]="0"
-        *ngIf="(session.getMode() | async) !== 'public'">
+      <mat-option [value]="0">
         Todos
       </mat-option>
       <mat-optgroup *ngFor="let opt of opts" [label]="opt.area">
@@ -21,8 +20,7 @@
     <mat-datepicker #picker disabled="false"></mat-datepicker>
   </mat-form-field>
 
-  <mat-form-field *ngIf="(session.getMode() | async)==='admin'"
-      class="flex-filter-form-control">
+  <mat-form-field class="flex-filter-form-control">
     <input  type="text" 
             placeholder="Usuario" 
             aria-label="Number" 

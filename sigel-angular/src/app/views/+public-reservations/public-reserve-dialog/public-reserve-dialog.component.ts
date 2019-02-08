@@ -189,6 +189,12 @@ export class PublicReserveDialogComponent implements OnInit {
       this.showError('Existe conflicto en el horario con otras reservaciones');
       return false;
     }
+
+    if ((eh * 60 + em) - (bh * 60 + bm) + 1 < 30) {
+      this.showError('No puede reservar por menos de 30 minutos');
+      return false;
+    }
+
     return true;
   }
 

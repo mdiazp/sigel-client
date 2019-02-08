@@ -15,6 +15,8 @@ import {
   ReservationFilter,
   PagAndOrderFilter,
   Util,
+  Paginator,
+  OrderBy,
 } from '@app/models/core';
 import {
   PublicReservationsOfDayComponent
@@ -177,7 +179,8 @@ export class PublicReservationsDashboardComponent implements OnInit {
         null,
         null,
         null,
-        new PagAndOrderFilter(null, 0, 'begin_time', false)
+        new Paginator(null, 0),
+        new OrderBy('begin_time', false)
       ),
       this.session.getModeValue()
     ).subscribe(

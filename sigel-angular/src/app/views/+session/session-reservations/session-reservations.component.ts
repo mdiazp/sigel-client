@@ -20,6 +20,10 @@ export class SessionReservationsComponent implements OnInit {
   ngOnInit() {
   }
 
+  printR(r: Reservation): void {
+    console.log('r = ', r);
+  }
+
   canConfirm(reservation: Reservation): boolean {
     // Check confirm one day before
     const bt = this.util.StrtoDate(reservation.BeginTime);

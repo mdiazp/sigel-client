@@ -13,7 +13,7 @@ export class SuperadminGuard implements CanActivate, CanLoad {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     const s = this.session.session;
-    if (s !== null && s.rol === 'Superadmin') {
+    if (this.session.getModeValue() === 'admin' && s !== null && s.rol === 'Superadmin') {
       return true;
     }
     this.router.navigate(['/reserve']);
@@ -22,7 +22,7 @@ export class SuperadminGuard implements CanActivate, CanLoad {
 
   canLoad(route: Route): boolean | Observable<boolean> | Promise<boolean> {
     const s = this.session.session;
-    if (s !== null && s.rol === 'Superadmin') {
+    if (this.session.getModeValue() === 'admin' && s !== null && s.rol === 'Superadmin') {
       return true;
     }
     this.router.navigate(['/reserve']);

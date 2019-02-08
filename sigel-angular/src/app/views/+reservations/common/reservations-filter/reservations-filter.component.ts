@@ -41,9 +41,6 @@ export class ReservationsFilterComponent implements OnInit {
   filteredUsers: UserPublicInfo[];
   autoUsernameSelection = new UserPublicInfo(0, '');
 
-  // ServerTime
-  servertime: Date;
-
   constructor(public api: ApiService,
               public errh: ErrorHandlerService,
               public session: SessionService,
@@ -106,30 +103,15 @@ export class ReservationsFilterComponent implements OnInit {
   }
 
   loadData(): void {
-    this.api.GetServerTime().subscribe(
-      (servertime) => {
-        // console.log('ST = ' + servertime.toString());
-        if (this.session.getModeValue() === 'public') {
-          this.selectDate.setValue(servertime);
-          this.servertime = servertime;
-        }
-        this.api.GetAreas(new AreaFilter(null, null), this.session.getModeValue()).subscribe(
-          (areas) => {
-            this.areas = areas;
-            this.api.GetLocals(new LocalFilter(null, null, null, null), this.session.getModeValue())
-            .subscribe(
-              (locals) => {
-                this.locals = locals;
-                this.fillOptions();
-                if (this.session.getModeValue() === 'public' && locals.length > 0) {
-                  this.selectLocalControl.setValue( locals[0].ID );
-                }
-                this.ReadySubject.next(true);
-              },
-              (err) => {
-                this.errh.HandleError(err);
-              }
-            );
+    this.api.GetAreas(new AreaFilter(null, null), this.session.getModeValue()).subscribe(
+      (areas) => {
+        this.areas = areas;
+        this.api.GetLocals(new LocalFilter(null, null, null, null), this.session.getModeValue())
+        .subscribe(
+          (locals) => {
+            this.locals = locals;
+            this.fillOptions();
+            this.ReadySubject.next(true);
           },
           (err) => {
             this.errh.HandleError(err);

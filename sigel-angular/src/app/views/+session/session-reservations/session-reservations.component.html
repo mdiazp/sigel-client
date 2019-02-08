@@ -46,14 +46,14 @@
             {{r.Pending ? 'Pendiente' : 'Aceptada'}}
           </div>
         </div>
-
+        
         <div class="comming-reservation-confirmation-wrapper">
           <button mat-raised-button
                   *ngIf="!r.Confirmed"
                   (click)="this.ConfirmEvent.emit(r)"
                   color="primary"
                   [disabled]="!canConfirm(r)"
-                  [matTooltip]="'La reservacion solo puede ser confirmada un dia antes'"
+                  [matTooltip]="'La reservación solo puede ser confirmada un día antes'"
                   [matTooltipPosition]="'below'"
                   [matTooltipDisabled]="canConfirm(r)">
             <mat-icon style="margin-right: 10px;">check_circle</mat-icon>Confirmar

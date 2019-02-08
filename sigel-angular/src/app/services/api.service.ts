@@ -184,6 +184,18 @@ export class ApiService {
     );
   }
 
+  GetAreasCount(filter: AreaFilter): Observable<number> {
+    let roa: RequestOptionsArgs;
+    roa = { headers: this.commonHeaders() };
+    if ( filter !== null ) {
+      roa.params = filter.GetURLSearchParams();
+    }
+    return this.http.get(`${this.bpath}/${this.session.getModeValue()}/areascount`, roa)
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
   GetAreas(filter: AreaFilter, mode: string): Observable<Area[]> {
     let roa: RequestOptionsArgs;
     roa = { headers: this.commonHeaders() };
@@ -255,7 +267,23 @@ export class ApiService {
     );
   }
 
-  GetLocals(filter: LocalFilter, mode: string): Observable<Local[]> {
+  GetLocalsCount(filter: LocalFilter): Observable<number> {
+    let roa: RequestOptionsArgs;
+    roa = { headers: this.commonHeaders() };
+    if ( filter !== null ) {
+      roa.params = filter.GetURLSearchParams();
+    }
+    return this.http.get(`${this.bpath}/${this.session.getModeValue()}/localscount`, roa)
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
+  GetLocals(filter: LocalFilter, mode?: string): Observable<Local[]> {
+    if ( isNullOrUndefined(mode) ) {
+      mode = this.session.getModeValue();
+    }
+
     let roa: RequestOptionsArgs;
     roa = { headers: this.commonHeaders() };
     if ( filter !== null ) {
@@ -372,7 +400,22 @@ export class ApiService {
     );
   }
 
-  GetReservations(filter: ReservationFilter, mode: string): Observable<Reservation[]> {
+  GetReservationsCount(filter: ReservationFilter): Observable<number> {
+    let roa: RequestOptionsArgs;
+    roa = { headers: this.commonHeaders() };
+    if ( filter !== null ) {
+      roa.params = filter.GetURLSearchParams();
+    }
+    return this.http.get(`${this.bpath}/${this.session.getModeValue()}/reservationscount`, roa)
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
+  GetReservations(filter: ReservationFilter, mode?: string): Observable<Reservation[]> {
+    if ( isNullOrUndefined(mode) ) {
+      mode = this.session.getModeValue();
+    }
     let roa: RequestOptionsArgs;
     roa = { headers: this.commonHeaders() };
     if ( filter !== null ) {
