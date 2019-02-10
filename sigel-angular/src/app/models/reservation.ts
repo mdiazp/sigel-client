@@ -21,6 +21,19 @@ export class Reservation {
                 public Pending: boolean) {}
 }
 
+export class ReservationWithUsername {
+    constructor(public ID: number,
+                public UserID: number,
+                public Username: string,
+                public LocalID: number,
+                public ActivityName: string,
+                public ActivityDescription: string,
+                public BeginTime: string,
+                public EndTime: string,
+                public Confirmed: boolean,
+                public Pending: boolean) {}
+}
+
 export class ReservationToCreate {
     constructor(public LocalID: number,
                 public ActivityName: string,

@@ -61,24 +61,31 @@
                       <div class="reservation-item-local">
                         {{localNames.get(r.LocalID)}}
                       </div>
+                      <div class="reservation-item-username-wrapper">
+                        <mat-icon style="margin-right: 5px;">person</mat-icon>
+                        <div class="reservation-item-username">{{r.Username}}</div>
+                      </div>
                     </div>
                     <div class="reservation-item-second-column">
-                      <div class="reservation-item-activityname">
-                        {{r.ActivityName}}
-                      </div>
                       <div  class="reservation-item-confirmation-status"
                             [style.color]="r.Confirmed ? 'green' : 'red'"
                             [style.font-weight]="'700'">
                         {{r.Confirmed ? 'Confirmada' : 'Sin confirmar'}}
                       </div>
+                      <div class="reservation-item-activityname">
+                        {{r.ActivityName}}
+                      </div>
+                      <div class="reservation-item-activitydescription">
+                        {{r.ActivityDescription}}
+                      </div>
                     </div>
                     <div class="reservation-item-third-column">
-                      <button mat-icon-button 
+                      <!--button mat-icon-button 
                               (click)="onShowReservation(r)"
                               [matTooltip]="'Ver otros detalles'">
                         <mat-icon [style.color]="'blue'"
                                   class="reservation-item-action">visibility</mat-icon>
-                      </button>
+                      </button-->
                       <button mat-icon-button
                               (click)="onAcceptReservation(r)"
                               [disabled]="!r.Pending"

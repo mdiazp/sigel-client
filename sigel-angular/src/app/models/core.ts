@@ -3,7 +3,7 @@ export { CommonModule } from '@angular/common';
 export { Util, HM } from '@app/models/util';
 export { Area, AreaFilter } from '@app/models/area';
 export { Local, LocalFilter } from '@app/models/local';
-export { Reservation, ReservationToCreate, ReservationFilter } from '@app/models/reservation';
+export { Reservation, ReservationWithUsername, ReservationToCreate, ReservationFilter } from '@app/models/reservation';
 export { Notification, NotificationsFilter } from '@app/models/notifications';
 export { Session } from '@app/models/session';
 export {

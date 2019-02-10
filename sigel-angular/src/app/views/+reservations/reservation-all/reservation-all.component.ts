@@ -14,7 +14,7 @@ import {
   ApiService,
 } from '@app/services/core';
 import {
-  Reservation, ReservationFilter, Paginator, OrderBy, Local
+  Reservation, ReservationFilter, Paginator, OrderBy, Local, ReservationWithUsername
 } from '@app/models/core';
 import { isNullOrUndefined } from 'util';
 import { CustomDataSource } from '@app/datasources/core';
@@ -31,7 +31,7 @@ import {
 })
 export class ReservationAllComponent implements OnInit, AfterViewInit {
 
-  datasource: CustomDataSource<Reservation>;
+  datasource: CustomDataSource<ReservationWithUsername>;
   displayedColumns = ['reservation'];
 
   @ViewChild(ReservationsFilterComponent) filter: ReservationsFilterComponent;
@@ -51,7 +51,7 @@ export class ReservationAllComponent implements OnInit, AfterViewInit {
               private dialog: MatDialog) {}
 
   ngOnInit() {
-    this.datasource = new CustomDataSource<Reservation>(
+    this.datasource = new CustomDataSource<ReservationWithUsername>(
       new APIReservationDataSource(this.api),
       this.eh
     );
@@ -120,7 +120,7 @@ export class ReservationAllComponent implements OnInit, AfterViewInit {
   onAcceptReservation(r: Reservation): void {
     const dialogRef = this.dialog.open(CheckDeleteDialogComponent, {
       data: {
-        msg: `Está seguro que desea aceptar la reservación para la actividad ${r.ActivityName}?`,
+        msg: `¿Está seguro que desea aceptar la reservación para la actividad ${r.ActivityName}?`,
         color: 'green',
       },
     });
@@ -141,7 +141,7 @@ export class ReservationAllComponent implements OnInit, AfterViewInit {
   onRefuseReservation(r: Reservation): void {
     const dialogRef = this.dialog.open(CheckDeleteDialogComponent, {
       data: {
-        msg: `Está seguro que desea denegar la reservación para la actividad ${r.ActivityName}?`,
+        msg: `¿Está seguro que desea denegar la reservación para la actividad ${r.ActivityName}?`,
         color: '#f44336',
       },
     });

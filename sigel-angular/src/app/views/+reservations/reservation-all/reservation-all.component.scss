@@ -46,7 +46,8 @@
 
 .reservation-item-status,
 .reservation-item-times-wrapper,
-.reservation-item-date {
+.reservation-item-date,
+.reservation-item-local {
     margin-bottom: 10px;
 }
 
@@ -63,6 +64,21 @@
     padding: 5px;
     border: 1px solid rgba(0, 0, 0, .12);
     border-radius: 5px;
+}
+
+.reservation-item-username-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+
+    font-size: small;
+}
+.reservation-item-username {
+    text-align: center;
+    font-weight: 700;
 }
 
 .reservation-item-second-column {
@@ -84,9 +100,20 @@
     word-wrap: break-word;
 }
 
-.reservation-item-activityname {
+.reservation-item-activityname, 
+.reservation-item-confirmation-status {
     text-align: center;
     margin-bottom: 20px;
+}
+
+.reservation-item-activitydescription {
+    text-align: center;
+    word-wrap: break-word;
+
+    padding: 8px;
+    border: 1px solid rgba(0, 0, 0, .12);
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, .10);
 }
 
 .reservation-item-third-column {

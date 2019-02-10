@@ -19,7 +19,8 @@ import {
   Local, LocalFilter,
   Reservation, ReservationFilter, ReservationToCreate,
   Notification,
-  NotificationsFilter
+  NotificationsFilter,
+  ReservationWithUsername
 } from '@app/models/core';
 
 import { SessionService } from '@app/services/session.service';
@@ -422,6 +423,18 @@ export class ApiService {
       roa.params = filter.GetURLSearchParams();
     }
     return this.http.get(`${this.bpath}/${mode}/reservations`, roa)
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
+  GetReservationsWithUsername(filter: ReservationFilter): Observable<ReservationWithUsername[]> {
+    let roa: RequestOptionsArgs;
+    roa = { headers: this.commonHeaders() };
+    if ( filter !== null ) {
+      roa.params = filter.GetURLSearchParams();
+    }
+    return this.http.get(`${this.bpath}/admin/reservations2`, roa)
     .pipe(
       map(res => res.json())
     );
