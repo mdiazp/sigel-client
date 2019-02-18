@@ -1,0 +1,53 @@
+<mat-card>
+  <div class="local-dashboard-header">
+    <div class="local-dashboard-header-name">
+      <mat-icon [inline]="'true'"
+                [style.margin-right]="'5px'">class</mat-icon>
+      {{this.local.Name}}
+    </div>
+    <div class="local-dashboard-header-close-button">
+      <button mat-icon-button
+              (click)="onClose()"
+              [matTooltip]="'Cerrar'">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="(this.loadingInitialData$ | async)">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div  class="local-dashboard-body-wrapper"
+        [style.visible]="(this.loadingInitialData$ | async)">
+    <mat-tab-group
+      mat-stretch-tabs
+      [selectedIndex]="this.selectedTab"
+      (selectedIndexChange)="this.router.navigate(['/locals',this.localID,this.getTabName($event)])">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="margin-right: 8px;">info</mat-icon>
+          Información
+        </ng-template>
+        Información
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="margin-right: 8px;">settings</mat-icon>
+          Ajustes
+        </ng-template>
+        Ajustes
+      </mat-tab>
+      
+      <mat-tab *ngIf="(this.showAdminsTab() | async)">
+        <ng-template mat-tab-label>
+          <mat-icon style="margin-right: 8px;">group</mat-icon>
+          Administradores
+        </ng-template>
+        Administradores
+      </mat-tab>
+      
+    </mat-tab-group>
+  </div>
+</mat-card>

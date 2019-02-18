@@ -10,7 +10,7 @@ export class APIReservationDataSource implements APIDataSource {
         return this.api.GetReservationsWithUsername(filter);
     }
 
-    GetCount(filter?: any): Observable<number> {
+    GetCount(filter?: ReservationFilter): Observable<number> {
         return this.api.GetReservationsCount(filter);
     }
 }

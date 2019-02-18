@@ -106,7 +106,7 @@ export class ReservationsFilterComponent implements OnInit {
     this.api.GetAreas(new AreaFilter(null, null), this.session.getModeValue()).subscribe(
       (areas) => {
         this.areas = areas;
-        this.api.GetLocals(new LocalFilter(null, null, null, null), this.session.getModeValue())
+        this.api.GetLocals(new LocalFilter(null, null, null, null, null), this.session.getModeValue())
         .subscribe(
           (locals) => {
             this.locals = locals;

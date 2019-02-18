@@ -1,0 +1,25 @@
+.local-dashboard-header {
+    display: flex;
+    flex-flow: row nowrap;
+
+    align-items: center;
+
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.local-dashboard-header-name {
+    flex: 1 1 auto;
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.local-dashboard-header-close-button {
+    flex: 0 0 auto;
+}
+
+.local-dashboard-body-wrapper {
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}

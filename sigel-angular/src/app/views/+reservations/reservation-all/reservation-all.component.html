@@ -62,7 +62,7 @@
                         {{localNames.get(r.LocalID)}}
                       </div>
                       <div class="reservation-item-username-wrapper">
-                        <mat-icon style="margin-right: 5px;">person</mat-icon>
+                        <mat-icon [inline]="'true'" style="margin-right: 5px;">person</mat-icon>
                         <div class="reservation-item-username">{{r.Username}}</div>
                       </div>
                     </div>
@@ -87,6 +87,7 @@
                                   class="reservation-item-action">visibility</mat-icon>
                       </button-->
                       <button mat-icon-button
+                              [ngClass]="{'scale-button': r.Pending}" 
                               (click)="onAcceptReservation(r)"
                               [disabled]="!r.Pending"
                               [matTooltip]="'Aceptar'">
@@ -94,6 +95,7 @@
                                   class="reservation-item-action">check</mat-icon>
                       </button>
                       <button mat-icon-button
+                              class="scale-button"
                               (click)="onRefuseReservation(r)"
                               [matTooltip]="'Denegar'">
                         <mat-icon [color]="'warn'"

@@ -46,13 +46,18 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
         this.selectedTab = params.tab;
       }
     );
+
+    console.log('onConstructor()');
   }
 
   ngOnInit() {
     this.loadData();
+
+    console.log('onNgOnInit()');
   }
 
   ngOnDestroy(): void {
+    console.log('onDestroy');
   }
 
   editProfile(): void {
@@ -104,7 +109,7 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
   }
 
   loadLocals(): void {
-    this.api.GetLocals(new LocalFilter(null, null, null, null), 'public').subscribe(
+    this.api.GetLocals(new LocalFilter(null, null, null, null, null), 'public').subscribe(
       (locals) => {
         for (let i = 0; i < locals.length; i++) {
           this.localNames.set(locals[i].ID, locals[i].Name);

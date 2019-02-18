@@ -1,5 +1,7 @@
 import { URLSearchParams } from '@angular/http';
 import { PagAndOrderFilter } from '@app/models/core';
+import { Paginator, OrderBy } from '@app/models/pag-and-order-filter';
+import { isNullOrUndefined } from 'util';
 
 export class Local {
   constructor(public ID: number,
@@ -20,7 +22,8 @@ export class LocalFilter {
     constructor(public AreaID: number,
                 public Search: string,
                 public EnableToReserve: boolean,
-                public pagAndOrderFilter: PagAndOrderFilter) {}
+                public paginator: Paginator,
+                public orderby: OrderBy) {}
 
     public GetURLSearchParams(): URLSearchParams {
         let usp: URLSearchParams;
@@ -34,8 +37,11 @@ export class LocalFilter {
         if ( this.EnableToReserve !== null ) {
           usp.append('enable_to_reserve', this.EnableToReserve.toString());
         }
-        if ( this.pagAndOrderFilter !== null ) {
-          usp.appendAll( this.pagAndOrderFilter.GetUrlSearchParams() );
+        if ( !isNullOrUndefined(this.paginator) ) {
+          usp.appendAll(this.paginator.GetUSP());
+        }
+        if ( !isNullOrUndefined(this.orderby) ) {
+            usp.appendAll(this.orderby.GetUSP());
         }
         return usp;
     }

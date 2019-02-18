@@ -1,0 +1,85 @@
+<mat-card *ngIf="(this.loadingInitialData$|async)">
+  <mat-card-content>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-content>
+</mat-card>
+
+<mat-card [style.visibility]="(this.loadingInitialData$|async) ? 'hidden' : 'visible'">
+  <mat-card-content>
+    <section>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+              <mat-panel-title> 
+                <span style="display: flex; flex-flow: row wrap; align-items: center;">
+                  <mat-icon>filter_list</mat-icon>Filtrar
+                </span> 
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <app-locals-filter-form></app-locals-filter-form>
+            
+        </mat-expansion-panel>
+      </mat-accordion> <br/>
+
+      <section>
+        <mat-paginator  [length]="(count$ | async)" [pageSize]="initialPageSize"
+                        [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+        <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="local">
+                <mat-header-cell *matHeaderCellDef>Listado de locales</mat-header-cell>
+                <mat-cell *matCellDef="let l">
+                  <div class="local-item-wrapper">
+                    <div class="local-item-first-column">
+                      <div class="local-item-name">
+                        {{l.Name}}
+                      </div>
+                      <div class="local-item-areaname">
+                        <mat-icon [inline]="'true'"
+                                  [style.margin-right]="'5px'">
+                          account_balance</mat-icon>{{areaNames.get(l.AreaID)}}
+                      </div>
+                      <div class="local-item-enable"
+                           [style.background-color]="l.EnableToReserve ? 'green' : 'red'">
+                        {{l.EnableToReserve ? 'Habilitado' : 'Inhabilitado'}}
+                      </div>
+                    </div>
+                    <div class="local-item-second-column">
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onShow(l)"
+                              [matTooltip]="'Ver detalles'">
+                        <mat-icon [style.color]="'rgba(0,0,255,0.6)'"
+                                  class="reservation-item-action">visibility</mat-icon>
+                      </button>
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onEdit(l)"
+                              [matTooltip]="'Editar'">
+                        <mat-icon [style.color]="'orange'"
+                                  class="reservation-item-action">edit</mat-icon>
+                      </button>
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onDelete(l)"
+                              [matTooltip]="'Eliminar'">
+                        <mat-icon [color]="'warn'"
+                                  class="reservation-item-action">delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+      </section>
+    </section>
+  </mat-card-content>
+</mat-card>
+  

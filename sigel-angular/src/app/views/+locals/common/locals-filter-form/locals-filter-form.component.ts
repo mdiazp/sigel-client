@@ -11,9 +11,9 @@ import { Area } from '@app/models/core';
 })
 export class LocalsFilterFormComponent implements OnInit {
 
-  @Input() initialState = new LocalsFilter(0, '', null);
+  @Input() initialState = new LocalsFilterData(0, '', null);
   @Input() showEToR = true;
-  @Output() FilterChanges = new EventEmitter<LocalsFilter>();
+  @Output() FilterChanges = new EventEmitter<LocalsFilterData>();
 
   filterForm: FormGroup;
   selectAreaControl: FormControl;
@@ -47,11 +47,17 @@ export class LocalsFilterFormComponent implements OnInit {
   }
 
   filterChanges(): void {
-    this.FilterChanges.emit(new LocalsFilter(
+    this.FilterChanges.emit(
+      this.GetFilterData()
+    );
+  }
+
+  GetFilterData(): LocalsFilterData {
+    return new LocalsFilterData(
       Number(this.selectAreaControl.value),
       this.search.value,
       this.getBoolean(this.enableToReserve.value),
-    ));
+    );
   }
 
   LoadAreas(): void {
@@ -86,7 +92,7 @@ export class LocalsFilterFormComponent implements OnInit {
   }
 }
 
-export class LocalsFilter {
+export class LocalsFilterData {
   constructor(public AreaID: number,
               public Search: string,
               public EnabledToReserve: boolean) {}

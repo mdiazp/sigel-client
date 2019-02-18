@@ -161,3 +161,8 @@ input[type="time"]::-webkit-clear-button { display: none; }
 .nav-active-link, .nav-active-link:hover {
   background: rgba(0,0,0,.2) !important;
 }
+
+/****************************************************************************/
+button.scale-button:hover {
+  transform: scale(1.3);
+}

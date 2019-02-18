@@ -26,6 +26,7 @@ import {
 import { SessionService } from '@app/services/session.service';
 import { isNullOrUndefined } from 'util';
 import { environment } from '../../environments/environment';
+import { isNull } from '@angular/compiler/src/output/output_ast';
 
 
 @Injectable()
@@ -197,7 +198,11 @@ export class ApiService {
     );
   }
 
-  GetAreas(filter: AreaFilter, mode: string): Observable<Area[]> {
+  GetAreas(filter: AreaFilter, mode?: string): Observable<Area[]> {
+    if ( isNullOrUndefined(mode) ) {
+      mode = this.session.getModeValue();
+    }
+
     let roa: RequestOptionsArgs;
     roa = { headers: this.commonHeaders() };
     if ( filter !== null ) {
@@ -297,9 +302,11 @@ export class ApiService {
     );
   }
 
-  GetLocal(localID: number, mode: string): Observable<Local> {
-    let usp: URLSearchParams;
-    usp = new URLSearchParams();
+  GetLocal(localID: number, mode?: string): Observable<Local> {
+    if (isNullOrUndefined(mode)) {
+      mode = this.session.getModeValue();
+    }
+    const usp = new URLSearchParams();
     usp.append('local_id', localID.toString());
     return this.http.get(`${this.bpath}/${mode}/local`, {
       params: usp,

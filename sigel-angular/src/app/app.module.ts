@@ -44,9 +44,7 @@ import { AreaAllComponent } from './views/+areas/area-all/area-all.component';
 import { AreaProfileComponent } from './views/+areas/common/area-profile/area-profile.component';
 import { AreaFormComponent } from './views/+areas/common/area-form/area-form.component';
 import { AreasTableComponent } from './views/+areas/common/areas-table/areas-table.component';
-import { LocalAllComponent } from './views/+locals/local-all/local-all.component';
 import { LocalOneComponent } from './views/+locals/local-one/local-one.component';
-import { LocalsTableComponent } from './views/+locals/common/locals-table/locals-table.component';
 import { LocalInfoFormComponent } from './views/+locals/common/local-info-form/local-info-form.component';
 import { LocalProfileComponent } from './views/+locals/common/local-profile/local-profile.component';
 import { LocalLaboralTimeFormComponent } from './views/+locals/common/local-laboral-time-form/local-laboral-time-form.component';
@@ -86,6 +84,8 @@ import { EditProfileDialogComponent } from './views/+session/edit-profile-dialog
 import { InfoDialogComponent } from './shared/info-dialog/info-dialog.component';
 import { SessionNotificationsMenuComponent } from './views/+session/session-notifications-menu/session-notifications-menu.component';
 import { CheckDeleteDialogComponent } from './shared/check-delete-dialog/check-delete-dialog.component';
+import { LocalListComponent } from './views/+locals/local-list/local-list.component';
+import { LocalDashboardComponent } from './views/+locals/local-dashboard/local-dashboard.component';
 
 /*
 import {
@@ -144,13 +144,18 @@ const routes: Routes = [
   },
   {
     path: 'locals',
-    component: LocalAllComponent,
+    component: LocalListComponent,
     canActivate: [SuperadminGuard],
     canLoad: [SuperadminGuard]
   },
   {
-    path: 'local/:id',
-    component: LocalOneComponent,
+    path: 'locals/:id',
+    pathMatch: 'full',
+    redirectTo: 'locals/:id/profile'
+  },
+  {
+    path: 'locals/:id/:tab',
+    component: LocalDashboardComponent,
     canActivate: [SuperadminGuard],
     canLoad: [SuperadminGuard]
   },
@@ -160,12 +165,14 @@ const routes: Routes = [
     canActivate: [AdminGuard],
     canLoad: [AdminGuard],
   },
+  /*
   {
     path: 'reservations/showone/:id',
     component: ReservationOneComponent,
     canActivate: [AdminGuard],
     canLoad: [AdminGuard],
   },
+  */
 ];
 
 @NgModule({
@@ -186,9 +193,7 @@ const routes: Routes = [
     LoginComponent,
     LocalInfoFormComponent,
     LocalAdminsComponent,
-    LocalAllComponent,
     LocalOneComponent,
-    LocalsTableComponent,
     LocalProfileComponent,
     LocalLaboralTimeFormComponent,
     LocalsFilterFormComponent,
@@ -223,6 +228,8 @@ const routes: Routes = [
     InfoDialogComponent,
     SessionNotificationsMenuComponent,
     CheckDeleteDialogComponent,
+    LocalListComponent,
+    LocalDashboardComponent,
   ],
   providers: [
     DatePipe,
