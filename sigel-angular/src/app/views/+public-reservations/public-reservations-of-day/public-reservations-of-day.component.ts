@@ -10,6 +10,8 @@ import {
 import {
   PublicReservationDetailsDialogComponent
 } from '@app/views/+public-reservations/public-reservation-details-dialog/public-reservation-details-dialog.component';
+import { isNullOrUndefined } from 'util';
+import { CheckDeleteDialogComponent } from '@app/shared/check-delete-dialog/check-delete-dialog.component';
 
 @Component({
   selector: 'app-public-reservations-of-day',
@@ -26,6 +28,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
   @Input() reservations: Reservation[] = [];
   @Input() serverTime: Date = new Date();
   @Output() AddReservationChange = new EventEmitter<boolean>();
+  @Output() CancelReservationChange = new EventEmitter<boolean>();
   @Output() ClickOnDate = new EventEmitter<boolean>();
 
   asps: ActivityStatusPanel[] = [];
@@ -35,6 +38,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
 
   constructor(private api: ApiService,
               private eh: ErrorHandlerService,
+              private fh: FeedbackHandlerService,
               private feedback: FeedbackHandlerService,
               private session: SessionService,
               private dialog: MatDialog,
@@ -89,6 +93,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
           null,
           t,
           aux,
+          false,
         ));
       }
 
@@ -99,6 +104,10 @@ export class PublicReservationsOfDayComponent implements OnInit {
         res,
         l,
         r,
+        !(this.session.session === null ||
+          this.session.session.userID !== res.UserID ||
+          this.pastDate() ||
+          !res.Pending)
       ));
 
       t = r;
@@ -113,6 +122,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
         null,
         t,
         et,
+        false,
       ));
     }
 
@@ -198,15 +208,7 @@ export class PublicReservationsOfDayComponent implements OnInit {
       return 'No puede reservar por menos de 30 minutos';
     }
 
-    if (this.serverTime.getFullYear() > this.date.getFullYear() ||
-        (this.serverTime.getFullYear() === this.date.getFullYear() &&
-         this.serverTime.getMonth() > this.date.getMonth())  ||
-        (this.serverTime.getFullYear() === this.date.getFullYear() &&
-         this.serverTime.getMonth() === this.date.getMonth() &&
-         (this.serverTime.getDate() === this.date.getDate() ||
-          this.serverTime.getDate() > this.date.getDate())
-        )
-       ) {
+    if (this.pastDate()) {
         return 'No puede reservar con menos de un día de antelación';
     }
 
@@ -216,6 +218,46 @@ export class PublicReservationsOfDayComponent implements OnInit {
     }
 
     return 'Reservar';
+  }
+
+  pastDate(): boolean {
+    if (this.serverTime.getFullYear() > this.date.getFullYear() ||
+        (this.serverTime.getFullYear() === this.date.getFullYear() &&
+         this.serverTime.getMonth() > this.date.getMonth())  ||
+        (this.serverTime.getFullYear() === this.date.getFullYear() &&
+         this.serverTime.getMonth() === this.date.getMonth() &&
+         (this.serverTime.getDate() === this.date.getDate() ||
+          this.serverTime.getDate() > this.date.getDate())
+        )
+       ) {
+        return true;
+    }
+    return false;
+  }
+
+  onCancelReservation(asp: ActivityStatusPanel): void {
+    const r = asp.r;
+    const dialogRef = this.dialog.open(CheckDeleteDialogComponent, {
+      data: {
+        msg: `¿Está seguro que desea cancelar la reservación para la actividad ${r.ActivityName}?`,
+        color: '#f44336',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if ( !isNullOrUndefined(result) && result === true ) {
+        this.api.CancelReservation(r.ID).subscribe(
+          (_) => {
+            this.fh.ShowFeedback(['La reservación fue cancelada exitosamente']);
+            this.CancelReservationChange.emit(true);
+          },
+          (e) => {
+            this.eh.HandleError(e);
+            this.CancelReservationChange.emit(true);
+          }
+        );
+      }
+    });
   }
 }
 
@@ -246,5 +288,6 @@ export class ActivityStatusPanel {
               public top: number,
               public r: Reservation,
               public bt: HM,
-              public et: HM) {}
+              public et: HM,
+              public canCancel: boolean) {}
 }

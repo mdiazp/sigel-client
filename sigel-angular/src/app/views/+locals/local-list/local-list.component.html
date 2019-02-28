@@ -29,10 +29,23 @@
         <mat-table [dataSource]="datasource" class="mat-elevation-z8">
 
             <ng-container matColumnDef="local">
-                <mat-header-cell *matHeaderCellDef>Listado de locales</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>
+                  <h3 style="margin-right: 10px;">Listado de locales</h3>
+                  <span class="flex-spacer"></span>
+
+                  <button *ngIf="(this.session.isSuperadmin() | async)"
+                          class="new-local-button"
+                          mat-raised-button
+                          color="primary"
+                          (click)="this.onNewLocal()"
+                          [matTooltip]="'Crear un nuevo local'">
+                    <mat-icon>add</mat-icon>Adicionar
+                  </button>
+                </mat-header-cell>
+                
                 <mat-cell *matCellDef="let l">
-                  <div class="local-item-wrapper">
-                    <div class="local-item-first-column">
+                  <div class="list-item-wrapper">
+                    <div class="list-item-first-column">
                       <div class="local-item-name">
                         {{l.Name}}
                       </div>
@@ -42,31 +55,31 @@
                           account_balance</mat-icon>{{areaNames.get(l.AreaID)}}
                       </div>
                       <div class="local-item-enable"
-                           [style.background-color]="l.EnableToReserve ? 'green' : 'red'">
-                        {{l.EnableToReserve ? 'Habilitado' : 'Inhabilitado'}}
+                           [style.background-color]="l.EnableToReserve ? 'rgb(0, 128, 0, 0.9)' : 'rgba(255, 0, 0, 0.8)'">
+                        {{l.EnableToReserve ? 'Disponible' : 'No disponible'}}
                       </div>
                     </div>
-                    <div class="local-item-second-column">
+                    <div class="list-item-second-column">
                       <button mat-icon-button
                               class="scale-button" 
                               (click)="onShow(l)"
                               [matTooltip]="'Ver detalles'">
                         <mat-icon [style.color]="'rgba(0,0,255,0.6)'"
-                                  class="reservation-item-action">visibility</mat-icon>
+                                  class="local-item-action">visibility</mat-icon>
                       </button>
                       <button mat-icon-button
                               class="scale-button" 
                               (click)="onEdit(l)"
                               [matTooltip]="'Editar'">
                         <mat-icon [style.color]="'orange'"
-                                  class="reservation-item-action">edit</mat-icon>
+                                  class="local-item-action">edit</mat-icon>
                       </button>
                       <button mat-icon-button
                               class="scale-button" 
                               (click)="onDelete(l)"
                               [matTooltip]="'Eliminar'">
                         <mat-icon [color]="'warn'"
-                                  class="reservation-item-action">delete</mat-icon>
+                                  class="local-item-action">delete</mat-icon>
                       </button>
                     </div>
                   </div>

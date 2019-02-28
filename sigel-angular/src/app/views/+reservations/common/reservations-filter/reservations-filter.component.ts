@@ -54,7 +54,7 @@ export class ReservationsFilterComponent implements OnInit {
   }
 
   initFilterForm(): void {
-    this.selectLocalControl = new FormControl();
+    this.selectLocalControl = new FormControl(0);
     this.selectLocalControl.valueChanges.subscribe((_) => this.filterChanges());
     this.selectDate = new FormControl(
       {
@@ -103,7 +103,7 @@ export class ReservationsFilterComponent implements OnInit {
   }
 
   loadData(): void {
-    this.api.GetAreas(new AreaFilter(null, null), this.session.getModeValue()).subscribe(
+    this.api.GetAreas(new AreaFilter(null, null, null), this.session.getModeValue()).subscribe(
       (areas) => {
         this.areas = areas;
         this.api.GetLocals(new LocalFilter(null, null, null, null, null), this.session.getModeValue())

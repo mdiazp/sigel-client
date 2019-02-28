@@ -1,15 +1,16 @@
 import { Component, OnInit, ErrorHandler, ViewChild, AfterViewInit } from '@angular/core';
 import { CustomDataSource } from '@app/datasources/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ApiService, ErrorHandlerService, FeedbackHandlerService } from '@app/services/core';
+import { ApiService, ErrorHandlerService, FeedbackHandlerService, SessionService } from '@app/services/core';
 import { MatDialog, MatPaginator } from '@angular/material';
 import { APILocalDataSource } from '@app/services/api-local.service';
-import { LocalsFilterFormComponent } from '@app/views/+locals/common/locals-filter-form/locals-filter-form.component';
+import { LocalsFilterFormComponent } from '@app/views/+locals/locals-filter-form/locals-filter-form.component';
 import { tap } from 'rxjs/operators';
-import { Local, LocalFilter, Paginator, OrderBy } from '@app/models/core';
+import { Local, LocalFilter, Paginator, OrderBy, Area } from '@app/models/core';
 import { Router } from '@angular/router';
 import { CheckDeleteDialogComponent } from '@app/shared/check-delete-dialog/check-delete-dialog.component';
 import { isNullOrUndefined } from 'util';
+import { LocalNewDialogComponent } from '../local-new-dialog/local-new-dialog.component';
 
 @Component({
   selector: 'app-local-list',
@@ -20,6 +21,7 @@ export class LocalListComponent implements OnInit, AfterViewInit {
 
   datasource: CustomDataSource<Local>;
   areaNames = new Map<number, string>();
+  areas: Area[] = [];
 
   displayedColumns = ['local'];
 
@@ -33,6 +35,7 @@ export class LocalListComponent implements OnInit, AfterViewInit {
   loadingInitialData$ = this.loadingInitialDataSubject.asObservable();
 
   constructor(private api: ApiService,
+              public session: SessionService,
               private eh: ErrorHandlerService,
               private fh: FeedbackHandlerService,
               private dialog: MatDialog,
@@ -51,6 +54,7 @@ export class LocalListComponent implements OnInit, AfterViewInit {
     this.loadingInitialDataSubject.next(true);
     this.api.GetAreas(null).subscribe(
       (areas) => {
+        this.areas = areas;
         for ( const a of areas ) {
           this.areaNames.set(a.ID, a.Name);
         }
@@ -106,12 +110,10 @@ export class LocalListComponent implements OnInit, AfterViewInit {
   }
 
   onShow(l: Local): void {
-    console.log('show');
     this.router.navigate(['/locals', l.ID.toString(), 'profile']);
   }
 
   onEdit(l: Local): void {
-    console.log('edit');
     this.router.navigate(['/locals', l.ID.toString(), 'settings']);
   }
 
@@ -127,12 +129,23 @@ export class LocalListComponent implements OnInit, AfterViewInit {
       if ( !isNullOrUndefined(result) && result === true ) {
         this.api.DeleteLocal(l.ID).subscribe(
           (_) => {
-            this.fh.ShowFeedback(['El local fue eliminado correctamente']);
+            this.fh.ShowFeedback(['El local fue eliminado exitosamente']);
             this.load(true);
           },
           (e) => this.eh.HandleError(e)
         );
       }
     });
+  }
+
+  onNewLocal(): void {
+    this.dialog.open(
+      LocalNewDialogComponent,
+      {
+        data: {
+          areas: this.areas,
+        },
+      }
+    );
   }
 }

@@ -38,31 +38,22 @@ import { AppMaterialModule } from '@app/app-material';
 import { AppComponent } from '@app/app.component';
 import { LoginComponent } from '@app/views/+login/login/login.component';
 import { LayoutComponent } from '@app/views/layout/layout.component';
-import { LocalAdminsComponent } from './views/+locals/common/local-admins/local-admins.component';
-import { AreaOneComponent } from './views/+areas/area-one/area-one.component';
-import { AreaAllComponent } from './views/+areas/area-all/area-all.component';
-import { AreaProfileComponent } from './views/+areas/common/area-profile/area-profile.component';
-import { AreaFormComponent } from './views/+areas/common/area-form/area-form.component';
-import { AreasTableComponent } from './views/+areas/common/areas-table/areas-table.component';
-import { LocalOneComponent } from './views/+locals/local-one/local-one.component';
-import { LocalInfoFormComponent } from './views/+locals/common/local-info-form/local-info-form.component';
-import { LocalProfileComponent } from './views/+locals/common/local-profile/local-profile.component';
-import { LocalLaboralTimeFormComponent } from './views/+locals/common/local-laboral-time-form/local-laboral-time-form.component';
-import { LocalsFilterFormComponent } from './views/+locals/common/locals-filter-form/locals-filter-form.component';
-import { UserOneComponent } from './views/+users/user-one/user-one.component';
-import { UserAllComponent } from './views/+users/user-all/user-all.component';
-import { UserProfileComponent } from './views/+users/common/user-profile/user-profile.component';
-import { UsersFilterComponent } from './views/+users/common/users-filter/users-filter.component';
-import { UsersTableComponent } from './views/+users/common/users-table/users-table.component';
+import { LocalAdminsComponent } from './views/+locals/local-admins/local-admins.component';
+import { LocalProfileComponent } from './views/+locals/local-profile/local-profile.component';
+import { LocalListComponent } from './views/+locals/local-list/local-list.component';
+import { LocalDashboardComponent } from './views/+locals/local-dashboard/local-dashboard.component';
+import { LocalFormComponent } from './views/+locals/local-form/local-form.component';
+import { LocalNewDialogComponent } from './views/+locals/local-new-dialog/local-new-dialog.component';
+import { LocalsFilterFormComponent } from './views/+locals/locals-filter-form/locals-filter-form.component';
+import { AreaFormComponent } from './views/+areas/area-form/area-form.component';
+import { UserProfileComponent } from './views/+users/user-profile/user-profile.component';
 import { ReservationAllComponent } from './views/+reservations/reservation-all/reservation-all.component';
 import { ReservationOneComponent } from './views/+reservations/reservation-one/reservation-one.component';
 import { ReservationsFilterComponent } from './views/+reservations/common/reservations-filter/reservations-filter.component';
 import { ReservationFormComponent } from './views/+reservations/common/reservation-form/reservation-form.component';
 import { ReservationProfileComponent } from './views/+reservations/common/reservation-profile/reservation-profile.component';
-import { UserNotificationsTableComponent } from './views/+users/common/user-notifications-table/user-notifications-table.component';
 import { CustomMatPaginatorIntl } from '@app/views/common/CustomMatPaginatorIntl';
 import { CustomSnackbarComponent } from './shared/custom-snackbar/custom-snackbar.component';
-import { NewAreaDialogComponent } from './views/+areas/common/new-area-dialog/new-area-dialog.component';
 import {
   PublicReservationsDashboardComponent
 } from './views/+public-reservations/public-reservations-dashboard/public-reservations-dashboard.component';
@@ -84,9 +75,15 @@ import { EditProfileDialogComponent } from './views/+session/edit-profile-dialog
 import { InfoDialogComponent } from './shared/info-dialog/info-dialog.component';
 import { SessionNotificationsMenuComponent } from './views/+session/session-notifications-menu/session-notifications-menu.component';
 import { CheckDeleteDialogComponent } from './shared/check-delete-dialog/check-delete-dialog.component';
-import { LocalListComponent } from './views/+locals/local-list/local-list.component';
-import { LocalDashboardComponent } from './views/+locals/local-dashboard/local-dashboard.component';
-
+import { AreaListComponent } from './views/+areas/area-list/area-list.component';
+import { AreaNewDialogComponent } from './views/+areas/area-new-dialog/area-new-dialog.component';
+import { AreasFilterFormComponent } from './views/+areas/areas-filter-form/areas-filter-form.component';
+import { AreaDashboardComponent } from './views/+areas/area-dashboard/area-dashboard.component';
+import { AreaProfileComponent } from './views/+areas/area-profile/area-profile.component';
+import { UserListComponent } from './views/+users/user-list/user-list.component';
+import { UsersFilterFormComponent } from './views/+users/users-filter-form/users-filter-form.component';
+import { UserDashboardComponent } from './views/+users/user-dashboard/user-dashboard.component';
+import { UserFormComponent } from './views/+users/user-form/user-form.component';
 /*
 import {
   AmazingTimePickerModule
@@ -120,25 +117,35 @@ const routes: Routes = [
   },
   {
     path: 'users',
-    component: UserAllComponent,
+    component: UserListComponent,
     canActivate: [SuperadminGuard],
     canLoad: [SuperadminGuard]
   },
   {
-    path: 'user/:id',
-    component: UserOneComponent,
+    path: 'users/:id',
+    pathMatch: 'full',
+    redirectTo: 'users/:id/profile'
+  },
+  {
+    path: 'users/:id/:tab',
+    component: UserDashboardComponent,
     canActivate: [SuperadminGuard],
     canLoad: [SuperadminGuard]
   },
   {
     path: 'areas',
-    component: AreaAllComponent,
+    component: AreaListComponent,
     canActivate: [SuperadminGuard],
     canLoad: [SuperadminGuard]
   },
   {
-    path: 'area/:id',
-    component: AreaOneComponent,
+    path: 'areas/:id',
+    pathMatch: 'full',
+    redirectTo: 'areas/:id/profile'
+  },
+  {
+    path: 'areas/:id/:tab',
+    component: AreaDashboardComponent,
     canActivate: [SuperadminGuard],
     canLoad: [SuperadminGuard]
   },
@@ -191,31 +198,15 @@ const routes: Routes = [
     AppComponent,
     LayoutComponent,
     LoginComponent,
-    LocalInfoFormComponent,
-    LocalAdminsComponent,
-    LocalOneComponent,
-    LocalProfileComponent,
-    LocalLaboralTimeFormComponent,
-    LocalsFilterFormComponent,
-    AreaProfileComponent,
     AreaFormComponent,
-    AreaOneComponent,
-    AreaAllComponent,
-    AreasTableComponent,
     ReservationsFilterComponent,
     ReservationAllComponent,
     ReservationOneComponent,
-    UserOneComponent,
-    UserAllComponent,
     UserProfileComponent,
-    UsersFilterComponent,
-    UsersTableComponent,
     ReservationFormComponent,
     ReservationProfileComponent,
-    UserNotificationsTableComponent,
     CustomSnackbarComponent,
     PublicReserveDialogComponent,
-    NewAreaDialogComponent,
     PublicReservationsDashboardComponent,
     PublicReservationsOfDayComponent,
     PublicReservationDetailsDialogComponent,
@@ -230,6 +221,20 @@ const routes: Routes = [
     CheckDeleteDialogComponent,
     LocalListComponent,
     LocalDashboardComponent,
+    LocalFormComponent,
+    LocalNewDialogComponent,
+    LocalsFilterFormComponent,
+    LocalAdminsComponent,
+    LocalProfileComponent,
+    AreaListComponent,
+    AreaNewDialogComponent,
+    AreasFilterFormComponent,
+    AreaDashboardComponent,
+    AreaProfileComponent,
+    UserListComponent,
+    UsersFilterFormComponent,
+    UserDashboardComponent,
+    UserFormComponent,
   ],
   providers: [
     DatePipe,
@@ -262,8 +267,9 @@ const routes: Routes = [
     PublicReserveDialogComponent,
     PublicReservationDetailsDialogComponent,
     PublicLocalDetailsDialogComponent,
-    NewAreaDialogComponent,
+    AreaNewDialogComponent,
     EditProfileDialogComponent,
+    LocalNewDialogComponent,
 
     InfoDialogComponent,
     CheckDeleteDialogComponent

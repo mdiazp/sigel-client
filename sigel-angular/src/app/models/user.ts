@@ -1,5 +1,6 @@
 import { URLSearchParams } from '@angular/http';
-import { PagAndOrderFilter } from '@app/models/pag-and-order-filter';
+import { PagAndOrderFilter, Paginator, OrderBy } from '@app/models/pag-and-order-filter';
+import { isNullOrUndefined } from 'util';
 
 export class User {
     constructor(public ID: number,
@@ -17,27 +18,31 @@ export class UserFilter {
                 public Email: string,
                 public Rol: string,
                 public Enable: boolean,
-                public pagAndOrderFilter: PagAndOrderFilter) {}
+                public paginator: Paginator,
+                public orderby: OrderBy) {}
 
     GetURLSearchParams(): URLSearchParams {
         let usp: URLSearchParams; usp = new URLSearchParams();
-        if ( this.Username !== null  && this.Username !== 'null' && this.Username !== '' ) {
+        if ( !isNullOrUndefined(this.Username)  && this.Username !== 'null' && this.Username !== '' ) {
             usp.append('username', this.Username);
         }
-        if ( this.Email !== null  && this.Email !== 'null' && this.Email !== '' ) {
+        if ( !isNullOrUndefined(this.Email)  && this.Email !== 'null' && this.Email !== '' ) {
             usp.append('email', this.Email);
         }
-        if ( this.Name !== null  && this.Name !== 'null' && this.Name !== '' ) {
+        if ( !isNullOrUndefined(this.Name)  && this.Name !== 'null' && this.Name !== '' ) {
             usp.append('name', this.Name);
         }
-        if ( this.Rol !== null  && this.Rol !== 'null' && this.Rol !== '' ) {
+        if ( !isNullOrUndefined(this.Rol) && this.Rol !== 'null' && this.Rol !== '' ) {
             usp.append('rol', this.Rol);
         }
-        if ( this.Enable !== null ) {
+        if ( !isNullOrUndefined(this.Enable) ) {
             usp.append('enable', this.Enable.toString());
         }
-        if ( this.pagAndOrderFilter !== null ) {
-            usp.appendAll(this.pagAndOrderFilter.GetUrlSearchParams());
+        if ( !isNullOrUndefined(this.paginator) ) {
+            usp.appendAll(this.paginator.GetUSP());
+        }
+        if ( !isNullOrUndefined(this.orderby) ) {
+            usp.appendAll(this.orderby.GetUSP());
         }
 
         return usp;

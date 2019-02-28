@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, ErrorHandlerService, SessionService } from '@app/services/core';
+import { ApiService, ErrorHandlerService, SessionService, FeedbackHandlerService } from '@app/services/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Local } from '@app/models/core';
+import { Local, Area } from '@app/models/core';
 
 @Component({
   selector: 'app-local-dashboard',
@@ -17,55 +17,65 @@ export class LocalDashboardComponent implements OnInit {
   selectedTab = 0;
   localID = 0;
 
-  local = new Local(0, 0, '', '', '', '', '', 0, 0, 0, 0, false);
-
-  beforeNgOnInit = true;
+  local: Local;
+  localArea: Area;
+  areas: Area[] = [];
+  waitingUpdateResponse = false;
 
   constructor(private api: ApiService,
               private session: SessionService,
               private eh: ErrorHandlerService,
+              private fh: FeedbackHandlerService,
               private router: Router,
               private route: ActivatedRoute) {
     this.route.params.subscribe(
       (params) => {
-        console.log('onParamsChange: id=', params.id, '  tab=', params.tab);
-
         if (params.id !== this.localID) {
           this.localID = params.id;
-          if (!this.beforeNgOnInit) {
-            this.prepareInitialData();
-          }
+          this.prepareInitialData();
         }
         this.selectedTab = this.getTab(params.tab);
       }
     );
   }
 
-  ngOnInit() {
-    this.beforeNgOnInit = false;
-    this.prepareInitialData();
-  }
+  ngOnInit() {}
 
   showAdminsTab(): Observable<boolean> {
     return this.session.isSuperadmin();
   }
 
   prepareInitialData(): void {
-    console.log('prepareInitialData');
     this.loadingInitialDataSubject.next(true);
     this.api.GetLocal(this.localID).subscribe(
       (local) => {
         this.local = local;
-        this.loadingInitialDataSubject.next(false);
+
+        this.api.GetAreas().subscribe(
+          (areas) => {
+            this.areas = areas;
+            for (const a of areas) {
+              if (a.ID === this.local.AreaID) {
+                this.localArea = a;
+              }
+            }
+            this.loadingInitialDataSubject.next(false);
+          },
+          (e) => this.handleError(e)
+        );
       },
-      (e) => {
-        this.eh.HandleError(e);
-      }
+      (e) => this.handleError(e)
     );
   }
 
+  handleError(e: Response): void {
+    if (e.status === 404) {
+      this.router.navigate(['/locals']);
+    }
+    this.eh.HandleError(e);
+  }
+
   getTabName(tab: number): string {
-    console.log('tab = ', tab);
     if (tab === 1) {
       return 'settings';
     }
@@ -76,8 +86,6 @@ export class LocalDashboardComponent implements OnInit {
   }
 
   getTab(tabName: string): number {
-    console.log('tabName = ', tabName);
-
     if (tabName === 'profile') {
       return 0;
     }
@@ -92,5 +100,20 @@ export class LocalDashboardComponent implements OnInit {
 
   onClose(): void {
     this.router.navigate(['/locals']);
+  }
+
+  onUpdateLocal(local: Local): void {
+    this.waitingUpdateResponse = true;
+    this.api.PatchLocal(local).subscribe(
+      (_) => {
+        this.prepareInitialData();
+        this.fh.ShowFeedback(['El local fue actualizado exitosamente']);
+        this.waitingUpdateResponse = false;
+      },
+      (e) => {
+        this.eh.HandleError(e);
+        this.waitingUpdateResponse = false;
+      }
+    );
   }
 }

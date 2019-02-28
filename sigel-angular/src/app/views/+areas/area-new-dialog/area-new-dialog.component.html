@@ -1,0 +1,15 @@
+<div class="dialog-header">
+  <h3 class="dialog-header-text">Nueva Área</h3>
+</div>
+
+<mat-dialog-content>
+  <app-area-form [initialData]="this.initialData"
+                 [showButtons]="false"></app-area-form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-raised-button
+          (click)="this.onAccept()"
+          color="primary"
+          [disabled]="!this.canAccept()">Aceptar</button>
+  <button mat-raised-button [mat-dialog-close]="false">Cancelar</button>
+</mat-dialog-actions>

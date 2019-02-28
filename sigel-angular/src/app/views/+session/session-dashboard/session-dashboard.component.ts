@@ -46,18 +46,13 @@ export class SessionDashboardComponent implements OnInit, OnDestroy {
         this.selectedTab = params.tab;
       }
     );
-
-    console.log('onConstructor()');
   }
 
   ngOnInit() {
     this.loadData();
-
-    console.log('onNgOnInit()');
   }
 
   ngOnDestroy(): void {
-    console.log('onDestroy');
   }
 
   editProfile(): void {

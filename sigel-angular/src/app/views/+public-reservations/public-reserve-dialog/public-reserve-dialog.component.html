@@ -10,7 +10,8 @@
                 matInput
                 type="text"
                 required
-                maxlength="100">
+                maxlength="100"
+                [pattern]="this.pattern">
         <mat-hint align="end">
             {{activityName.value?.length || 0}}/100
         </mat-hint>
@@ -22,7 +23,8 @@
                   matInput
                   type="text"
                   required
-                  maxlength="500">
+                  maxlength="500"
+                  [pattern]="this.pattern">
           </textarea>
           <mat-hint align="end">
               {{activityDescription.value?.length || 0}}/500

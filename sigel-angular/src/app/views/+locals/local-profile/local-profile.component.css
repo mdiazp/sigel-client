@@ -1,0 +1,99 @@
+.local-profile-working-months-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.local-profile-months-control-row {
+    display: flex;
+    flex-flow: row nowrap;
+
+    margin: 5px 0px;
+}
+
+.local-profile-months-control-item {
+    width: 70px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    
+    color: red;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    margin: 0px 5px;
+    padding: 5px;
+
+    text-align: center;
+}
+
+.local-profile-months-control-item-working {
+    color: green;
+}
+
+.local-profile-weekdays-table {
+    display: flex;
+    flex-flow: row nowrap;
+
+    flex: 0 0 auto;
+    width: fit-content;
+
+    border-top: 1px solid rgba(0, 0, 0, .12);
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+    border-left: 1px solid rgba(0, 0, 0, .12);
+}
+
+.local-profile-weekday-item-wrapper{
+    display: flex;
+    flex-direction: column;
+
+    width: 40px;
+
+    border-right: 1px solid rgba(0, 0, 0, .12);
+}
+
+.local-profile-weekday-item-header {
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+    text-align: center;
+
+    padding: 8px;
+}
+
+.local-profile-weekday-item-body {
+    text-align: center;
+    padding: 10px;
+}
+
+.local-profile-enable {
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+    
+    width: fit-content;
+    border-radius: 8px;
+
+    font-size: 14px;
+}
+
+
+.local-profile-body-working-time-wrapper {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.local-profile-body-working-time-item {
+    display: flex;
+    flex-flow: row nowrap;
+
+    margin-right: 10px;
+    align-items: center;
+}
+
+.local-profile-body-working-time-item .item-profile-field-label {
+    margin-right: 5px;
+    width: 50px;
+    text-align: right;
+}
+
+.local-profile-body-working-time-item .mat-icon {
+    margin-right: 3px;
+}

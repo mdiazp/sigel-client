@@ -1,0 +1,35 @@
+<div class="item-profile-wrapper">
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Nombre</div>
+    <div class="item-profile-value">{{user.Name}}</div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Correo</div>
+    <div class="item-profile-value">{{user.Email}}</div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Rol</div>
+    <div class="item-profile-value">{{user.Rol}}</div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Nombre</div>
+    <div class="item-profile-value">{{user.Name}}</div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Notificar al correo</div>
+    <div class="item-profile-value">
+      {{user.SendNotificationsToEmail ? 'Si' : 'No'}}
+    </div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Habilitado</div>
+    <div class="item-profile-value">
+      {{user.Enable ? 'Si' : 'No'}}
+    </div>
+  </div>
+</div>

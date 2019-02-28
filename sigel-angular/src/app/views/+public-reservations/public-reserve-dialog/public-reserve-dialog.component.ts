@@ -30,6 +30,9 @@ export class PublicReserveDialogComponent implements OnInit {
 
   error: string = null;
 
+  // pattern = '^[\p{Latin}]';
+  pattern = '';
+
   constructor(private api: ApiService,
               private eh: ErrorHandlerService,
               private feedback: FeedbackHandlerService,
@@ -50,10 +53,12 @@ export class PublicReserveDialogComponent implements OnInit {
 
   initForm(): void {
     this.activityName = new FormControl(
-      '', [Validators.required, Validators.maxLength(100)]
+      '', [Validators.required, Validators.maxLength(100),
+          Validators.pattern(this.pattern)]
     );
     this.activityDescription = new FormControl(
-      '', [Validators.required, Validators.maxLength(1024)]
+      '', [Validators.required, Validators.maxLength(500),
+          Validators.pattern(this.pattern)]
     );
     this.btControl = new FormControl(
       this.bt.toString(), [Validators.required]

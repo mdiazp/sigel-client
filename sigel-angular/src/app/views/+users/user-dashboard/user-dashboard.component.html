@@ -1,0 +1,57 @@
+<mat-card>
+  <div  *ngIf="(this.loadingInitialData$ | async)">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div  *ngIf="!(this.loadingInitialData$ | async)"
+        class="item-dashboard-body-wrapper">
+
+    <div class="item-dashboard-header">
+      <div class="item-dashboard-header-name">
+        <mat-icon [inline]="'true'"
+                  [style.margin-right]="'5px'">person</mat-icon>
+        {{this.user.Username}}
+      </div>
+      <div class="item-dashboard-header-close-button">
+        <button mat-icon-button
+                (click)="onClose()"
+                [matTooltip]="'Cerrar'">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    
+    <mat-tab-group
+      mat-stretch-tabs
+      [selectedIndex]="this.selectedTab"
+      (selectedIndexChange)="this.router.navigate(['/users',this.userID,this.getTabName($event)])">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="margin-right: 8px;">info</mat-icon>
+          Información
+        </ng-template>
+        
+        <div class="item-dashboard-body-tab">
+          <app-user-profile class="item-dashboard-body-tab" 
+                            [user]="this.user"></app-user-profile>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="margin-right: 8px;">settings</mat-icon>
+          Ajustes
+        </ng-template>
+        
+        <div class="item-dashboard-body-tab">
+          <app-user-form  [initialData]="this.user"
+                          [buttonText]="'Actualizar'"
+                          [showRestablecerButton]="true"
+                          [disabledButtons]="waitingUpdateResponse"
+                          (SubmitForm)="onUpdateUser($event)"></app-user-form>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</mat-card>

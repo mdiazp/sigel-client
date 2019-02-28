@@ -35,7 +35,9 @@
         <mat-table [dataSource]="datasource" class="mat-elevation-z8">
 
             <ng-container matColumnDef="reservation">
-                <mat-header-cell *matHeaderCellDef>Listado de reservaciones</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef>
+                  <h3>Listado de reservaciones</h3>
+                </mat-header-cell>
                 <mat-cell *matCellDef="let r">
                   <div class="reservation-item-wrapper">
                     <div class="reservation-item-first-column">

@@ -141,10 +141,22 @@ export class ApiService {
     );
   }
 
-  GetUsers(filter: UserFilter): Observable<User[]> {
+  GetUsersCount(filter?: UserFilter): Observable<number> {
     let roa: RequestOptionsArgs;
     roa = { headers: this.commonHeaders() };
-    if ( filter !== null ) {
+    if ( !isNullOrUndefined(filter) ) {
+      roa.params = filter.GetURLSearchParams();
+    }
+    return this.http.get(`${this.bpath}/admin/userscount`, roa)
+    .pipe(
+      map(res => res.json())
+    );
+  }
+
+  GetUsers(filter?: UserFilter): Observable<User[]> {
+    let roa: RequestOptionsArgs;
+    roa = { headers: this.commonHeaders() };
+    if ( !isNullOrUndefined(filter) ) {
       roa.params = filter.GetURLSearchParams();
     }
 
@@ -198,14 +210,14 @@ export class ApiService {
     );
   }
 
-  GetAreas(filter: AreaFilter, mode?: string): Observable<Area[]> {
+  GetAreas(filter?: AreaFilter, mode?: string): Observable<Area[]> {
     if ( isNullOrUndefined(mode) ) {
       mode = this.session.getModeValue();
     }
 
     let roa: RequestOptionsArgs;
     roa = { headers: this.commonHeaders() };
-    if ( filter !== null ) {
+    if ( !isNullOrUndefined(filter) ) {
       roa.params = filter.GetURLSearchParams();
     }
 
@@ -215,7 +227,10 @@ export class ApiService {
     );
   }
 
-  GetArea(areaID: number, mode: string): Observable<Area> {
+  GetArea(areaID: number, mode?: string): Observable<Area> {
+    if (isNullOrUndefined(mode)) {
+      mode = this.session.getModeValue();
+    }
     let usp: URLSearchParams;
     usp = new URLSearchParams();
     usp.append('area_id', areaID.toString());
@@ -488,6 +503,34 @@ export class ApiService {
     );
   }
 
+  CancelReservation(id: number): Observable<string> {
+    const usp = new URLSearchParams();
+    usp.append('reservation_id', id.toString());
+    return this.http.delete(
+      `${this.bpath}/private/session/reservation`,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    ).pipe(
+      map(res => res.json())
+    );
+  }
+
+  ConfirmReservation(id: number) {
+    let usp: URLSearchParams;
+    usp = new URLSearchParams();
+    usp.append('reservationID', id.toString());
+    return this.http.patch(
+      `${this.bpath}/private/session/reservation`,
+      null,
+      {
+        params: usp,
+        headers: this.commonHeaders()
+      }
+    );
+  }
+
   AcceptReservation(id: number) {
     let usp: URLSearchParams;
     usp = new URLSearchParams();
@@ -508,20 +551,6 @@ export class ApiService {
     usp.append('reservation_id', id.toString());
     return this.http.delete(
       `${this.bpath}/admin/reservation`,
-      {
-        params: usp,
-        headers: this.commonHeaders()
-      }
-    );
-  }
-
-  ConfirmReservation(id: number) {
-    let usp: URLSearchParams;
-    usp = new URLSearchParams();
-    usp.append('reservationID', id.toString());
-    return this.http.patch(
-      `${this.bpath}/private/session/reservation`,
-      null,
       {
         params: usp,
         headers: this.commonHeaders()

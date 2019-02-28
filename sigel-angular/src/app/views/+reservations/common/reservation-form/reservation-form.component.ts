@@ -49,6 +49,8 @@ export class ReservationFormComponent implements OnInit, AfterViewInit {
   loadingSubject = new BehaviorSubject<boolean>(true);
   loading$: Observable<boolean>;
 
+  pattern = '^[\p{Latin}]';
+
   constructor(private api: ApiService,
               private errh: ErrorHandlerService,
               private session: SessionService) {

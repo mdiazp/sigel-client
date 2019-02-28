@@ -1,0 +1,291 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: 'Roboto', sans-serif; }
+
+.flex-spacer {
+  flex: 1 1 auto;
+}
+
+.flex-row-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.flex-column-container {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+.flex-filter-form-control {
+  margin: 10px;
+}
+
+.flex-space {
+  flex: 1 1 auto;
+}
+
+.mat-raised-button {
+  border-radius: 4px !important;
+  flex: 0 1 auto;
+}
+
+/****************************************************************************/
+/*
+.mat-form-field {
+  width: 300px;
+}
+*/
+/****************************************************************************/
+
+.custom-snackbar {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.custom-snackbar-success {
+  background-color: #00529B;
+  /*background-color: rgb(189, 217, 248);*/
+}
+
+
+.custom-snackbar-error {
+  background-color: #D8000C;
+  /*background-color: #FFBABA;*/
+}
+
+.custom-snackbar-msg {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.custom-snackbar-msgs-container {
+  flex: 1 1 auto;
+  
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-snackbar-close {
+  cursor: pointer;
+}
+
+/****************************************************************************/
+  
+
+.activity-status-panel-tooltip {
+  height: 200px;
+  width: 200px;
+  /*position: absolute;*/
+  background-color: red;
+  /*visibility: visible;*/
+}
+
+/****************************************************************************/
+
+.mat-dialog-container {
+  border-radius: 15px !important;
+}
+
+.mat-dialog-content {
+  padding-bottom: 20px !important;
+}
+
+.dialog-header {
+  width: 100%;
+  /*border-bottom: 1px solid #3f51b5; */
+  margin-bottom: 10px;
+}
+
+.dialog-header-text {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  color: #3f51b5;
+}
+
+.mat-dialog-actions {
+  flex-flow: row-reverse nowrap !important;
+  border-top: 1px solid rgba(0, 0, 0, 0.12); 
+}
+
+.mat-dialog-actions button {
+  margin-left: 10px; margin-bottom: 10px;
+  /*color: rgb(51, 103, 214);*/
+  color: #3f51b5;
+}
+
+.dialog-item-header-label {
+  /*color: rgb(90,90,90);
+  font-weight: 700;*/
+
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  opacity: .6;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+
+/****************************************************************************/
+
+form mat-form-field {
+  width: 100%;
+}
+
+/****************************************************************************/
+
+pre {
+  color: inherit;
+  font-family: inherit;
+  margin: 0px;
+
+  width: 100%;
+}
+
+/****************************************************************************/
+
+input[type=time]::-ms-clear { display: none; }
+input[type=time]::-moz-clear { display: none; }
+input[type=time]::-webkit-clear { display: none; }
+input[type="time"]::-webkit-clear-button { display: none; }
+
+/****************************************************************************/
+
+.mat-menu-panel {
+  border-radius: 15px !important;
+}
+
+/****************************************************************************/
+.nav-active-link, .nav-active-link:hover {
+  background: rgba(0,0,0,.2) !important;
+}
+
+/****************************************************************************/
+button.scale-button:hover {
+  transform: scale(1.3);
+}
+
+
+/****************************************************************************/
+/*  list */
+
+.list-item-wrapper {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  
+  align-items: center;
+  justify-content: center;
+
+  @media(min-width: 700px) {
+      flex-flow: row nowrap;
+  }
+}
+
+.list-item-first-column {
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  text-align: center;
+
+  /*padding: 15px;*/
+  padding: 15px 0px;
+
+  @media(min-width: 700px) {
+      align-items: flex-start;
+      text-align: left;
+  }
+}
+
+.list-item-second-column {
+  flex: 0 0 auto;
+  padding: 5px 0px;
+  width: fit-content;
+
+  display: flex;
+  flex-flow: row nowrap;
+
+  justify-content: center;
+  align-content: center;
+}
+
+/****************************************************************************/
+/*  item - dashboard  */
+.item-dashboard-header {
+  display: flex;
+  flex-flow: row nowrap;
+
+  align-items: center;
+
+  font-weight: 700;
+  padding: 10px 0px 10px 10px;
+
+  /*background: #3f51b5;*/
+  /*background: #489bff;*/
+  background-color: rgba(0, 140, 205, 0.8);
+  color: #fff;
+}
+
+.item-dashboard-header-name {
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.item-dashboard-header-close-button {
+  flex: 0 0 auto;
+}
+
+.item-dashboard-body-wrapper {
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  /*padding: 10px;*/
+}
+
+.item-dashboard-body-tab {
+  padding: 10px;
+}
+
+/****************************************************************************/
+/*  item - form  */
+.item-form-buttons-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+
+  justify-content: right;
+}
+
+.item-form-button:first-child {
+  margin-right: 10px;
+}
+
+.item-form-button:last-child {
+  /*background-color: #489bff;*/
+  background-color: rgba(0, 140, 205, 0.8);
+  font-weight: 700;
+}
+
+/****************************************************************************/
+/*  item - profile  */
+.item-profile-field-wrapper {
+  margin-bottom: 20px;
+}
+
+.item-profile-field-label {
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: .6;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.item-profile-value {
+  margin-top: 5px;
+}

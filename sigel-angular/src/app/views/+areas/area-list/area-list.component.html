@@ -1,0 +1,90 @@
+<mat-card *ngIf="(this.loadingInitialData$|async)">
+  <mat-card-content>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-content>
+</mat-card>
+
+<mat-card [style.visibility]="(this.loadingInitialData$|async) ? 'hidden' : 'visible'">
+  <mat-card-content>
+    <section>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+              <mat-panel-title> 
+                <span style="display: flex; flex-flow: row wrap; align-items: center;">
+                  <mat-icon>filter_list</mat-icon>Filtrar
+                </span> 
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <app-areas-filter-form></app-areas-filter-form>
+            
+        </mat-expansion-panel>
+      </mat-accordion> <br/>
+
+      <section>
+        <mat-paginator  [length]="(count$ | async)" [pageSize]="initialPageSize"
+                        [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+        <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="area">
+                <mat-header-cell *matHeaderCellDef>
+                  <h3 style="margin-right: 10px;">Listado de áreas</h3>
+                  <span class="flex-spacer"></span>
+
+                  <button *ngIf="(this.session.isSuperadmin() | async)"
+                          class="new-area-button"
+                          mat-raised-button
+                          color="primary"
+                          (click)="this.onNewArea()"
+                          [matTooltip]="'Crear una nueva área'">
+                    <mat-icon>add</mat-icon>Adicionar
+                  </button>
+                </mat-header-cell>
+                
+                <mat-cell *matCellDef="let a">
+                  <div class="list-item-wrapper">
+                    <div class="list-item-first-column">
+                      <div class="area-item-name"
+                           style="padding: 10px 0px;">
+                        {{a.Name}}
+                      </div>
+                    </div>
+                    <div class="list-item-second-column">
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onShow(a)"
+                              [matTooltip]="'Ver detalles'">
+                        <mat-icon [style.color]="'rgba(0,0,255,0.6)'"
+                                  class="area-item-action">visibility</mat-icon>
+                      </button>
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onEdit(a)"
+                              [matTooltip]="'Editar'">
+                        <mat-icon [style.color]="'orange'"
+                                  class="area-item-action">edit</mat-icon>
+                      </button>
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onDelete(a)"
+                              [matTooltip]="'Eliminar'">
+                        <mat-icon [color]="'warn'"
+                                  class="area-item-action">delete</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+      </section>
+    </section>
+  </mat-card-content>
+</mat-card>
+  

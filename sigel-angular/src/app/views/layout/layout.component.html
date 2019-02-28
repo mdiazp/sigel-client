@@ -7,7 +7,10 @@
     [mode]="(isHandset$ | async) ? 'over' : 'side'"
     [opened]="!(isHandset$ | async)">
 
-    <mat-toolbar color="primary">
+    <mat-toolbar color="primary"
+        style="box-shadow:  0 2px 4px -1px rgba(0,0,0,.2),
+                            0 4px 5px 0 rgba(0,0,0,.14),
+                            0 1px 10px 0 rgba(0,0,0,.12);">
       <button
         type="button"
         aria-label="Toggle sidenav"
@@ -34,7 +37,7 @@
       <a *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
          mat-list-item [routerLink]="['areas']" [routerLinkActive]="['nav-active-link']">
         <mat-icon style="margin-right: 8px;">account_balance</mat-icon>
-        Areas
+        Áreas
       </a>
       <a *ngIf="(((session.getMode() | async) === 'admin') && (session.isSuperadmin() | async))"
          mat-list-item [routerLink]="['locals']" [routerLinkActive]="['nav-active-link']">
@@ -56,7 +59,11 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary" style="z-index: 2000;">
+    <mat-toolbar color="primary" 
+      style="z-index: 2000;
+             box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),
+                         0 4px 5px 0 rgba(0,0,0,.14),
+                         0 1px 10px 0 rgba(0,0,0,.12);">
       <button
         type="button"
         aria-label="Toggle sidenav"

@@ -1,0 +1,58 @@
+<form [formGroup]="areaForm" class="area-form">
+  <mat-form-field>
+    <mat-label>Nombre</mat-label>
+    <input formControlName="name"
+          matInput
+          type="text"
+          required
+          maxlength="100">
+        <mat-hint align="end">
+              {{nameFC.value?.length || 0}}/100
+        </mat-hint>
+  </mat-form-field>
+  <br/> <br/>
+
+  <mat-form-field>
+      <mat-label>Descripción</mat-label>
+      <textarea formControlName="description"
+              matInput
+              type="text"
+              required
+              maxlength="500">
+      </textarea>
+      <mat-hint align="end">
+          {{descriptionFC.value?.length || 0}}/500
+      </mat-hint>
+  </mat-form-field>
+  <br/> <br/>
+
+  <mat-form-field>
+      <mat-label>Ubicación</mat-label>
+      <textarea formControlName="location"
+              matInput
+              type="text"
+              required
+              maxlength="500">
+      </textarea>
+      <mat-hint align="end">
+          {{locationFC.value?.length || 0}}/500
+      </mat-hint>
+  </mat-form-field>
+  <br/> <br/>
+
+  <div class="item-form-buttons-wrapper"
+       *ngIf="this.showButtons">
+      <button class="item-form-button"
+              *ngIf="showRestablecerButton"
+              mat-raised-button
+              (click)="this.initForm();"
+              [disabled]="this.disabledButtons">Restablecer</button>
+
+      <button class="item-form-button"
+              mat-raised-button
+              color="primary"
+              (click)="this.SubmitForm.emit(this.getData())"
+              [disabled]="areaForm.invalid || this.disabledButtons">
+              {{buttonText}}</button>
+  </div>
+</form>

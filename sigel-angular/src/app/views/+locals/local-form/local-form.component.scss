@@ -1,0 +1,109 @@
+.local-form-months-control {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 25px;
+}
+
+.local-form-months-control-row {
+    display: flex;
+    flex-flow: row nowrap;
+
+    margin: 5px 0px;
+}
+
+.local-form-months-control-item {
+    width: 70px;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    
+    color: red;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    margin: 0px 5px;
+    padding: 5px;
+
+    text-align: center;
+}
+
+.local-form-months-control-item-working {
+    color: green;
+}
+
+.local-form-weekdays-control {
+    display: flex;
+    flex-direction: column;
+
+    margin-bottom: 25px;
+}
+
+.local-form-weekdays-table {
+    display: flex;
+    flex-flow: row nowrap;
+
+    flex: 0 0 auto;
+    width: fit-content;
+
+    border-top: 1px solid rgba(0, 0, 0, .12);
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+    border-left: 1px solid rgba(0, 0, 0, .12);
+}
+
+.local-form-weekday-item-wrapper{
+    display: flex;
+    flex-direction: column;
+
+    width: 40px;
+
+    border-right: 1px solid rgba(0, 0, 0, .12);
+}
+
+.local-form-weekday-item-header {
+    border-bottom: 1px solid rgba(0, 0, 0, .12);
+    text-align: center;
+
+    padding: 8px;
+}
+
+.local-form-weekday-item-body {
+    text-align: center;
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+.local-form-working-time-control {
+    display: flex;
+    flex-direction: column;
+}
+
+.local-form-working-time-body {
+    display: flex;
+    flex-flow: row nowrap;
+/**
+    flex-direction: column;
+    @media(min-width: 700px) {
+        flex-flow: row nowrap;
+    };
+*/
+}
+
+.local-form-working-begin-time-wrapper {
+    margin-right: 20px;
+    /**margin-bottom: 10px;
+    
+    @media(min-width: 700px) {
+        margin-bottom: 0px;
+        margin-right: 20px;
+    };
+    */
+}
+
+.mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
+    /*background-color: rgba(0, 140, 205, 0.8) !important;*/
+    background-color: green !important;
+}

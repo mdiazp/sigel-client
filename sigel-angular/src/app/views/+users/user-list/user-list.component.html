@@ -1,0 +1,82 @@
+<mat-card *ngIf="(this.loadingInitialData$|async)">
+  <mat-card-content>
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </mat-card-content>
+</mat-card>
+
+<mat-card [style.visibility]="(this.loadingInitialData$|async) ? 'hidden' : 'visible'">
+  <mat-card-content>
+    <section>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+              <mat-panel-title> 
+                <span style="display: flex; flex-flow: row wrap; align-items: center;">
+                  <mat-icon>filter_list</mat-icon>Filtrar
+                </span> 
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <app-users-filter-form></app-users-filter-form>
+            
+        </mat-expansion-panel>
+      </mat-accordion> <br/>
+
+      <section>
+        <mat-paginator  [length]="(count$ | async)" [pageSize]="initialPageSize"
+                        [pageSizeOptions]="pageSizeOptions">
+        </mat-paginator>
+        <mat-table [dataSource]="datasource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="user">
+                <mat-header-cell *matHeaderCellDef>
+                  <h3 style="margin-right: 10px;">Listado de usuarios</h3>
+                  <span class="flex-spacer"></span>
+                </mat-header-cell>
+                
+                <mat-cell *matCellDef="let u">
+                  <div class="list-item-wrapper">
+                    <div  class="list-item-first-column"
+                          style="padding: 10px 0px;">
+                      <div class="user-item-username"
+                          style="margin-bottom: 10px;">
+                        <b>{{u.Username}}</b>
+                      </div>
+                      <div  class="user-item-name"
+                            style="font-size: 12px; margin-bottom: 10px;">
+                        {{u.Name}}
+                      </div>
+                      <div  class="user-item-rol">
+                        {{u.Rol}}
+                      </div>
+                    </div>
+                    <div class="list-item-second-column">
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onShow(u)"
+                              [matTooltip]="'Ver detalles'">
+                        <mat-icon [style.color]="'rgba(0,0,255,0.6)'"
+                                  class="user-item-action">visibility</mat-icon>
+                      </button>
+                      <button mat-icon-button
+                              class="scale-button" 
+                              (click)="onEdit(u)"
+                              [matTooltip]="'Editar'">
+                        <mat-icon [style.color]="'orange'"
+                                  class="user-item-action">edit</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+
+        </mat-table>
+      </section>
+    </section>
+  </mat-card-content>
+</mat-card>
+  

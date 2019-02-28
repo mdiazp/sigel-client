@@ -1,0 +1,16 @@
+.list-item-first-column {
+    @media(max-width: 700px) {
+        padding-bottom: 10px;
+    };
+}
+
+.user-item-rol {
+    font-size: 12px;
+    font-weight: 700;
+
+    border-radius: 10px;
+    padding: 5px;
+    /*background-color: rgba(0, 140, 205, 0.8);*/
+    background-color: gray;
+    color: white;
+}

@@ -21,7 +21,6 @@ export class SessionReservationsComponent implements OnInit {
   }
 
   printR(r: Reservation): void {
-    console.log('r = ', r);
   }
 
   canConfirm(reservation: Reservation): boolean {

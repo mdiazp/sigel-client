@@ -1,0 +1,86 @@
+<div class="item-profile-wrapper">
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Área</div>
+    <div class="item-profile-value">{{area.Name}}</div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Descripción</div>
+    <div class="item-profile-value">{{local.Description}}</div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Ubicación</div>
+    <div class="item-profile-value">{{local.Location}}</div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Meses laborables</div>
+    <div class="item-profile-value
+                local-profile-working-months-wrapper">
+        <div  *ngFor="let i of [0,1,2]"
+              class="local-profile-months-control-row">
+            <div *ngFor="let j of [0,1,2,3]"
+                    [ngClass]="{'local-profile-months-control-item': true,
+                                'local-profile-months-control-item-working': 
+                                    this.wms[i][j].working}"
+                    [matTooltip]="(this.wms[i][j].working === true ? 'Laborable' : 'No laborable')">
+                {{this.wms[i][j].monthName.slice(0, 3) + '.'}}
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Días de la semana laborables</div>
+    <div class="item-profile-value">
+        <div    class="local-profile-weekdays-table">
+            <div    *ngFor="let wwd of working_weekdays"
+                    class="local-profile-weekday-item-wrapper">
+                <div class="local-profile-weekday-item-header
+                            item-profile-field-label"
+                      style="font-weight: 700;">
+                    {{wwd.weekDayName.slice(0,1)}}
+                </div>
+                <div class="local-profile-weekday-item-body"
+                      [style.color]="wwd.working ? 'green' : 'red'"
+                      [matTooltip]="
+                      wwd.working ? 'Laborable' + (wwd.needConfirmation ? ' (Confirmar un día antes)' : '') : 'No laborable'">
+                    <mat-icon   *ngIf="wwd.working"
+                                [inline]="true">{{wwd.needConfirmation ? 'check_circle' : 'check'}}</mat-icon>
+                    <mat-icon   *ngIf="!wwd.working"
+                                [inline]="true">clear</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Horario laborable en el día</div>
+    <div class="item-profile-value">
+      <div class="local-profile-body local-profile-body-working-time-wrapper">
+          <div class="local-profile-body-working-time-item">
+            <div class="item-profile-field-label">Inicio</div>
+            <mat-icon>access_time</mat-icon>
+            <div>{{showTime(true)}}</div>
+          </div>
+          <div class="local-profile-body-working-time-item">
+            <div class="item-profile-field-label">Fin</div>
+            <mat-icon>access_time</mat-icon>
+            <div>{{showTime(false)}}</div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="item-profile-field-wrapper">
+    <div class="item-profile-field-label">Disponibilidad</div>
+    <div  class="item-profile-value">
+      <div class="local-profile-enable"
+           [style.background-color]="local.EnableToReserve ? 'green' : 'red'">
+        {{local.EnableToReserve ? 'Disponible' : 'No disponible'}}
+      </div>
+    </div>
+  </div>
+</div>

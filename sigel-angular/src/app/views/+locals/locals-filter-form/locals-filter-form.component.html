@@ -1,0 +1,37 @@
+<form [formGroup]="filterForm" class="flex-row-container">
+
+  <mat-form-field class="flex-filter-form-control">
+    <mat-select placeholder="Area"
+                formControlName="selectAreaControl">
+      <mat-option [value]="0">
+        Todas
+      </mat-option>
+      <mat-option *ngFor="let area of areas" [value]="area.ID">
+        {{area.Name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field *ngIf="showEToR" class="flex-filter-form-control">
+    <mat-select placeholder="Disponible"
+                formControlName="enableToReserve">
+      <mat-option [value]="0">
+          Todos
+      </mat-option>
+      <mat-option [value]="1">
+        Si
+      </mat-option>
+      <mat-option [value]="2">
+        No
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field class="flex-filter-form-control">
+    <mat-label>Buscar en nombre</mat-label>
+    <input formControlName="search"
+            matInput
+            type="text">
+  </mat-form-field>
+
+</form>

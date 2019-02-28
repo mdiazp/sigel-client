@@ -1,0 +1,154 @@
+<form [formGroup]="localForm" class="local-form">
+    <mat-form-field>
+        <mat-select placeholder="Área"
+                    formControlName="area" 
+                    required>
+          <mat-option *ngFor="let area of areas" [value]="area.ID">
+              {{area.Name}}
+          </mat-option>
+        </mat-select>
+    </mat-form-field> <br/> <br/>
+  
+    <mat-form-field>
+      <mat-label>Nombre</mat-label>
+      <input formControlName="name"
+            matInput
+            type="text"
+            required
+            maxlength="100">
+          <mat-hint align="end">
+                {{nameFC.value?.length || 0}}/100
+          </mat-hint>
+    </mat-form-field> <br/> <br/>
+  
+  
+    <mat-form-field>
+        <mat-label>Descripción</mat-label>
+        <textarea formControlName="description"
+                matInput
+                type="text"
+                required
+                maxlength="500">
+        </textarea>
+        <mat-hint align="end">
+            {{descriptionFC.value?.length || 0}}/500
+        </mat-hint>
+    </mat-form-field> <br/> <br/>
+  
+    <mat-form-field>
+        <mat-label>Ubicación</mat-label>
+        <textarea formControlName="location"
+                matInput
+                type="text"
+                required
+                maxlength="500">
+        </textarea>
+        <mat-hint align="end">
+            {{locationFC.value?.length || 0}}/500
+        </mat-hint>
+    </mat-form-field> <br/> <br/>
+
+    <div class="local-form-months-control">
+        <div class="item-profile-field-label"
+             style="margin-bottom: 10px;">Meses laborables</div>
+        <div  *ngFor="let i of [0,1,2]"
+              class="local-form-months-control-row">
+            <div *ngFor="let j of [0,1,2,3]"
+                    [ngClass]="{'local-form-months-control-item': true,
+                                'local-form-months-control-item-working': 
+                                    this.wms[i][j].working}"
+                    (click)="this.wms[i][j].working = !this.wms[i][j].working"
+                    [matTooltip]="(this.wms[i][j].working === true ? 'Laborable' : 'No laborable')">
+                {{this.wms[i][j].monthName.slice(0, 3) + '.'}}
+            </div>
+        </div>
+    </div> <br/>
+
+    <div class="local-form-weekdays-control">
+        <div    class="item-profile-field-label"
+                style="margin-bottom: 10px;">
+            Días de la semana laborables
+        </div>
+        <div    class="local-form-weekdays-table">
+            <div    *ngFor="let wwd of wwds"
+                    class="local-form-weekday-item-wrapper">
+                <div class="local-form-weekday-item-header
+                            item-profile-field-label"
+                     style="font-weight: 700;">
+                    {{wwd.weekDayName.slice(0,1)}}
+                </div>
+                <div class="local-form-weekday-item-body"
+                     (click)="weekDayStatusChange(wwd)"
+                     [style.color]="wwd.working ? 'green' : 'red'"
+                     [matTooltip]="
+                     wwd.working ? 'Laborable' + (wwd.needConfirmation ? ' (Confirmar un día antes)' : '') : 'No laborable'">
+                    <mat-icon   *ngIf="wwd.working"
+                                [inline]="true">{{wwd.needConfirmation ? 'check_circle' : 'check'}}</mat-icon>
+                    <mat-icon   *ngIf="!wwd.working"
+                                [inline]="true">clear</mat-icon>
+                </div>
+            </div>
+        </div>
+    </div> <br/>
+
+    <div class="local-form-working-time-control">
+        <div class="item-profile-field-label"
+             style="margin-bottom: 10px">
+             Horario del día laborable
+        </div>
+        <div class="local-form-working-time-body">
+            <div class="local-form-working-begin-time-wrapper">
+                <mat-form-field style="width: 120px;">
+                    <mat-label>Inicio</mat-label>
+                    <input formControlName="wbt"
+                            matInput
+                            type="time"
+                            min="00:00" max="23:59"
+                            required>
+                </mat-form-field>
+            </div>
+
+            <div class="local-form-working-end-time-wrapper">
+                <mat-form-field style="width: 120px;">
+                    <mat-label>Fin</mat-label>
+                    <input formControlName="wet"
+                            matInput
+                            type="time"
+                            min="00:00" max="23:59"
+                            required>
+                </mat-form-field>
+            </div>
+        </div>
+    </div> <br/>
+
+    <div class="local-form-enable-control">
+        <div class="local-form-enable-header
+                    item-profile-field-label"
+             style="margin-bottom: 10px;">
+            Disponibilidad
+        </div>
+        <mat-slide-toggle
+            [color]="'primary'"
+            [checked]="this.enable"
+            [labelPosition]="'after'"
+            (change)="this.enable = !this.enable">
+            {{this.enable ? 'Disponible' : 'No disponible'}}
+        </mat-slide-toggle>
+    </div> <br/>
+
+    <div class="item-form-buttons-wrapper"
+         *ngIf="this.showButtons">
+        <button class="item-form-button"
+                *ngIf="showRestablecerButton"
+                mat-raised-button
+                (click)="this.initForm();"
+                [disabled]="this.disabledButtons">Restablecer</button>
+
+        <button class="item-form-button"
+                mat-raised-button
+                color="primary"
+                (click)="this.SubmitForm.emit(this.getData())"
+                [disabled]="!this.validForm() || this.disabledButtons">
+                {{buttonText}}</button>
+    </div>
+</form>

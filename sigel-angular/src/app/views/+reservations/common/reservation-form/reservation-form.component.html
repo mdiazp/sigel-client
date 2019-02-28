@@ -11,7 +11,8 @@
     <input formControlName="activityName"
             matInput
             type="text"
-            required>
+            required
+            [pattern]="this.pattern">
   </mat-form-field> <br/>
 
   <mat-form-field>

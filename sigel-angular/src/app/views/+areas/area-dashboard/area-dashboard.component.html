@@ -1,0 +1,56 @@
+<mat-card>
+  <div  *ngIf="(this.loadingInitialData$ | async)">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+
+  <div  *ngIf="!(this.loadingInitialData$ | async)"
+        class="item-dashboard-body-wrapper">
+
+    <div class="item-dashboard-header">
+      <div class="item-dashboard-header-name">
+        <mat-icon [inline]="'true'"
+                  [style.margin-right]="'5px'">account_balance</mat-icon>
+        {{this.area.Name}}
+      </div>
+      <div class="item-dashboard-header-close-button">
+        <button mat-icon-button
+                (click)="onClose()"
+                [matTooltip]="'Cerrar'">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    
+    <mat-tab-group
+      mat-stretch-tabs
+      [selectedIndex]="this.selectedTab"
+      (selectedIndexChange)="this.router.navigate(['/areas',this.areaID,this.getTabName($event)])">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="margin-right: 8px;">info</mat-icon>
+          Información
+        </ng-template>
+        
+        <div class="item-dashboard-body-tab">
+          <app-area-profile [area]="this.area"></app-area-profile>
+        </div>
+      </mat-tab>
+
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon style="margin-right: 8px;">settings</mat-icon>
+          Ajustes
+        </ng-template>
+        
+        <div class="item-dashboard-body-tab">
+          <app-area-form  [initialData]="this.area"
+                          [buttonText]="'Actualizar'"
+                          [showRestablecerButton]="true"
+                          [disabledButtons]="waitingUpdateResponse"
+                          (SubmitForm)="onUpdateArea($event)"></app-area-form>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+  </div>
+</mat-card>

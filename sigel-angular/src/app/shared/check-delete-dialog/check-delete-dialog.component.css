@@ -14,3 +14,8 @@ mat-dialog-actions {
 mat-dialog-actions button {
   margin-left: 5px;
 }
+
+mat-dialog-actions button:first-child {
+  font-weight: 700;
+  opacity: 0.9;
+}

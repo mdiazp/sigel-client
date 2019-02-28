@@ -1,25 +1,26 @@
 <mat-card>
-  <div class="local-dashboard-header">
-    <div class="local-dashboard-header-name">
-      <mat-icon [inline]="'true'"
-                [style.margin-right]="'5px'">class</mat-icon>
-      {{this.local.Name}}
-    </div>
-    <div class="local-dashboard-header-close-button">
-      <button mat-icon-button
-              (click)="onClose()"
-              [matTooltip]="'Cerrar'">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-  </div>
-
-  <div *ngIf="(this.loadingInitialData$ | async)">
+  <div  *ngIf="(this.loadingInitialData$ | async)">
       <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
 
-  <div  class="local-dashboard-body-wrapper"
-        [style.visible]="(this.loadingInitialData$ | async)">
+  <div  *ngIf="!(this.loadingInitialData$ | async)"
+        class="item-dashboard-body-wrapper">
+
+    <div class="item-dashboard-header">
+      <div class="item-dashboard-header-name">
+        <mat-icon [inline]="'true'"
+                  [style.margin-right]="'5px'">class</mat-icon>
+        {{this.local.Name}}
+      </div>
+      <div class="item-dashboard-header-close-button">
+        <button mat-icon-button
+                (click)="onClose()"
+                [matTooltip]="'Cerrar'">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+    </div>
+    
     <mat-tab-group
       mat-stretch-tabs
       [selectedIndex]="this.selectedTab"
@@ -29,7 +30,11 @@
           <mat-icon style="margin-right: 8px;">info</mat-icon>
           Información
         </ng-template>
-        Información
+        
+        <div class="item-dashboard-body-tab">
+          <app-local-profile  [local]="this.local"
+                              [area]="this.localArea"></app-local-profile>
+        </div>
       </mat-tab>
 
       <mat-tab>
@@ -37,7 +42,16 @@
           <mat-icon style="margin-right: 8px;">settings</mat-icon>
           Ajustes
         </ng-template>
-        Ajustes
+        
+        <div class="item-dashboard-body-tab">
+          <app-local-form [initialData]="this.local"
+                          [areas]="this.areas"
+                          [buttonText]="'Actualizar'"
+                          [showRestablecerButton]="true"
+                          [disableAreaSelection]="true"
+                          [disabledButtons]="waitingUpdateResponse"
+                          (SubmitForm)="onUpdateLocal($event)"></app-local-form>
+        </div>
       </mat-tab>
       
       <mat-tab *ngIf="(this.showAdminsTab() | async)">
@@ -45,7 +59,11 @@
           <mat-icon style="margin-right: 8px;">group</mat-icon>
           Administradores
         </ng-template>
-        Administradores
+        
+        <div class="item-dashboard-body-tab">
+          <app-local-admins [local_id]="this.local.ID">
+          </app-local-admins>
+        </div>
       </mat-tab>
       
     </mat-tab-group>

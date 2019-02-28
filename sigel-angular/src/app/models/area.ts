@@ -1,5 +1,6 @@
 import { URLSearchParams } from '@angular/http';
-import { PagAndOrderFilter } from '@app/models/pag-and-order-filter';
+import { PagAndOrderFilter, Paginator, OrderBy } from '@app/models/pag-and-order-filter';
+import { isNullOrUndefined } from 'util';
 
 export class Area {
   constructor(public ID: number,
@@ -10,16 +11,20 @@ export class Area {
 
 export class AreaFilter {
   constructor(public Search: string,
-              public pagAndOrdFilter: PagAndOrderFilter) {}
+              public paginator: Paginator,
+              public orderby: OrderBy) {}
 
   public GetURLSearchParams(): URLSearchParams {
     let usp: URLSearchParams;
       usp = new URLSearchParams();
-      if ( this.Search !== null && this.Search !== 'null' ) {
+      if ( !isNullOrUndefined(this.Search) && this.Search !== 'null' && this.Search !== '' ) {
           usp.append('search', this.Search);
       }
-      if ( this.pagAndOrdFilter !== null ) {
-        usp.appendAll(usp);
+      if ( !isNullOrUndefined(this.paginator) ) {
+        usp.appendAll(this.paginator.GetUSP());
+      }
+      if ( !isNullOrUndefined(this.orderby) ) {
+          usp.appendAll(this.orderby.GetUSP());
       }
       return usp;
   }

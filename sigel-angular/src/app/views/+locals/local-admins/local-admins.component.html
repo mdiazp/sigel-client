@@ -1,0 +1,66 @@
+<div class="local-admins-wrapper">
+  <div class="local-admins-add-action-wrapper">
+    <form class="local-admins-add-action-form"
+          [formGroup]="addAdminForm">
+      <mat-form-field>
+        <input  type="text" 
+                placeholder="Usuario" 
+                aria-label="Number" 
+                matInput 
+                [formControl]="autoUsername"
+                [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete"
+                          [displayWith]="displayAdminUsername"
+                          (optionSelected)="onSelectAdminToAdd($event)">
+          <mat-option *ngFor="let option of filteredUsers" 
+                      [value]="option">
+            {{option.Username}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </form>
+
+    <button class="local-admin-add-button"
+            mat-mini-fab
+            color="basic"
+            (click)="this.clickOnAddAdmin()"
+            [matTooltip]="'Adicionar Administrador'"
+            [disabled]="!validAdminSelection()">
+      <mat-icon [color]="this.validAdminSelection() ? 'primary' : 'basic'">add</mat-icon>
+    </button>
+  </div>
+
+  <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+    <ng-container matColumnDef="admin">
+      <mat-header-cell *matHeaderCellDef>
+        <h3 style="margin-right: 10px;">Listado de administradores</h3>
+      </mat-header-cell>
+
+      <mat-cell *matCellDef="let admin">
+        <div class="list-item-wrapper">
+          <div class="list-item-first-column">
+            <div  class="admin-item-username"
+                  [style.margin-bottom]="'10px'">
+              <b>{{admin.Username}}</b>
+            </div>
+            <div  class="admin-item-name"
+                  [style.margin-bottom]="'10px'">
+              {{admin.Name}}
+            </div>
+          </div>
+          <div class="list-item-second-column">
+            <button mat-icon-button
+                    class="scale-button" 
+                    (click)="onDeleteAdminClick(admin)"
+                    [matTooltip]="'Eliminar'">
+              <mat-icon [color]="'warn'"
+                        class="admin-item-action">clear</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</div>

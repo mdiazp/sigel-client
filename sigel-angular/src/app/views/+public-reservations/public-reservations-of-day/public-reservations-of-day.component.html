@@ -56,14 +56,30 @@
           [style.background-color]="asp.backgroundColor"
           [style.top.px]="10 + asp.top"
           [style.height.px]="asp.height - (asp.status === 'free' ? 1 : 5)"
-          [style.cursor]="(asp.status === 'free' && this.canReserve(asp) !== 'Reservar') ? 'inherit' : 'pointer'"
-          [matTooltip]="asp.status !== 'free' ? 'Ver detalles' : this.canReserve(asp)"
-          [matTooltipPosition]="'left'"
-          (click)="clickOnActivityStatusPanel(asp)">
-        <span *ngIf="asp.status !== 'free'"
-              style="margin: 5px 0px 0px 10px; position: absolute;">
-          <strong class="dialog-item-header-label" style="font-weight: 700;  word-wrap: break-word;">{{asp.r.ActivityName}}</strong>
-        </span>
+          >
+        <button *ngIf="asp.canCancel"
+              mat-icon-button
+              color="warn"
+              (click)="onCancelReservation(asp)"
+              [style.top]="'0px'"
+              [style.position]="'sticky'"
+              [style.cursor]="'pointer'"
+              [matTooltip]="'Cancelar la reservación'"
+              [matTooltipPosition]="'left'">
+            <mat-icon>clear</mat-icon>
+        </button>
+        <div  [style.cursor]="(asp.status === 'free' && this.canReserve(asp) !== 'Reservar') ? 'inherit' : 'pointer'"
+              [matTooltip]="asp.status !== 'free' ? 'Ver detalles' : this.canReserve(asp)"
+              [matTooltipPosition]="'left'"
+              (click)="clickOnActivityStatusPanel(asp)"
+              [style.top]="'10px'"
+              [style.left]="asp.status !== 'free' ? (asp.canCancel ? '40px' : '10px') : '0px'"
+              [style.right]="'0px'"
+              [style.bottom]="'0px'"
+              [style.position]="'absolute'">
+          <strong  *ngIf="asp.status !== 'free'"
+                   class="dialog-item-header-label" style="font-weight: 700;  word-wrap: break-word;">{{asp.r.ActivityName}}</strong>
+        </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,38 @@
+<form [formGroup]="userForm" class="user-form">
+  <br/>
+  <mat-form-field>
+    <mat-select placeholder="Rol"
+                formControlName="rolFC">
+      <mat-option [value]="'User'">Usuario</mat-option>
+      <mat-option [value]="'Admin'">Administrador</mat-option>
+      <mat-option [value]="'Superadmin'">Superadministrador
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br/> <br/>
+
+  <mat-form-field>
+    <mat-select placeholder="Habilitado"
+                formControlName="enableFC">
+      <mat-option [value]="true">Si</mat-option>
+      <mat-option [value]="false">No</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br/> <br/>
+
+  <div class="item-form-buttons-wrapper"
+       *ngIf="this.showButtons">
+      <button class="item-form-button" 
+              *ngIf="showRestablecerButton"
+              mat-raised-button
+              (click)="this.initForm();"
+              [disabled]="this.disabledButtons">Restablecer</button>
+
+      <button class="item-form-button"
+              mat-raised-button
+              color="primary"
+              (click)="this.SubmitForm.emit(this.getData())"
+              [disabled]="userForm.invalid || this.disabledButtons">
+              {{buttonText}}</button>
+  </div>
+</form>
